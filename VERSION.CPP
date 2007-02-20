@@ -6,7 +6,7 @@
 #include "ctdl.h"
 
 #define MAJORVERSION	"/066"
-#define REVISION        "72"
+#define REVISION        "73"
 
 // --------------------------------------------------------------------------
 // This has to be in the format of MAJORVERSION then REVISION as three
