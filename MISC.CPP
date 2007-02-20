@@ -853,24 +853,27 @@ Bool TermWindowC::AddSystemEvent(SystemEventE Type, int Data, void *MoreData, Bo
                 }
             }
 
-        WaitForSingleObject(SystemEventMutex, INFINITE);
-
-        if (ToAdd)
+        // If we can't add it after five seconds, screw it.
+        if (WaitForSingleObject(SystemEventMutex, 5000) != WAIT_TIMEOUT)
             {
-            SystemEventS *Added = (SystemEventS *) addLL((void **) &PendingSystemEvents, sizeof(SystemEventS) + strlen(Event));
 
-            if (Added)
+            if (ToAdd)
                 {
-                strcpy(Added->string, Event);
-                Added->HideFromConsole = HideFromConsole;
+                SystemEventS *Added = (SystemEventS *) addLL((void **) &PendingSystemEvents, sizeof(SystemEventS) + strlen(Event));
+
+                if (Added)
+                    {
+                    strcpy(Added->string, Event);
+                    Added->HideFromConsole = HideFromConsole;
+                    }
+                else
+                    {
+                    ToAdd = FALSE;
+                    }
                 }
-            else
-                {
-                ToAdd = FALSE;
-                }
+
+            ReleaseMutex(SystemEventMutex);
             }
-
-        ReleaseMutex(SystemEventMutex);
         }
 
     return (ToAdd);

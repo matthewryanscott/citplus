@@ -698,11 +698,18 @@ TermWindowC::~TermWindowC(void)
 
     if (SystemEventMutex)
         {
+
+        // Brent said...
         // WaitForSingleObject(SystemEventMutex, INFINITE);    // It's not clear if this is good...
         //jrs - ok, let's not wait forever then...
-        WaitForSingleObject(SystemEventMutex, 5000);
-        CloseHandle(SystemEventMutex);
-        SystemEventMutex = NULL;
+
+        if (WaitForSingleObject(SystemEventMutex, 5000) != WAIT_TIMEOUT) 
+            {
+            // Presumably we don't need to release the mutex if we're closing it...
+            CloseHandle(SystemEventMutex);
+            SystemEventMutex = NULL;
+            }
+            // else we leak some memory ... better than a hung 'Not Logged In' session?
         }
 
     delete Talley;
