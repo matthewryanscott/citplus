@@ -1,0 +1,366 @@
+Net6969:
+
+authentication:
+	listen for connect
+	upon connect, present prompt: 69
+	initiator sends in\n, pw\n
+	upon good authentication, returns 69
+	upon failure, returns 96, followed by string\n
+
+command\n
+{data}
+
+
+
+commands:
+	room {data: netid\n}
+	message {data: MessageStoreC.Store()}
+	whoquery {data: none}
+	whoreport {data: tbd}
+	chatall/user/etc. {data: tbd}
+	filerequest {data: tbd}
+	filesend {data: tbd}
+	filelistrequest {no data}
+	filelist {names/descriptions}
+	error {data: errortext\n}
+
+**files: spawn new thread, so doesn't kill message networking!
+
+when get room command, start sharing that room if it's there (or autoroomed)
+
+
+
+For Room: [Unavailable room] if not TheAlgorithm
+
+Port            User                           Room
+255.255.255.255 123456789012345678901234567890 123456789012345678901234567890
+     Connected: 00 days 00:00:00 (since xxxx), Logged in: 00 days 00:00:00 (since xxxx), Idle: 00 days 00:00:00 (since xxxx)
+       Entered: 00 messages, 00 bytes
+          Read: 00 messages, 00 bytes
+
+
+Port            User                           Logged In        Idle
+216.122.20.154  Ian                            00:00:01         00:00:01
+                Room: 123456789012345678901234567890
+
+       					      00 days 00:00:00 0 days 00:00:00
+     
+
+
+
+.paay on login
+auto-who-on-login
+voyeur/exhibitionist    
+
+
+
+
+check .AG security with hidden/locked groups
+GroupData and HallData should use SyncData
+ctdl.mnu offset cache update
+#signature >90
+option to ask for reply to mail when reading reverse
+readmsg #event - no display message option
+cmd-line to execute all events
+Known: only network show up. (not logged in.) After net? .TY fixes.
+.PAL: check message
+.AL<cr>R;.AL<null>
+move doBorder()
+Alt+F10 while fetching, room name poopie
+Fetch; enter message no login. username still board name
+F4 shows on-line 9000 days while networking sometimes
+
+
+.AK: assertion error at fish lair room.cpp:211 (95Mar13, 65.164, nettted room)
+
+
+
+	# 1,746 of 1,850
+	Source id # is:  8,640
+	Path followed:	 inn.bli!arc!lnz!ghe.sea!tr!sil
+	Source software: Citadel+/065pà159
+	Wednesday 95Jan04 21:26:57 PM From dred @ Holiday Inn, Lynden, 
+US/WA/WHATCOM, (206)PRI-VATE
+brent:	just an aesthetic bug:	if the 'initializing modem' window appears 
+while the 'exit citadel query' window is open, the 'initializing modem' window 
+will not close until a key is pressed (and sometimes one can press many keys 
+while the 'exit query' is still open, and citadel will respond to them as if 
+the window were closed)
+
+
+Control+F6 trapping: mark as console, not current user
+#query over network - jd says broken.
+
+SendFile
+ReceiveFile
+StripControlA
+
+#VERIFIED 1 in DEFUSER.CIT
+low memory, log.dat, lab
+
+.RA: no pause at beginning
+
+joke.blb read even if we know it doesn't exist.
+script hook to file descriptions
+mail to "all"
+xx calls since you were last here, xx ago, etc.... how many new credits
+
+
+
+auto-.RU on login: verbose
+
+
+
+message base destruction no check nodes
+check on net 6.9 command to check netwith poop
+take auto up
+dialmacros
+bad #calls in scripts don't abort out
+---------
+ Also: is there a way to keep citadel from trying to reset the port constantly?
+So I can say, "switch to the designated empty com port" with a keystroke, run 
+AOL, copy and paste back to Citadel.  With Citadel constantly accessing the 
+port, I have to close Cit, get my text, save it, then wait until I'm through 
+with my AOL or other online session, then do my message entry to Cit.	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+add "rejected" type to netting (new, dup, exp)
+
+
+ Brent: before you'd said you didn't understand what the keyword #ANSWER would 
+accomplish. 
+ Instead of having a complex initialization string, Citadel should be able to 
+have keywords to define common things that people put in their initialization 
+strings.  For instance, we usually have answer rings set to 255, so that 
+Citadel will never answer the phone (it is anyways, but it's probably not Cit's
+fault).  Some people turn off compression.	I think you get the idea.  Make 
+keywords in config.cit that ADD to the initialization string when initializing 
+the port, so that for most common tasks, new sysops don't have to translate AT 
+commands. 
+
+
+!cfg.really_fucking_stupid: F4, F6, @, exit: cursor appears
+timeout in F4
+getcontextsensitive string: file name to transfer
+.qd internal
+#include in scripts
+.kg: boolean
+poopuser killed...
+	   3-25-90	The trap file now indicates, along with "XXX messages
+				entered" how many of them were exclusive and how many
+				were group only.
+	   3-19-90	Fixed the bug of private mail that was network bound,
+				but deleted, but was sent anyways.	It is no longer
+				netted.
+	   6-12-90	When entering a new hall, rooms that have e-mail for
+				the user in them are now displayed.
+----------talleyInfo away from void *, to undefined class/struct *
+	# 55,449 of 55,538
+	Source id # is:  103,381
+	Path followed:	 sfa.olm!ccb!lok.sea!Blind Man's Bluff!tat
+	Source software: Gremlin's Citadel/064.2
+	94Apr07 11:38:54 From Captain James T Kirk @ Starfleet Academy, Olympia 
+{used to be goodbye blue sky,}, Thurston, WA {but not anymore...}, USA, 
+(206)491-9605
+suggestion:  
+
+ the ability to tag a bunch of rooms and then either kill them all, or move 
+them...   
+
+ suggestion III: 
+
+ the ability to set something in INPUT.APL which would make gremcit do a NEt6_9
+incorporation after it finished the current event.	 
+ so i could have Gremcit shell out and run my Keyserver, and it would stick 
+something in INPUT.APL which caused gremcit to incorportate it's NET6_9 packet.
+currently i have to use 2 different events...so the incorporation can be hours 
+after keyserve was run... 
+
+ suggestion IV: 
+
+ AVATAR support...	or, even better, completely configurable emulation...  just
+another .CIT file with an entry for each emulation you want to support.  
+ ie. 
+
+ #EMM_NAME "AVATAR" 
+ #RED "[avatar code for red goes here]" 
+ #GREEN "[etc...]" 
+
+ since citadel doesn't make any use of any of the cursor positioning commands, 
+this would be really easy to set up... 
+
+ suggestion VI: 
+
+ the ability to re-direct netmail addressed to a certain account to a file...  
+(in citadel message format...)...  so i could have an account called "Keyserve"
+on SFA here.  then people could just mail "Keyserve @ Starfleet Academy" to get
+to the keyserver... 
+
+ suggestion VIII: 
+
+ Show free XMS on the status screen.  currently it shows free comventional ram,
+and used XMS...a little strange, no? 
+
+ suggestion IX: 
+
+ Show the number of new messages after the "Networked with [nodename]" string 
+on the status screen...  the old DragCit status screen had this... 
+
+ suggestion XI: 
+
+ Improve the loging of sysop commands to the Trap file...  currently, when 
+someone edits someone elses account and changes the username, only the new 
+username gets saved to the trapfile.  so how is one suposed to know what the 
+account used to be called? 
+
+ and generally just write more to the trap file. 
+
+ suggestion XII: 
+
+ multiple user sigs...	just save um to the Log extention files... 
+
+ suggestion XIII: 
+
+ give us a way to read the * field...  list it in the verbose header or 
+something...  granted, it's not currently used, but it would be kinda nice to 
+see what was in it when it does get used. 
+
+.s!: if forced .s@, changes dir
+.shn, .she
+trap "file not found" (.blb, etc.)
+#BULLETIN menu from room prompt
+queued downloads: recognize bi-directional uploads
+	94Jan11 17:47:39 From Jimmy the Grek @ Amber, (206) 781-2093
+input.apl 
+ 200 name to save the message under 
+ 202 group to save message under 
+ 203 room to save message in 
+	   none of which appears to work 
+ as far as i can tell 
+  if anyone cares 
+resize group file
+internal protocol status using citWindows option
+sysop config by user amount of idle time
+if nmessages is too low. netting will hose out.
+linked cron events
+put last call time in .RC
+circular message table
+.read censored .read networked .read group only etc..
+add internal cofiguration menu
+startup/shutdown/chat tune
+you are here classic
+unixtime no. of seconds since 1970 in MCI
+cit should not crash if there is no dictionary file. - better checking in general
+option to print word count after saving message
+check hard drive space when resizing message/log file
+.AE: if 'W', turn on shared
+Entry cmd: Upload -- just set %f=something, append it
+
+.S!, .S@: close print file (ALT+P) if open
+#HOURS/#DAYS should be bitfields (netting)
+INT 2Fh call while idle (for Windows, OS/2, power mgmt, etc)
+Use only one function for displaying the message header
+hang up - ask for file descriptions
+#trap_file "bogus" - bad
+.read byattribute (twit...) messages
+exclude halls  (.exh? .xh?)
+verify all APL stuff - IBMGRAPH especially
+MCI codes to cls, pause between messages
+apl_realname
+border screensaver
+password protected room applications
+password protected rooms
+ *	06/13/91	BLJ 	Added .z command (Off-line reader)
+stickyrms
+
+group-only border stuff
+.r& broken?
+.ee to many people
+full-screen editor
+f4 mono/color poop
+.fu: remote
+#NEWUSERQUESTIONS FINGER
+rcr - working?
+user-config .R[KEP...] update time
+#SHOW0RVS stupid thing for frug
+off-hook on app: new flag? &?

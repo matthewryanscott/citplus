@@ -1,0 +1,33 @@
+  2Helpfile: MXhf18X0
+ 
+ Citadel has a spell checker built into its internal message editor.
+It is accessed by the "V" key from the "Entry command:" prompt.  It has
+four modes: Automatic, Verbose, Regular, and Terse.  In Terse mode, it just
+lists the words that it cannot find in its dictionary.  In Regular
+mode, it lists the words that it cannot find in its dictionary, and
+gives some suggestions as to the correct spelling of the words.  In
+Verbose mode, it enters a dialog that lets you replace all occurances
+of a misspelled word with the correct spelling, or update your
+personal dictionary if the word is spelled correctly.  Automatic mode is
+basically the same as Verbose mode, but will cause the spell checker to
+automatically run every time you 3S0>ave a message.
+ 
+ The current mode can be changed by the Spell Checker Mode setting of the
+.Enter Configuration command. (From a room prompt, use ".EC" to invoke the
+.Enter Configuration command, then "E" for Message Editor Options, and
+finally "P" for the Spell Checker sub-menu.)  This menu also lets you
+manipulate your personal dictionary: you can Add words to it, Remove words
+from it, or List the words currently in it.
+ 
+ Choose the mode best suited for your spelling ability; good spellers may
+not want to spend the time it takes Citadel to determine possible correct
+spellings for a word it cannot find in its dictionaries. Average spellers
+may appreciate suggestions for correct spellings, but not want to enter in
+a full session with the spell checker that a poor speller may desire.
+ 
+ Citadel also offers a feature that will automatically replace words during
+message entry.  This is especially useful for people who have a habit of
+spelling certain words incorrectly the same way each time.  You can control
+what words are replaced, and with what, from the Text Replacement Options
+sub-menu. (From a room prompt, use ".EC" to invoke the .Enter Configuration
+command, then "E" for Message Editior Options, and finally "R".)

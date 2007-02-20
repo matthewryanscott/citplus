@@ -1,0 +1,57 @@
+    # 19554 of 21192
+    Thursday 93Jun03 03:50:20 AM From Brent Bottles
+Bobbie: What we are doing to make Citadel more "desirable" to those other than
+what we already have is a multi-step process.
+
+  First off, we are working to make the software work at what we consider to be
+an "ideal" level of usability before we try wide-spread distribution.
+
+  What this means is adding features that we believe that BBS users and sysops
+in general desire from BBS software, and removing strange quirks of the
+software that limit its growth.
+
+  The most obvious of these is networking, and network mail routing in
+specific. When Net 6.9 as designed is fully implemented (probably in /066 or
+so), Citadel's networking will be very powerful and easy to use. As a test (of
+both concept and code), we are implementing it a bit at a time, and letting the
+users try the new parts of it.
+
+  Other areas that need work are the console sysop's interface, mail security,
+and installation/setup.
+
+   A new console sysop interface is about halfway implemented in /064, and
+should be done in /065. This makes it easier to do things on console: you are
+not limited to the TTY interface that has been restricting Citadel for some
+time. TTY is, of course, still supported, as it is required for remote sysop
+use.
+
+   Mail security is no longer a problem in /064, as a fairly good data
+encryption scheme has been worked into the code.
+
+  Installation/setup was made much easier in /063, and should be made even
+easier in /065. (All you need to install a GremCit/063 or later is CTDL.EXE and
+CTDL.DAT - it will create a CONFIG.CIT for you as you reply to questions.) What
+I intend to add in /065 is a "Do you want a Twit or Serious BBS" question.
+(Well, a bit more in-depth than this, but you understand.) All of the "Twit"
+features in GremCit are disableable by the sysop, but you have to know how to
+do it. This will make it easy to disable them all at once.
+
+
+  About all that this leaves is file transfers. File transfers were marginally
+improved in /064, but a full improvement is slated for /065.
+
+
+   Aside from the software, the other obvious wall in the way of widespread
+Citadel distribution is documentation. I have written about (a little over,
+actually) 100 pages of documentation, and feel that I am half way there.
+
+   I feel that all of this will be completed by the end of 1993, and
+wide-spread distribution will start some time in 1994.
+
+   Also, when distributing the software to new people, I think it would be best
+to shield them from the network we have here as much as possible; tell them of
+its existence, but limit their exposure to it to the few good rooms that there
+are on it.
+
+  This is what we see needs to be done for wider spread distribution, and what
+we intend to do.

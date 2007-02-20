@@ -1,0 +1,240 @@
+==============================================================================
+
+The CRON.CIT file gives Citadel information on tasks it should execute after a
+certain amount of time has passed, and only during certain times.
+
+This is most often used to tell Citadel to call out for networking purposes,
+but it can also be used to create automatic backup systems, to turn chat on or
+off at certain times of the day, or almost anything else that should happen at
+a specific time every day.
+
+==============================================================================
+
+   #DO {type} {command_line}
+
+The #DO keyword starts the definition of a cron event, which lasts until the
+next #DO keyword or until the end of the file.  The rest of the keywords
+adjust how (or, actually, when) Citadel executes the cron event.
+
+The first parameter specifies the type of event this is, and the second
+parameter is the actual command to run.
+
+The valid types are:
+
+        NETWORK
+            This tells Citadel to call another board to network.  Networking
+            is a very complex topic; refer to the full documentation for
+            information on setting it up.  The command string for NETWORK
+            events is the name or address of the other BBS.
+
+        SHELL_1
+        SHELL_2
+            These run external programs.  There is no difference between
+            SHELL_1 and SHELL_2.  Just give the program's file name and any
+            command-line parameters as the command string.  In addition, the
+            following flags can be put at the start of the command line to
+            tell Citadel how to run it:
+
+               !   This tells Citadel to "Super-shell," or swap as much of
+                   itself as possible out of memory, thus giving the
+                   application the most memory possible in which to run. 
+                   Citadel leaves less than 1K of itself in  memory, swapping
+                   the rest of itself to XMS, EMS, or disk.  Swapping to XMS
+                   or EMS is nearly instantaneous, but swapping to disk takes a
+                   few seconds. This is only active in the DOS versions of
+                   Citadel, and has no effect in the Windows version.
+
+               @   This tells Citadel to not clear the screen before running
+                   the application, and to not restore the screen before
+                   returning.  This is used to save memory if you are not
+                   super-shelling and the application saves and restores the
+                   screen for you: An 80x25 text screen takes nearly 4K to
+                   save in memory.  When using the super-shell, this does not
+                   make any difference, because the memory used to save the
+                   screen is also swapped out when shelling.  This is only
+                   active in the DOS versions of Citadel, and has no effect in
+                   the Windows version.
+
+               $   This tells Citadel to load COMMAND.COM (or, actually, the
+                   program pointed to by the COMSPEC environment variable) and
+                   tell it to process the command.  This is used to run DOS
+                   batch files or to redirect program output to a file.
+
+               ?   This tells Citadel not to write out the OUTPUT.APL file
+                   when shelling.  Writing OUTPUT.APL takes some time and some
+                   disk space, but not much.  Usually, it does not matter if
+                   the file is written out when it is not needed.  But, if you
+                   are very tight on disk space or running on a slow machine,
+                   this makes a difference.
+
+               *   This tells Citadel that the application is a script file,
+                   not a program.  This overrides all other flags.  That is,
+                   if this flag is present then all others are ignored.  This
+                   is because the other flags do not apply to script files. 
+                   Also, when running a script file the command line arguments
+                   are not passed to it, since script files have no command
+                   line parameters.
+
+               &   This tells Citadel not to wait for the external program
+                   to finish before returning to Citadel; the external program
+                   is run in the background instead.  This is only active in
+                   the Windows version of Citadel, and has no effect in the
+                   DOS versions.
+
+        SHUTDOWN
+            This tells Citadel to exit.  The command string gives the exit
+            code that Citadel should use.
+
+        CHAT_ON
+            This turns chat on.  The command string is ignored (but must be
+            present).
+
+        CHAT_OFF
+            This turns chat off.  The command string is ignored (but must be
+            present).
+
+        NET69_IN
+            This reads all Net 6.9 packets and incorporates them.  The command
+            string is ignored (but must be present).  Refer to the full
+            documentation for details about netting.
+
+        NET69_OUT
+            This creates a Net 6.9 packet for another board, but does not
+            actually send them; they are stored for later sending.  The
+            command string is the name or address of the other node.  Refer to
+            the full documentation for details about netting.
+
+        COMMAND
+            This runs a Citadel script file (CSF).  While script files can
+            also be run using SHELL_1 or SHELL_2, this gives more flexibility:
+            the script can return success or failure to Citadel this way,
+            which affects when it will be run again.
+
+        NET86_IN
+            This reads all Citadel-86 style network packets off the disk and
+            incorporates them.  The command string is ignored (but must be
+            present).  Refer to the full documentation for details about
+            netting.
+
+        NET86_OUT
+            This creates a Citadel-86 style network packet and stores it on
+            the disk.  The command string is the name or address of the node
+            to create the packets for.  Refer to the full documentation for
+            details about netting.
+
+        BUILDADDR
+            This brings Citadel's ROUTE.CIT file up to date by scanning the
+            message base.  This option should never have to be used; Citadel
+            now does this automatically after every network.  The command
+            string is ignored (but must be present).
+
+==============================================================================
+
+   #HOURS [0...23 or ANY]
+
+The #HOURS keyword tells Citadel during which hours of the day it can attempt
+to execute the cron event.  Hour "0" is from 12 midnight to 1AM; hour "1" is
+from 1AM to 2AM; hour "23" is from 11PM to 12 midnight.  ANY tells Citadel
+that it can run the event during any hour.
+
+This can be used to limit long distance networking to late-night, when the
+rates are cheaper.  (For example, "#HOURS 23 0 1 2 3 4 5" will make the event
+happen between 11PM and 6AM.  Check your long distance carrier for the
+cheapest times for you to call.)
+
+The default is ANY.
+
+==============================================================================
+
+   #DAYS [1...7 or SUN...SAT or SUNDAY...SATURDAY or ANY]
+
+The #DAYS keyword tells Citadel during which days of the week it can attempt
+to execute the cron event.  Day "1" is Sunday; day "7" is Saturday.
+
+This can be used to alternate who does the calling for a long-distance
+network.  If one system has "#DAYS TUE THU SAT" and the other system has
+"#DAYS MON WED FRI" then one will call one day, the other the next day.
+(Notice how I cleverly avoid the problem with the odd number of days in the
+week by ignoring Sunday...)
+
+You can turn off a day (usually after turning them all on with ANY) by placing
+a "!" before the day's name or number.  For example, to have an event execute
+on every day except Friday, you can specify "#DAYS ANY !FRI".
+
+The default is ANY.
+
+==============================================================================
+
+   #REDO_TIME {minutes}
+
+The #REDO_TIME keyword tells Citadel how long after it successfully runs a
+cron event before it should run it again.  Remember that this is in minutes,
+so use 180 for three hours.
+
+A not quite obvious use of this is to force an event to run only once a night
+(such as a long-distance network.)  If you have "#HOURS 23 0 1 2 3 4 5"
+(explained above) to limit networking to the lowest long distance rates, you
+can set "#REDO_TIME 600" to force Citadel to run the event no more than once a
+night: after waiting 600 minutes (10 hours), it will no longer be a time that
+Citadel is allowed to run the event.  By the time 11PM comes around the next
+night, however, the 10 hours will have passed, and Citadel will again attempt
+to network.
+
+The default is 180 minutes (3 hours).
+
+==============================================================================
+
+   #RETRY_TIME {minutes}
+
+The #RETRY_TIME keyword tells Citadel how long after it tries to run a cron
+event but fails before it is to try again.  The most common cause for a failed
+cron event is a BUSY signal when attempting to network.  Set this to the
+amount of time you want Citadel to wait before trying again.
+
+The default is 10 minutes.
+
+==============================================================================
+
+   #PRIORITY
+
+This is not used.  It has never been used.  It will probably never be used.
+But it's there.
+
+==============================================================================
+
+   #MONTHS [1...12 or JAN...DEC or JANUARY...DECEMBER or ANY]
+
+The #MONTHS keyword tells Citadel during which months of the year it can
+attempt to execute the cron event.  Month "1" is January; month "12" is
+December.
+
+You can turn off any month (usually used after turning on all months with
+ANY) by placing the "!" symbol before the month's name or number.  For
+example, you can make an event run in every month except June by specifying:
+"#MONTHS ANY !June".
+
+I actually cannot think of a real-world application of this.  But it is here
+in case you can.  (Perhaps to run a cron event on your birthday, by combining
+it with #DATES below?)  Tell me if you think of a use for it; I'm curious.
+
+The default is ANY.
+
+==============================================================================
+
+   #DATES [1...31 or ANY]
+
+The #DATES keyword tells Citadel during which dates of the month it can
+attempt to execute the cron event.  If you set "#DATES 30" then the event will
+only run on the 30th day of the month; it will never run in February.  (You
+can tell Citadel to run an event once every four years by setting "#MONTHS 2"
+and "#DATES 29" but you would have to be psychotic to want to.)
+
+The use of this (yes, there is a use for this) is to run a stats program every
+month.  Set "#DATES 1" and Citadel will run the event as soon as it can after
+a new month starts.  Set "#REDO_TIME 1440" (24 hours) and by the time Citadel
+thinks it can do it again, it will be the second day of the month, and it will
+wait until the next month to do it again.
+
+The default is ANY.
+
+==============================================================================

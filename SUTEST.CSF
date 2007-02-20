@@ -1,0 +1,14 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ This was created as a way to test #STARTUPSCRIPT.                          บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#FUNC _Main Void
+
+    #CALL PrintM "We have just started Citadel!"
+    #CALL DoCR
+
+    #RET Void
+
+#ENDFUNC

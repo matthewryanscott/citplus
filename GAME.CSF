@@ -1,0 +1,110 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ This script is a simple guessing game.  It serves as an example of many    บ
+บ Citadel script programming concepts.                                       บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#FUNC _Main Void
+
+    First, allocate space for variables. For this guessing game, the
+    following variables are used:
+        _TheNum    the number that Citadel picks
+        _Guess     the number that the user has entered
+        _HighLimit the high limit of the number
+        _LowLimit  the low limit of the number
+        _NotGotIt  Whether it has not been gotten.
+
+    #LVAR Integer _TheNum
+    #LVAR Integer _Guess
+    #LVAR Integer _Limit
+    #LVAR Integer _HighLimit
+    #LVAR Integer _LowLimit
+    #LVAR Boolean _NotGotIt
+
+    #ASGN _NotGotIt TRUE
+
+    The low limit defaults to 1 at the beginning.
+    #ASGN _LowLimit 1
+
+    Let the user pick the upper limit of the number Citadel picks.
+    Assign this to the _HighLimit variable.  Just to be obnoxious, we
+    require the user to pick something.  (That is, we don't give a way
+    out.)
+    #DO
+        Let the user pick the upper limit of the number Citadel picks.
+        Assign this to the _HighLimit variable.
+        #CALL GetString "limit of random number" "100" 10
+        #ASGN _HighLimit _Result
+
+    Keep doing this until the number picked is positive
+    #LT _HighLimit 1
+    #LOOP _Result
+
+    Pick a number with the Random function and assign it to the _TheNum
+    variable. Add 1 to the result because Citadel returns random numbers
+    from 0 to _HighLimit-1, not from 1 to _HighLimit.
+    #CALL Random _HighLimit
+    #ASGN _TheNum _Result
+    #ADD _TheNum 1
+    #ASGN _TheNum _Result
+
+
+    Here is the top of the guessing loop...
+    #WHILE _NotGotIt
+
+        Ask for a number from the user and assign it to the _Guess variable.
+        #CALL DoCR
+        #CALL PrintM "Pick a number from " _LowLimit " to " _HighLimit
+        #CALL GetString "your guess" "" 10
+        #ASGN _Guess _Result
+
+        Check to see if the user guessed correctly.
+        #EQ _Guess _TheNum
+        #IF _Result
+
+            If it is correct, say so and return.
+            #CALL DoCR
+            #CALL PrintM "^A3Correct! The number is " _TheNum ".^A0"
+            #CALL DoCR
+            #CALL DoCR
+            #ASGN _NotGotIt FALSE
+
+        #ELSE
+
+            Not correct. Check to see if Cit's number is less.
+            #LT _TheNum _Guess
+            #IF _Result
+
+                Yes, it is less; say so.
+                #CALL DoCR
+                #CALL PrintM "^A3My number is less than " _Guess "^A0"
+                #CALL DoCR
+
+                Update _HighLimit
+                #LT _Guess _HighLimit
+                #IF _Result
+                    #ASGN _HighLimit _Guess
+                #ENDIF
+
+            #ELSE
+
+                No, it is not less. Threfore, it must be greater...
+                #CALL DoCR
+                #CALL PrintM "^A3My number is greater than " _Guess "^A0"
+                #CALL DoCR
+
+                Update _LowLimit
+                #LT _LowLimit _Guess
+                #IF _Result
+                    #ASGN _LowLimit _Guess
+                #ENDIF
+
+            #ENDIF
+
+        #ENDIF
+
+    #WEND
+
+    #RET Void
+#ENDFUNC

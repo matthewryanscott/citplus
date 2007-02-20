@@ -1,0 +1,11 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ This script was created to test the ExitCitadel function.                  บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#VERSION 65141
+
+#FUNC _Main VOID
+    #CALL ExitCitadel 0
+#ENDFUNC

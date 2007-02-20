@@ -1,0 +1,1 @@
+#define offsetof(s,m)   (size_t)(ulong)&(((s *) 0)->m)

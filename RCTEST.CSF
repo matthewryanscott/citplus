@@ -1,0 +1,23 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ																			 บ
+บ This was written to test the #RUN and #CHAIN script commands. 			 บ
+บ																			 บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#VERSION 65141
+
+#FUNC _Main VOID
+
+	#CALL PrintM "Starting RCTest... About to #RUN BEEP "
+
+	#RUN BEEP
+
+	#CALL PrintM " And now about to #CHAIN BEEP "
+
+	#CHAIN BEEP
+
+	#CALL PrintM " No see me!"
+
+	#RET Void
+
+#ENDFUNC

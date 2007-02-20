@@ -1,0 +1,49 @@
+nonverbose:
+
+^A3\n%{    &}D%[   ]D%{ From }A%{[&03] }2%{^A4&^A0}A%_^A3%{ [&03]}3^A3%{ @ &}O%{, &}Q%{ \{&\}}4%{, &}C%{ \{&\}}5%{, &}Z%{, &}P%{ To &03}T%{ Forwarded to &03}6%{ @ &}7%{, &}8
+%{ [reply]}9
+%{ [received]}0%{ [reply sent]}~%{ In &03>}`%{ (& only)}#%{ (Local &)}L%{ (Receipt confirmation requested)}$%{ 1[problem user]03}^%{ [moderated]}&%{ [viewable &]}(%{ [file-linked]}*%{ 1[censored]03}-%{\n    Subject: 4&0}=^A0\n
+
+verbose:
+
+^A3\n	 # %I of %N%{ (Reference id # &)}R%{\n	  Source id # is:  &}S%{\n    Linked file is:  &}*%{\n	  Path followed:   &}!%{\n    Source software: &}G%{\n	  Forced path:	   &}1
+%{ [reply to &]}9
+
+%I - id
+%N - newest
+%R - Reference ID
+%S - Source ID
+%* - File Link
+%! - Path
+%G - Source Software
+%1 - To path
+%D - Date
+%V - Verbose Date
+%A - Author
+%2 - Title
+%3 - Surname
+%_ - tags
+%O - origin name
+%Q - Origin region
+%4 - config origin region
+%C - origin country
+%5 - config origin country
+%Z - zen
+%P - phone
+%T - To
+%6 - Forwarded
+%7 - to zip
+%8 - to region zip
+%9 - reply to #
+%0 - received
+%~ - reply sent
+%` - room if not the same
+%@ - room if the same
+%# - group
+%L - local (Local %s) - msg_nym
+%$ - rcr (true/false thing)
+%^ - problem user (t/f)
+%& - moderated (t/f)
+%( - viewable %s problem user / moderated
+%- - censored
+%= - subject

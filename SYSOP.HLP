@@ -1,0 +1,173 @@
+  2Helpfile: MXhf19X0
+ 
+                             3g--- General ---0
+ 
+    Citadel allows someone at remote to have full power over Citadel.
+    The following describes which sysop commands are available.
+ 
+                       3g--- File linked messages --0
+ 
+  3b.E*0   -- Enter File-linked Public Message
+  3b.E*E0  -- Enter Exclusive File-linked Message
+  3b.EL*M0 -- Enter Local-only File-linked Message
+ 
+    Only the sysop can enter File-linked messages. Either at console or
+    remote.  You must specifly the entire DOS path including drive.  No
+    wildcard file names are allowed.
+ 
+                       3g--- Sysop menu commands ---0
+ 
+    The sysop menu can be accessed by remote by hitting ".S", or can be
+    accessed by hitting "F6" at console.
+ 
+  "3bA0" -- Abort. Aborts sysop functions.
+ 
+  "3bC0" -- Cron commands. The following are available.
+ 
+     "3bA0" -- All done
+     "3bD0" -- Done event
+     "3bE0" -- Enter Cron file
+     "3bF0" -- Force event
+     "3bL0" -- List events
+     "3bN0" -- Next event set
+     "3bP0" -- Pause events
+     "3bR0" -- Reset event
+     "3bS0" -- Set success time
+     "3bZ0" -- Zap event
+ 
+  "3bD0" -- Date change. Changes system date and time.
+ 
+  "3bE0" -- Enter config file. The following are available.
+ 
+     "3bA0" -- All *.CIT files
+     "3bC0" -- CONFIG.CIT
+     "3bE0" -- EXTERNAL.CIT
+     "3bG0" -- GRPDATA.CIT
+     "3bI0" -- MCI.CIT
+     "3bM0" -- MDMRESLT.CIT
+     "3bO0" -- PROTOCOL.CIT
+     "3bP0" -- PROTOCOL.CIT
+     "3bT0" -- CRON.CIT
+ 
+  "3bF0" -- Aide command. Allows sysop access to aide functions.
+ 
+  "3bG0" -- Group commands. The following are available.
+ 
+     "3bE0" -- Edit group
+     "3bG0" -- Group-specific membership
+     "3bK0" -- Kill group
+     "3bL0" -- List group
+     "3bN0" -- New group
+     "3bO0" -- Operator-specific membership
+     "3bU0" -- User-specific membership
+ 
+  "3bH0" -- Hall commands. The following are available.
+  
+     "3bE0" -- Edit hall
+     "3bF0" -- Force access
+     "3bG0" -- Global room add/remove
+     "3bK0" -- Kill hall
+     "3bL0" -- List halls
+     "3bN0" -- New hall
+     "3b+0" -- Move hall forward
+     "3b+0" -- Move hall backward
+ 
+  "3bI0" -- Info file reset.  Clears unused entries from FILEINFO.CIT
+  "3bJ0" -- Journal room to file. Stores messages in a room to a file. This
+                           is only available to Supersysops or console.
+
+  "3bK0" -- Kill user.        Removes a userlog entry.
+  "3bL0" -- Login new enable. Enables new users to login.
+  "3bM0" -- Mass delete.      Kills all messages authored by a user.
+  "3bN0" -- New user verify   Scrolls through all the unverified users, and
+                           asks you if you want to verify them.  If you do
+                           not verify them, Citadel will offer to kill the
+                           account.
+  
+  "3bO0" -- Off hook, busy.     Prevents people calling your BBS.
+  "3bP0" -- Purge userlog.      Asks you if you want to kill each user.
+  "3bR0" -- Run script.         Executes a Citadel script file (.csf)
+  "3bS0" -- Show user.          Displays a user's configuration.
+  "3bU0" -- Userlog edit.       Changes a user's setup.
+  "3bX0" -- Exit Citadel.       This is the proper way of exiting Citadel.
+  "3bZ0" -- Zap empty rooms.    Deletes empty rooms.
+ 
+  "3b!0" -- Shell to DOS. Allows person at console to drop into dos while
+                       Citadel is running.  Type 'Exit' to return to Citadel.
+                       Only works in console mode.
+ 
+  "3b@0" -- Supershell to DOS. Allows someone at console to drop into dos
+                             while Citadel is running. Type 'Exit' to return
+                             to Citadel.  Saves parts of Citadel to disk, and
+                             frees more memory for the shell. Only works in
+                             console mode.
+ 
+  "3b#0" -- Read by message #. Displays message according to # if it is
+                             viewable.
+
+  "3b%0" -- Full-path file download. Given a protocol, allows download of
+                             a named file from any room.
+ 
+  "3b10" -- Reset Maintenance: hall. Puts all rooms into the maintenance
+                                  hall, which may not be otherwise reachable.
+ 
+  "3b60" -- 6.9 Network command. The following are available:
+ 
+     "3bF0" -- Fetch
+     "3bI0" -- Incorporate
+     "3bR0" -- Room Request
+     "3b@0" -- Build address
+     "3b>0" -- Citadel-86 Fetch
+     "3b<0" -- Citadel-86 Incorporate
+ 
+ 
+                           3g--- Console keys ---0
+ 
+    These keys work only on the local console.
+ 
+   3bAlt+A0               Toggles accounting on/off.
+   3bAlt+B0               Toggles PsYcHo cHiCkEn eFfEcT on/off.
+   3bAlt+C0               Pulls caller into chat or goes into dialout mode.
+   3bAlt+D0               Debug mode - shows all command processes.
+   3bAlt+E0               Starts a cron event if any can be executed now.
+   3bAlt+F0               Forces current cron event, even if not time.
+   3bAlt+H0               Toggles console menu on/off.  Same as F10.
+   3bAlt+K0               Goes into scroll back buffer.
+   3bAlt+L0               Locks or unlocks console.
+   3bAlt+M0               Goes into Memory dump window.
+   3bAlt+P0               Toggles printing or logging to printfile on/off.
+   3bAlt+R0               Executes current cron event until successful.
+   3bAlt+S0               Turns screen saver on (if enabled).
+   3bAlt+T0               Toggles problem user (twit) status of user logged in.
+   3bAlt+U0               Overrides limited hours answering.
+   3bAlt+V0               Toggles verified status of currently logged in user.
+   3bAlt+X0               Exits to DOS. Same as "X".
+   3bAlt+Z0               Hangs Up.  Sleeping Call again :-)
+   3bAlt+30               Toggles 300 baud simulation on/off.
+   3bAlt+F10              Clears the screen.
+   3bAlt+F30              Urgent system request - gives user 5 minutes.
+   3bAlt+F40              Exits to DOS. Same as "Alt+X".
+   3bAlt+F60              Toggles Aide status of currently logged in user.
+   3bAlt+F100             Toggles double status line.
+   3cShift+F60            Toggles SysOp status of currently logged in user.
+   3cShift+F100           Toggles status line on/off.
+   3dCtrl+F10             Toggles speech on/off.
+   3dCtrl+F20             Toggles between window and user screen.
+   3dCtrl+F60             Goes into Console sysop windows.
+   3ePgUp0                Adds 5 minutes time to user on line.
+   3ePgDn0                Subtracts 5 minutes time from user on line.
+   3eF10                  Dumps Caller from system (hangs up).
+   3eF20                  ReInitializes modem.
+   3eF30                  System Request - beeps you when system is free.
+   3eF40                  Toggles Status screen.
+   3eF50                  Toggles Modem/Console mode.
+   3eF60                  Accesses Sysop menu.
+   3eF70                  Toggles Sound (chat page noise).
+   3eF80                  Pulls caller into chat or goes into dialout mode.
+   3eF90                  Toggles chat paging ability on/off.
+   3eF100                 Toggles console menu on/off.
+ 
+ 
+                         2-- Related Help Topic --0
+ 
+ 3cMXhf1X0

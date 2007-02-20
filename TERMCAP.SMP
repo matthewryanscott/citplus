@@ -1,0 +1,147 @@
+if it's color... don't do normal, reverse, underline. do color codes.
+
+
+#TERMINAL      "Dumb"
+#IBMUPPER      FALSE
+#COLOR         FALSE
+#TERMTYPE      DUMB
+
+#TERMINAL      "ANSI Color"
+#IBMUPPER      TRUE
+#COLOR         TRUE
+#TERMTYPE      ANSI
+#CLS           "^[[2J"
+#FORECOLOR     "^[[3%fm"
+#BACKCOLOR     "^[[4%bm"
+#FULLCOLOR     "^[[3%f;4%bm"
+#HIGHFORECOLOR "^[[1;3%fm"
+#HIGHBOTHCOLOR "^[[1;3%f;4%bm"
+#BOLD          "^[[1m"
+#UNDERLINE     "^[[4m"
+#BLINK         "^[[5m"
+#NORMAL        "^[[m"
+#REVERSE       "^[[7m"
+#DELEOL        "^[[K"
+#SAVECURS      "^[[s"
+#RESTORECURS   "^[[u"
+#BLANKFOR1CURS TRUE
+#CURSUP        "^[[%cA"
+#CURSDOWN      "^[[%cB"
+#CURSLEFT      "^[[%cD"
+#CURSRIGHT     "^[[%cC"
+#ROWSTART      1
+#COLSTART      1
+#BLANKFORTLCUR TRUE
+#ABSCURSPOS    "^[[%c;%rh"
+
+#TERMINAL      "ANSI Mono"
+#IBMUPPER      TRUE
+#COLOR         FALSE
+#TERMTYPE      ANSI
+#CLS           "^[[2J"
+#FORECOLOR     "^[[3%fm"
+#BACKCOLOR     "^[[4%bm"
+#FULLCOLOR     "^[[3%f;4%bm"
+#HIGHFORECOLOR "^[[1;3%fm"
+#HIGHBOTHCOLOR "^[[1;3%f;4%bm"
+#BOLD          "^[[1m"
+#UNDERLINE     "^[[4m"
+#BLINK         "^[[5m"
+#NORMAL        "^[[m"
+#REVERSE       "^[[7m"
+#DELEOL        "^[[K"
+#SAVECURS      "^[[s"
+#RESTORECURS   "^[[u"
+#BLANKFOR1CURS TRUE
+#CURSUP        "^[[%cA"
+#CURSDOWN      "^[[%cB"
+#CURSLEFT      "^[[%cD"
+#CURSRIGHT     "^[[%cC"
+#ROWSTART      1
+#COLSTART      1
+#BLANKFORTLCUR TRUE
+#ABSCURSPOS    "^[[%c;%rh"
+
+#TERMINAL      "Non-IBM ANSI Color"
+#IBMUPPER      FALSE
+#COLOR         TRUE
+#TERMTYPE      ANSI
+#CLS           "^[[2J"
+#FORECOLOR     "^[[3%fm"
+#BACKCOLOR     "^[[4%bm"
+#FULLCOLOR     "^[[3%f;4%bm"
+#HIGHFORECOLOR "^[[1;3%fm"
+#HIGHBOTHCOLOR "^[[1;3%f;4%bm"
+#BOLD          "^[[1m"
+#UNDERLINE     "^[[4m"
+#BLINK         "^[[5m"
+#NORMAL        "^[[m"
+#REVERSE       "^[[7m"
+#DELEOL        "^[[K"
+#SAVECURS      "^[[s"
+#RESTORECURS   "^[[u"
+#BLANKFOR1CURS TRUE
+#CURSUP        "^[[%cA"
+#CURSDOWN      "^[[%cB"
+#CURSLEFT      "^[[%cD"
+#CURSRIGHT     "^[[%cC"
+#ROWSTART      1
+#COLSTART      1
+#BLANKFORTLCUR TRUE
+#ABSCURSPOS    "^[[%c;%rh"
+
+#TERMINAL      "Non-IBM ANSI Mono"
+#IBMUPPER      FALSE
+#COLOR         FALSE
+#TERMTYPE      ANSI
+#CLS           "^[[2J"
+#FORECOLOR     "^[[3%fm"
+#BACKCOLOR     "^[[4%bm"
+#FULLCOLOR     "^[[3%f;4%bm"
+#HIGHFORECOLOR "^[[1;3%fm"
+#HIGHBOTHCOLOR "^[[1;3%f;4%bm"
+#BOLD          "^[[1m"
+#UNDERLINE     "^[[4m"
+#BLINK         "^[[5m"
+#NORMAL        "^[[m"
+#REVERSE       "^[[7m"
+#DELEOL        "^[[K"
+#SAVECURS      "^[[s"
+#RESTORECURS   "^[[u"
+#BLANKFOR1CURS TRUE
+#CURSUP        "^[[%cA"
+#CURSDOWN      "^[[%cB"
+#CURSLEFT      "^[[%cD"
+#CURSRIGHT     "^[[%cC"
+#ROWSTART      1
+#COLSTART      1
+#BLANKFORTLCUR TRUE
+#ABSCURSPOS    "^[[%c;%rh"
+
+#TERMINAL      "Non-ANSI IBM"
+#IBMUPPER      TRUE
+#COLOR         FALSE
+#TERMTYPE      DUMB
+
+#TERMINAL      "TVI 955"
+#IBMUPPER      FALSE
+#COLOR         FALSE
+#TERMTYPE      UNKNOWN
+#CLS           "^[[H^[y"
+#BOLD          "^[[=5l"
+#UNDERLINE     "^[G8"
+#BLINK         "^[G2"
+#NORMAL        "^[d^[G0^[[=5h"
+#REVERSE       "^[G4"
+#DELEOL        "^[T"
+#BLANKFOR1CURS FALSE
+#CURSUP        "^[[%cA"
+#CURSDOWN      "^[[%cB"
+#CURSLEFT      "^[[%cD"
+#CURSRIGHT     "^[[%cC"
+#ROWSTART      1
+#COLSTART      1
+#BLANKFORTLCUR FALSE
+#ABSCURSPOS    "^[=%r %c"
+        (Yes, #ABSCURSPOS looks wrong to me, as well. However, it's what my
+        TVI 955 manual claims, and I don't feel like verifying it right now.)

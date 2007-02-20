@@ -1,0 +1,27 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ This script was written to tie up the system for a while to test the       บ
+บ keyboard buffer.  (Turn on the keyboard buffer monitor with ^F6:System     บ
+บ Monitors:Keyboard Buffer, then run this script, give a large number for    บ
+บ the count-down, and type some stuff.)                                      บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#FUNC _Main Void
+
+    #LVAR Long _NumberLeft
+
+    #CALL GetString "length of count-down" "" 10
+    #ASGN _NumberLeft _Result
+
+    #WHILE _NumberLeft
+
+        #SUB _NumberLeft 1
+        #ASGN _NumberLeft _Result
+
+    #WEND
+
+    #CALL DoCR
+
+    #RET Void
+#ENDFUNC

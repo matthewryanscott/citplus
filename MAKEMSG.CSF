@@ -1,0 +1,56 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ This script creates a specified number of messages in Lobby>.  It is used  บ
+บ to test message scrolling code.                                            บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#VERSION 65141
+
+#FUNC _Main VOID
+
+    #CALL MsgStart
+
+    #IF _Result
+
+        #CALL MsgSetAuthor "Make Message Script"
+        #CALL MsgSetText "Automatic message."
+
+        #LVAR Long _NumberLeft
+
+        #CALL GetString "number of messages to create" "" 10
+        #ASGN _NumberLeft _Result
+
+        #GT _NumberLeft 0
+        #IF _Result
+
+            #CALL DoCR
+            #CALL PrintM "Messages left to create: "
+
+            #WHILE _NumberLeft
+
+                #STR C _NumberLeft "... "
+                #CALL PrintM _Result
+
+                #CALL MsgSetCreationTime ""
+                #CALL MsgSave
+
+                #SUB _NumberLeft 1
+                #ASGN _NumberLeft _Result
+
+            #WEND
+
+        #ENDIF
+
+        #CALL MsgDump
+
+    #ELSE
+
+        #CALL PrintM "Out of memory."
+
+    #ENDIF
+
+    #CALL DoCR
+
+    #RET VOID
+#ENDFUNC

@@ -1,0 +1,45 @@
+  2Helpfile: MXhf17X0
+ 
+                        3g--- Locking Out Rooms ---0
+ 
+  3b.EX0  -- Enter eXclude-Room
+  3bX0    -- eXclude Room
+ 
+    This room will be excluded from the default go-to rooms with unread
+messages search.  You can still see the room in the Known rooms list, and
+.Goto it explicitly.  To re-include a room, you must apply this command again
+in the same room.
+ 
+                        3g--- Status information ---0
+ 
+  3b.RC0  -- Read Configuration
+  3b.RS0  -- Read Status
+ 
+    Read Configuration will display information on settings for your account
+explicitly, such as terminal configuration, forwarding address, group
+memberships, and default hall.  Read Status gives system-wide global
+information, like the highest current message number, average message length,
+how long the system has been running, and how long the current user has been
+logged in.
+ 
+                             3g--- Userlog ---0
+ 
+  3b.RU0  -- Read Userlog
+  3b.RVU0 -- Read Verbose Userlog
+ 
+    These commands list all listed users of the system.  The verbose option
+prints out the call number and the user's name, along with some other pieces
+of information for Aides and Sysops.
+ 
+                           3g--- Applications ---0
+ 
+  3b.EA0  -- Enter Application
+ 
+    This runs whatever application the room may have.
+ 
+ 
+                         2-- Related Help Topics --0
+ 
+ 3cMXhf11X0
+ 3cMXhf12X0
+ 3cMXhf15X0

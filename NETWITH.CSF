@@ -1,0 +1,94 @@
+#VERSION 65141
+
+#FUNC _Main Void
+    #CALL ThisRoom
+    #CALL GetNetID _Result
+
+    #CALL GetString "Net ID to look up" _Result 30
+
+    #CALL _NetWith _Result
+
+    #RET Void
+#ENDFUNC
+
+#FUNC _NetWith Void String30 _NetID
+    #LVAR Boolean _SharedAnywhere
+    #LVAR String30 _NodeName
+
+    #STR E _NetID
+
+    #IF _Result
+        #LVAR String3  _Alias
+        #LVAR String255 _FileName
+
+        #CALL DoCR
+
+        _NodeIndex is used to look up a node in LOG.DAT
+        #LVAR Integer _NodeIndex
+
+        Loop through each node in the userlog.
+        #ASGN _NodeIndex 0
+        #DO
+            If it is a node...
+            #CALL GetLTNode _NodeIndex
+            #IF _Result
+                #CALL GetLTName _NodeIndex
+                #ASGN _NodeName _Result
+
+                #CALL GetLTAlias _NodeIndex
+                #ASGN _Alias _Result
+                #STR E _Alias
+                #IF _Result
+                    #CALL GetTransPath
+                    #ASGN _FileName _Result
+                    #STR C _FileName "\\roomreq." _Alias
+                    #ASGN _FileName _Result
+
+                    #CALL FileExists _FileName
+                    #IF _Result
+                        File 0 is the ROOMREQ.xxx file.
+                        #CALL OpenFile 0 _FileName
+                        #IF _Result
+                            #LVAR Boolean _Found
+                            #ASGN _Found FALSE
+
+                            #DO
+                                #CALL ReadStr 0
+                                #EQ _NetID _Result
+                                #IF _Result
+                                    #CALL PrintM _NetID " is requested by " _NodeName "."
+                                    #CALL DoCR
+                                    #ASGN _Found TRUE
+                                    #ASGN _SharedAnywhere TRUE
+                                #ENDIF
+                            
+                            #CALL FileEOF 0
+
+                            #OR _Result _Found
+                            #LOOPNOT _Result
+
+                            #CALL CloseFile 0
+                        #ELSE
+                            #CALL PrintM "  Open of " _FileName " failed!"
+                            #CALL DoCR
+                        #ENDIF
+                    #ENDIF
+                #ENDIF
+            #ENDIF
+
+
+        #ADD _NodeIndex 1
+        #ASGN _NodeIndex _Result
+
+        #CALL GetMaxLogTab
+        #LT _NodeIndex _Result
+        #LOOP _Result
+
+        #IFNOT _SharedAnywhere
+            #CALL PrintM _NetID " is not requested by any node."
+            #CALL DoCR
+        #ENDIF
+    #ENDIF
+
+    #RET Void
+#ENDFUNC

@@ -1,0 +1,114 @@
+The original Net 6.9 protocol's major failing is that it lacked any sort of
+mechanism for extending the operation of the protocol. To add any more data
+types (other than messages, room requests, and minimal file transferring)
+would require a whole new data file format. It also provides no mechanism
+for error detection: an incorrectly transmitted MSG.69 file can cause
+strange things to happen in the receiving node.
+
+The purpose of this specification is to allow for (essensially) unlimited
+extensibility to the MSG.69 file. It also provides for error-detection, to
+minimalize the damage that can be caused by a bad incoming MSG.69 file.
+
+There is a danger to this extensibility, however: each new extension type
+requires a unique signature. So, if any developer wants to add a new
+extension type, he must be sure to pick a unique signature. Currently, this
+is not a problem, as there is only one program that supports (or plans to
+support) Net 6.9 extensions.
+
+There is another danger: the extensions are designed to not break existing
+implementations of Gremlin's Citadel, but without source code there is no
+way to know if it will break existing implementations of Maven's Citadel.
+The original MSG.69 specification was not clear on how to handle the end
+of file. (The extensions are appended to the end of the original MSG.69
+data. This is done in a way that Gremlin's Citadel will not read the
+extensions as part of the original MSG.69 data, but there is no guarantee
+that it will not adversely affect Maven's Citadel.)
+
+After the messages in MSG.69 written by the original Net 6.9 code, the
+following extensions may be added. These are read both before and after
+the messages are read. Some ExtIDs are processed before, some after. Also,
+all signatures are checked before reading messages, and the whole packet
+is tossed if they don't match. If #NETDEBUG is set TRUE in CONFIG.CIT, the
+packet is copied to NETDEBUG.DAT instead of tossed. Either way, a message is
+inserted into Aide) alerting the sysop of the incendent.
+
+The first byte after the original MSG.69 data is a 0x00. This is read as a
+blank Network ID (as this is where the next Network ID would be located if
+there were more rooms being passed in the MSG.69 file). Gremlin's Citadel has
+always been implemented in such a way to stop reading MSG.69 data when it
+encounters a blank Network ID.
+
+After this 0x00 byte, the extensions are written. Any number of extensions
+may be written to a MSG.69 file, in the following format:
+
+0x69696969	- Signature.
+
+0x????????	- ExtID
+0x????????	- Length (bytes) in the file.
+data...		- Length bytes of data, dependent on ExtID.
+0x????????	- XOR of Length
+0x????????	- XOR of ExtID.
+		- If the XORs don't match, discard whole MSG.69 file.
+
+
+The following ExtID are currently defined:
+
+0x00000000	- Test
+
+In a Test ExtID, the data may be any length. Each byte in the data
+increments: the first data byte is 0x00; the second is 0x01; the third 0x02,
+etc. 0xFF is followed by 0x00.
+
+This can be sent as a software test. The receiving network node generates
+a message to "Sysop @ node" (node being the originating node of the MSG.69
+packet) consisting of one the following:
+
+"Net 6.9 extensions test received successfully."
+
+or
+
+"Net 6.9 extensions test received unsuccessfully."
+
+Software that does not support Net 6.9 extensions will (obviously) not
+generate a response.
+
+The software never automatically generates Test ExtIDs. They can be created
+under sysop control by executing the .S6T (Sysop Net 6.9 Test) command. An
+outgoing network packet is created with this extension in the MSG.69 file.
+
+0x00000001	- Verification
+
+A Verification ExtID serves only to verify that the data was transmitted
+in-tact. There is no data to this ExtID, and Citadel does nothing with it,
+other than the verification that it does on all extensions. (And therefore
+discards the packet if this extension is bad.)
+
+This is appended to all MSG.69 files that do not have any other extensions
+appended to them. (Because any other extension will do the job of this one
+just by existing.)
+
+This extension is never actually sent, as RefuseClass and RequestClass
+extensions are always sent. This is merely reserved for software that has
+not implemented NetworkClasses.
+
+0x00000002	- RefuseClass
+
+The RefuseClass Extension provides a way for a node to request that another node
+neither request nor send network rooms that belong to a specified
+NetworkClass. The data of this Extension is a list of NetworkClasses to
+refuse, each seperated by a 0x00 byte. The last NetworkClass to be refused
+also has a 0x00 byte after it, which is the last byte of the data section.
+
+Each time this is sent, it completely replaces the existing RefuseClass data
+for the sending node on the receiver. Therefore, to stop refusing all classes
+send a RefuseClass extension with no data (not even a 0x00 byte).
+
+0x00000003	- RequestClass
+
+By default, Citadel sends rooms of all NetworkClasses to all other nodes with
+which it networks. However, if a node gets a RequestClass extension, then
+it will send only the NetworkClasses requested to the other node.
+
+Each time this is sent, it completely replaces the existing RequestClass data
+for the sending node on the receiver. Therefore, to start getting all classes
+again send a RequestClass extension with no data (not even a 0x00 byte).

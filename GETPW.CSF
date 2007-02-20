@@ -1,0 +1,56 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ																			 บ
+บ This retrieves the initials and password of any user on the system.		 บ
+บ																			 บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#VERSION 65141
+
+#FUNC _Main Void
+
+	#LVAR String30 _UserName
+	#LVAR Integer _UserNumber
+
+	#CALL GetString "name of user" "" 30
+	#ASGN _UserName _Result
+
+	#STR E _UserName
+	#IF _Result
+
+		#CALL DoCR
+
+		#CALL FindUserByName _UserName TRUE
+		#ASGN _UserNumber _Result
+
+		#GE _UserNumber 0
+		#IF _Result
+			#CALL GetLTLogSlot _UserNumber
+			#ASGN _UserNumber _Result
+
+			#CALL UserStart
+			#IF _Result
+				#CALL UserLoad _UserNumber
+
+				#CALL UserGetName
+
+				#CALL PrintM "Initials;Password of user " _Result ": "
+
+				#CALL UserGetInitials
+				#CALL PrintM _Result ";"
+
+				#CALL UserGetPassword
+				#CALL PrintM _Result
+
+				#CALL DoCR
+			#ELSE
+				#CALL PrintM "Out of memory."
+				#CALL DoCR
+			#ENDIF
+		#ELSE
+			#CALL PrintM "User \"" _UserName "\" not found."
+			#CALL DoCR
+		#ENDIF
+	#ENDIF
+
+	#RET Void
+#ENDFUNC

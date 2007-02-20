@@ -1,0 +1,66 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ																			 บ
+บ This script demonstrates using user-defined log data.  It scans through	 บ
+บ the userlog, and creates user-defined data for each user with the code	 บ
+บ "in;pw" that contains the user's initials and password.  To see the        บ
+บ effects of this command, look through the LE*.DAT files with a text		 บ
+บ editor.																	 บ
+บ																			 บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#VERSION 65141
+
+#FUNC _Main Void
+
+	#CALL DoCR
+
+	#LVAR Integer _UserIndex
+
+	#CALL UserStart
+
+	#IF _Result
+		#CALL GetMaxLogTab
+		#ASGN _UserIndex _Result
+
+		#DO
+			#SUB _UserIndex 1
+			#ASGN _UserIndex _Result
+
+			#CALL UserLoad _UserIndex
+
+			#CALL UserIsInuse
+			#IF _Result
+
+				#LVAR String30 _Initials
+				#LVAR String30 _Password
+
+				#CALL UserGetName
+				#STR PR _Result 32
+				#CALL PrintM _Result
+
+				#CALL UserGetInitials
+				#ASGN _Initials _Result
+
+				#CALL UserGetPassword
+				#ASGN _Password _Result
+
+				#CALL PrintM _Initials ";" _Password
+				#CALL DoCR
+
+				#STR C _Initials ";" _Password
+
+				#CALL UserSetUserDefined "in;pw" _Result
+				#CALL UserSave _UserIndex
+
+			#ENDIF
+
+		#LOOP _UserIndex
+	#ELSE
+
+		#CALL PrintM "Out of memory."
+		#CALL DoCR
+
+	#ENDIF
+
+	#RET Void
+#ENDFUNC

@@ -1,0 +1,14 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ  This script has no use.  I have it hooked up to system beeps with #EVENT  บ
+บ  BEEP in EXTERNAL.CIT, just to make sure it still works.                   บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#FUNC _Main VOID
+
+	#CALL PrintM "This is BEEP.CSF!"
+
+	#RET VOID
+
+#ENDFUNC

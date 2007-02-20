@@ -1,0 +1,177 @@
+  2Helpfile: MXhf1X0
+ 
+ The Citadel system contains a large collection of features, many of which
+are quite complex.  The following describes how aide commands act upon
+messages, rooms, groups, and halls.  In addition a few miscellaneous
+commands are described.
+ 
+ 
+                            2--- Messages ---0
+ 
+ 3bMarking messages0
+     Messages can be marked by pressing the 3M0 key while the message is
+     being printed out. The message will be printed again, and you will be
+     asked to confirm your choice.
+ 
+     Messages marked in this way may then be inserted into any room on the
+     system with the .Aide Insert message (.AI) command. This also is used
+     with 3Problem user messages0 and 3Moderated messages0.
+ 
+ 3bProblem user messages0
+     Messages from problem users are only visible to aides.  Such messages
+     have the message "[problem user]" prominently in the header. Aides will
+     be prompted "Release? (Y/N)[N]:" after each Problem user message.  If a
+     message is released, all users will be able to see it.  A released
+     message will display "[viewable problem user]" in the header, and can be
+     un-released by marking the message.
+ 
+ 3bModerated messages0
+     Messages posted in moderated rooms will not be viewable to regular users
+     until someone with Aide access releases them.  The message will display
+     "[moderated]" in the header, and the aide will be prompted "Release
+     (Y/N)[N]:" after the message header.  When a message is released, all
+     users can see it. A released message can be un-released by marking it.
+ 
+ 3bNetworked messages0
+     Messages received from the network can be manipulated in the same
+     manner as any other message.  Any message posted in a networked room by
+     any user with Network access will be sent over the network.  If a user
+     without Network access posts in a networked room, the message will be
+     tagged as a 3Moderated message0 and delt with like any other such
+     message. If the message is released, it will be sent out on the network;
+     if not, it will only be visible on the local system.
+ 
+ 3bDeleting messages0
+     To kill messages, press the 3K0 key while the message is begin printed
+     out.  The message will then be printed again, and you will be asked to
+     confirm your choice. Deleted messages are noted in the Aide) room, so
+     they can be retrieved if they need to be put back.
+ 
+ 3b.Aide Insert message (.AI) command0
+     This command inserts the most recently marked or deleted message in the
+     current room.  The message is the same message as the old one.  It has
+     the name of the room it came from added to the header.
+ 
+ 3b.Aide Name messages (.AN) command0
+     This allows aides to change the message nym from "message" or whatever
+     it may be.  The sysop can lock this, however.
+ 
+                              2--- Rooms ---0
+ 
+ Rooms can be created by any user (subject to sysop policy).  The sysop
+can optionally choose to restrict room creation only to Aides, or allow
+regular users to create rooms only in certain halls.
+ 
+ 3b.Aide Edit room (.AE) command0
+     This command can modify the attributes of a room, the things that can be
+     modified include:
+ 
+          3B0 By Invitiation Only (BIO)
+          3C0 Dictionary for spell checker
+          3D0 Room's upload/download directory
+          3E0 Shared (networked) room
+          3F0 Room description file
+          3G0 Room's group
+          3H0 Hidden room
+          3I0 Room's info line
+          3L0 Application
+          3M0 Moderated room
+          3N0 Room's name
+          3O0 Auto-Application room
+          3R0 Archived room
+          3U0 Subject-required room
+          3V0 Room's privileged group
+          3W0 Room's Network ID
+          3Y0 Anonymous room
+ 
+     To use some of these options, you must be a Sysop as well as an Aide.
+ 
+     Use 3S0ave Changes, and answer yes to make the changes permanent. If
+     you answer No, Citadel will return to the edit prompt. You may then make
+     more changes, or use 3A0bort Changes to abort any changes you have made.
+ 
+ 3b.Aide Kill room (.AK) command0
+     This command will delete a room. You are prompted for the room to kill,
+     and are given the current room as a default. If you kill the current
+     room, you will be placed in the Lobby.
+ 
+ 3b.Aide Hall (.AH) command0
+     This command will add or remove a room from a specified hall.
+ 
+ 3b.Aide Window (.AW) command0
+     This room will make a room a potential entry point into a specified hall.
+ 
+ 
+                              2--- Groups ---0
+ 
+ Users can be placed in multiple groups. Also, rooms can be made group-only
+with the 3.Aide Edit room (.AE) command0.
+ 
+  3.Aide Group (.AG) command0
+     This command adds or removes users from groups.
+ 
+  3.Aide List group (.AL) command0
+     This command will list all of the groups.  If an optional group name is
+     specified when prompted, it will list all users, rooms, and halls in
+     that group.
+ 
+ 
+                              2--- Files ---0
+ 
+ Directory rooms can contain files. Six aide commands help maintain
+files in directory rooms.
+                                                  
+ 3b.Aide Attributes (.AA) command0
+     This lets you set the read-only and hidden attribute of a file.
+ 
+ 3b.Aide Unlink (.AU) command0
+     This deletes a file from the directory room.  No wildcards are allowed.
+ 
+ 3b.Aide Rename (.AR) command0
+     Renames a file.  As with the 3.Aide Unlink (.AU) command0, no
+     wildcards are allowed.
+  
+ 3b.Aide Move file (.AM) command0
+     Moves a file from one room to any other directory room.
+ 
+ 3b.Aide Fileinfo set (.AF) command0
+     This searches through a directory and finds all files that have no 
+     infofile entries, and prompts to supply a description.
+ 
+ 3b.Aide Set file info (.AS) command0
+     This sets the info file comment for a specified file.
+ 
+ 
+                           2-- Miscellaneous --0
+ 
+  3.Aide Chat (.AC) command0
+     Rings the Chat beeps even if the sysop has turned chat off. The sysop
+     may limit hours in which this command is effective, however.
+  
+  3.Aide Jump to Aide) & Maintenance hall (.AJ) command0
+     This will take you from wherever you may be on the BBS to the Aide)
+     room.  It will also put you into the Maintenance hall.  The sysop may
+     group these so that you cannot access them, however.
+ 
+  3.Read Userlog (.RU) command0
+     This is not actually an Aide command, but Aides see more information
+     when reading the userlog than other users. After the names, Citadel
+     displays flags showing the users' access:
+ 
+          3A0 Aide
+          3T0 Problem user (Twit)
+          3P0 Permanent
+          3N0 Network
+          3U0 Unlisted
+          3S0 Sysop
+          3M0 No mail
+          3V0 Unverified
+ 
+ 
+                         2-- Related Help Topics --0
+ 
+ 3cMXhf6X0
+ 3cMXhf7X0
+ 3cMXhf8X0
+ 3cMXhf12X0
+ 3cMXhf15X0

@@ -1,0 +1,617 @@
+  2Helpfile: MXhf3X0
+ 
+                          3g--- Configuring ---0
+ 
+ 3b.Read Configuration (.RC) command0
+     This command displays your current configuration.
+ 
+ 3b.Enter Configuration (.EC) command0
+     This command lets you change your configuration. When you invoke it,
+     you are presented with a menu containing the following choices:
+ 
+     3R0 Room descriptions
+         Room descriptions are files that the sysop can attach to a room to
+         give some explanation of the room. If this option is turned on, then
+         Citadel displays this file to you the first time you enter a room
+         during a call. If this option is turned off, then Citadel does not
+         display the contents of this file.
+ 
+     3-0 Hall descriptions
+         Hall descriptions are files that the sysop can attach to a hall to
+         give some explanation of the hall. If this option is turned on, then
+         Citadel displays this file to you every time you enter a hall during
+         a call. If this option is turned off, then Citadel does not display
+         the contents of this file.
+ 
+     3+0 Room info lines
+         Room info lines are brief (80 characters or fewer) descriptions of
+         rooms, which may be created when a room is created or changed later
+         by an Aide. If this option is turned on, then Citadel displays this
+         line to you every time you enter a room. If this option is turned
+         off, then Citadel does not display the line.
+ 
+     310 Wide rooms
+         When you do a Known rooms (3K0) command, Citadel displays the rooms in
+         one of two methods, depending on the setting of this option. If this
+         option is turned on, then the room list is displayed in two columns,
+         making it easy to see which rooms are being listed. If this option
+         is turned off, then Citadel displays as many rooms as it can per
+         line, separating each room with a comma, fitting the maximum number
+         of rooms per line.
+ 
+     3X0 Auto next hall
+         When this is turned on, Citadel automatically takes you to the next
+         hall on the system when you enter a window room. This usually works
+         well to take you through the system without every having to manually
+         change halls, but it does not work as well if the sysop has created
+         an elaborate hall and window scheme.
+ 
+     3V0 Auto verbose
+         Usually, to get more information when reading messages, the Verbose
+         (3V0) modifier is used in the .Read Messages (3.RM0) command. This
+         setting is useful for people who always want the full message header,
+         by forcing verbose mode to always be on. This also affects a few
+         other commands that have a Verbose mode.
+ 
+     3L0 Verbose logout
+         This option turns on verbose mode for only the .Terminate (3.T0)
+         command. This is useful for people who always want full log-out
+         information (such as time on the system, number of messages read
+         and entered, etc.), but do not want to see everything verbosely.
+         This option is not present when Auto verbose (3V0) is enabled, as it
+         would be redundant: this is a subset of that option.
+ 
+     3U0 List in userlog
+         Turning this setting on makes it so that other users cannot see your
+         entry in the userlog, and therefore cannot know when you last called,
+         or that you even called at all. This does not, however, prevent Aides
+         from being able to see your entry.
+ 
+     3H0 Helpful hints
+         Helpful hints give you more information about what Citadel is doing,
+         or expects from you. After a while, these notes become more annoying
+         than helpful. When this happens, turn them off with this option.
+ 
+     3Y0 You are here
+         For users new to room systems, turning this on may help navagating
+         the system. When this is on, it presents a list of accessible halls
+         and rooms before every room prompt.
+ 
+     3M0 Minibin stats
+         When logging on to a Citadel, it usually gives you information 
+         regarding what has happened since your last call: the number of
+         callers the system has had since then, the number of messages they
+         left on the system, etc. If you do not want to see this information,
+         turn it off with this option.
+ 
+     3#0 # of users on login
+         Citadel can give you a listing when you login of what users were the
+         most recent callers to the system.  Use this option to set how many
+         users to list.
+ 
+     3I0 Titles/surnames
+         Citadel gives users the ability to add text both before their names
+         (titles) and after (surnames). They may be informative, humorous,
+         bizarre, or whatever else the user wants. If you find them all
+         to be just annoying, use this option to supress the display of them.
+ 
+     3,0 Show commas in numbers
+         By default, Citadel displays numbers over 999 with the proper comma
+         punctuation.  If you would rather see numbers without the commas, turn
+         this option off.
+ 
+     3>0 Default hall
+         Usually, Citadel logs all users into whatever hall the Sysop has
+         specified as the system default. Some users wish to start in another
+         hall, which may contain the rooms they read most. This can be
+         accomplished by setting the default hall to whatever is desired.
+ 
+     3P0 Default protocol
+         Usually, Citadel waits for the user to supply a file transfer
+         protocol when the Upload (3U0) and Download (3D0) commands are used.
+         If a defualt protocol is specified, Citadel uses that instead. The
+         default protocol can be overridden by using the .Upload (3.U0) and
+         .Download (3.D0) commands, which always wait for a protocol.
+ 
+     330 Title
+         A user's title is prepended to the user's name in messages, and other
+         locations.  Use this to set a title for yourself, if you wish.  It is
+         a good idea to turn on viewing of titles and surnames (3I0) for this.
+ 
+     340 Surname
+         A surname is appended to the user's name in messages, and other
+         locations.  Use this to set a surname for yourself, if you wish.  It
+         is a good idea to turn on viewing of titles and surnames (3I0) for
+         this.
+ 
+     3_0 Signature
+         Messages can have two signatures: one for the board and one for the
+         user. The board's signature is defined by the sysop. This is used to
+         define the user signature you wish to have appended to your messages.
+ 
+     3F0 Forwarding to
+         You can choose to have exclusive messages sent to you to be forwarded
+         to another user. This other user can be someone on the board, or
+         someone on another board on the network. Just enter the user's name
+         and Citadel will start forwarding any new messages. By choosing this
+         option and selecting no name, you can turn off forwarding if it is
+         currently on.
+ 
+     3&0 Address
+         If you have a hard-to-type name, you may want to set an address for
+         your account. Then, other users just have to enter your address to
+         send mail to you. (For example, a user with the name John Quilcene
+         Jackovichsky, Jr. might use his initials: JQJ.)
+ 
+     3T0 Terminal settings
+         This option brings up another menu, with the following choices:
+ 
+         3W0 Screen width
+             This tells Citadel how wide your terminal screen is, which it
+             uses to properly word wrap output. Most terminals support 80
+             columns today. Valid values range from 10 to 255 columns.
+ 
+         3U0 Uppercase only
+             This tells Citadel to send all text out mapped to uppercase
+             letters only. This is useful for users with older terminals which
+             cannot handle lowercase letters.
+ 
+         3F0 Linefeeds
+             This tells Citadel to send a linefeed (ASCII 10) after every
+             carriage return (ASCII 13) that it sends. This is required for
+             most terminals, but double spaces the text on others.
+ 
+         3T0 Tabs
+             This tells Citadel to send tabs characters out. If this is turned
+             off, Citadel sends enough spaces to simulate eight-space tab
+             stops. On terminals that support tabs, message reading is
+             slightly faster when this option is turned on.
+ 
+         3N0 Nulls
+             This tells Citadel to send out nulls as filler between sending
+             a carriage return and linefeed (if so configured) to the user.
+             This is useful on slower terminals, which might not be able to
+             keep up with the baud of the connection. If you cannot see the
+             first characters of each line, set this to the number of missing
+             characters.
+ 
+         3O0 IBM room prompts
+             In order to enable this setting, your Terminal Type (as described
+             later) must support IBM graphics characters.  Enabling this
+             replaces the normal room prompt terminators with extended IBM
+             characters.
+ 
+         3I0 Twirly cursor
+             When Citadel is waiting for user input, it can display a twirly
+             cursor, to let you know that it is waiting. Note that the cursor
+             pattern is under the sysop's control, so it might not actually
+             twirl.
+ 
+         3M0 Music
+             This tells Citadel that your terminal supports music codes. Most
+             terminals do not, but users of those that do might want to
+             enable this, in case the sysop has put such codes into the board.
+ 
+         3L0 Lines per screen
+             This sets the number of lines after which Citadel should pause
+             the display. This screen pause can also be turned off with this
+             option.
+ 
+         3>0 More prompt
+             Set this to whatever you want Citadel to display after a full
+             screen of text, while waiting for a keypress.  The default for
+             Citadel is "<More>".
+ 
+         3T0 Terminal type
+             This tells Citadel what kind terminal emulation your computer will
+             support and properly display.  There are at least two different
+             types that support ANSI: ANSI Color and ANSI Mono.  For full ANSI
+             information, refer to the help file 3cMXhf2X0.
+ 
+         3R0 Attributes
+             This prompts for color numbers to send in response to the ^A0
+             through ^A4 codes. This is only available if you are configured
+             to use ANSI. You will be prompted for each color number; enter
+             either the number or press the 3?0 key to view the 3cCOLORS0 chart
+             which shows what each color number appears as.
+ 
+         3B0 Back to previous menu
+             This returns you to the main menu.
+ 
+     350 Format strings
+         This option brings up another menu, with the following choices:
+ 
+         3P0 Prompt format
+             This lets the user change what the room prompt looks like. It is
+             possible, for example, to have Citadel give the current time as
+             part of the prompt, or the group the current room belongs to, or
+             many other pieces of information. For a full explanation of what
+             is allowed for a prompt format, see the file 3cPROMPT0, which
+             is available when setting the prompt by pressing the 3?0 key.
+ 
+         3T0 Time/date stamp
+             This lets the user change what the time stamp looks like. It is
+             possible, for example, to have Citadel give the day of the week in
+             numeric form (300 being Sunday, 310 being Monday, etc.), in
+             short form (3Sun0, 3Mon0, etc.), or on long form (3Sunday0, 3Monday0,
+             etc.). There are two format strings used: regular and verbose.
+             When reading messages with Verbose turned on, and most other times
+             that Citadel gives a time, the verbose format string is used.
+             When reading messages without Verbose turned on, the regular
+             format string is used. For a full explanation of what is allowed
+             for the timestamp format, see the file 3cTIME0, which is
+             available while setting the stamp by pressing the 3?0 key.
+ 
+         3N0 Net prefix
+             When listing rooms, Citadel prepends the net prefix to the room
+             name to let you know that it is a networked room. Additionally,
+             the default room prompt (which can be changed by the sysop, or
+             by each user individually with the Prompt format (3P0) option,
+             described later in this list) displays the net prefix before
+             networked rooms.
+ 
+         3B0 Back to previous menu
+             This returns you to the main menu.
+ 
+     360 Personal information
+         This option brings up another menu, with the following choices:
+ 
+         3R0 Real name
+             This lets you enter your real name. Real names are never
+             displayed to any users other than sysops on a Citadel. However,
+             they are written to networked messages. If a room is networked
+             into some other network that requires real names, they may be
+             displayed on the other network.
+ 
+         3P0 Phone number
+             This lets you enter or change your phone number. Phone numbers
+             are never displayed to any users other than sysops, and never
+             leave the board in networked messages.
+ 
+         310 Address line 1
+         320 Address line 2
+         330 Address line 3
+             These let you set your street mailing address. Your mailing
+             address is never displayed to any users other than sysops, and
+             never leaves the board in networked messages.
+ 
+         3B0 Back to previous menu
+             This returns you to the main menu.
+ 
+     370 System events
+         This option brings up another menu, with the following choices:
+ 
+         3L0 Log on/off
+             Toggling this will tell Citadel whether or not to notify you when
+             a user logs in or out.
+ 
+         3M0 Messages in room
+             Toggling this tells Citadel if you wish to know when another user
+             enters a message in a room that you are currently in.
+ 
+         3E0 Exclusive messages
+             Toggling this informs Citadel whether or not to notify you when
+             another user online at the same time as you sends you mail, and in
+             what room the mail was left.
+ 
+         3O0 User in/out of room
+             Toggles whether or not Citadel informs you when another user
+             enters or leaves a room that you are currently in.
+    
+         3A0 Chat to All
+             Toggles whether or not you see chats to All.  See the help file
+             3cMXhf20X0 for full information on Citadel's chat system.
+ 
+         3R0 Chat to Room
+             Toggles whether or not you see chats to the current Room. See the
+             help file 3cMXhf20X0 for full information on Citadel's chat system.
+ 
+         3G0 Chat to Group
+             Toggles whether or not you see chats to a specific Group. See the
+             help file 3cMXhf20X0 for full information on Citadel's chat system.
+             
+         3U0 Chat to User
+             Toggles whether or not you see chats to you.  See the help file
+             3cMXhf20X0 for full information on Citadel's chat system.
+ 
+         310 See own chats
+             Toggles whether or not you see your own chats.  See the help file
+             3cMXhf20X0 for full information on Citadel's chat system.
+ 
+         320 Erase prompt before events
+             Toggles whether or not to erase the room prompt before displaying
+             a system event/chat, or to display it on a fresh line.  See the
+             help file 3cMXhf20X0 for full information on Citadel's chat system.
+  
+         330 Seconds before AutoIdle
+             With this you can enable or disable automatic Idle mode, which
+             displays system events and chats continuously (allowing them to
+             stack up) without a new room prompt in between.  If enabled, you
+             will be asked how many seconds you want to elapse before
+             automatically going Idle. This is good if you leave your computer
+             often while online.
+ 
+         3B0 Back to previous menu
+             This returns you to the main menu.
+ 
+     3R0 Message Read options
+         This option brings up another menu, with the following choices:
+ 
+         3*0 View censored messages
+             Censored messages are messages that contain text that the Sysop
+             has deemed inappropraite or offensive to some users.  Normally
+             Citadel will not display censored messages to you, but you can
+             enable viewing of them with this option.
+ 
+         3C0 CLS before msg
+             Usually, Citadel displays messages one after the other when the
+             user is reading them. Some users, however, prefer to have each
+             message start fresh at the top of a blank screen. Turn this option
+             on to have Citadel do this. This is only available if the user has
+             ANSI terminal emulation turned on. (See Terminal settings (3T0),
+             later in this list.) Note: It is highly reccommended that you also
+             turn Pause after msg (3@0) on if you choose to use this feature.
+ 
+         3@0 Pause after msg
+             Citadel usually displays all messages to the user with no pausing,
+             leaving it up to the user to determine when to pause the output.
+             However, some users find it easier to have Citadel pause after
+             every message it displays. Turning this option on makes it do
+             that.
+ 
+         3J0 Subjects
+             Messages may have subjects, telling what the message is about.
+             However, some users find these to be redundant; the subject can
+             be known by reading the message. Turning this option off keeps
+             Citadel from displaying message subjects.
+ 
+         3G0 Signatures
+             Signatures are attached to the bottom of messages, and usually
+             have no relevance to the message and are quite repetetive, and
+             thus often are thought of as annoying. Use this option to supress
+             the display of signatures.
+ 
+         3L0 Last old on new
+             It is often easier to keep track of the discussion in a room
+             between calls by viewing the last old message when you read the
+             new messages in a room. Turning this feature on gives you this
+             reminder.
+ 
+         3A0 Author-based exclusions
+             This option brings up another menu, with the following choices:
+ 
+             3L0 List
+                 This lists your current author-based message exclusions.
+                 Citadel will not display any message from an author that you
+                 have excluded.
+ 
+             3A0 Add
+                 This adds another author-based message exclusion.
+ 
+             3R0 Remove
+                 This removes a author-based message exclusion.
+ 
+             3B0 Back to previous menu
+                 This returns you to the Message Read options menu.
+ 
+         3N0 Node-based exclusions
+             This option brings up another menu, with the following choices:
+ 
+             3L0 List
+                 This lists your current node-based message exclusions.
+                 Citadel will not display any message from a node that you
+                 have excluded.
+ 
+             3A0 Add
+                 This adds another node-based message exclusion.
+ 
+             3R0 Remove
+                 This removes a node-based message exclusion.
+ 
+             3B0 Back to previous menu
+                 This returns you to the Message Read options menu.
+ 
+         3T0 Text-based exclusions
+             This option brings up another menu, with the following choices:
+ 
+             3L0 List
+                 This lists your current text-based message exclusions.
+                 Citadel will not display any message containing text that
+                 you have excluded.
+ 
+             3A0 Add
+                 This adds another text-based message exclusion.
+ 
+             3R0 Remove
+                 This removes a text-based message exclusion.
+ 
+             3B0 Back to previous menu
+                 This returns you to the Message Read options menu.
+ 
+         3R0 Region-based exclusions
+             This option brings up another menu, with the following choices:
+ 
+             3L0 List
+                 This lists your current region-based message exclusions.
+                 Citadel will not display any message from a region that you
+                 have excluded.
+ 
+             3A0 Add
+                 This adds another region-based message exclusion.
+ 
+             3R0 Remove
+                 This removes a region-based message exclusion.
+ 
+             3B0 Back to previous menu
+                 This returns you to the Message Read options menu.
+  
+         3E0 Exclude encrypted
+             Encrypted messages are messages coded with a keyword by the user.
+             Sysops can control whether or not to allow encryption in public
+             messages or just in mail.  Citadel will not display any encrypted
+             messages if this is enabled.
+  
+         3O0 Notify on exclusion
+             When Citadel excludes a message, it can either do it silently,
+             or it can tell you that it is skipping the message. This option
+             tells it which one to do.
+  
+         3M0 Message author tags
+             You can tell Citadel to place extra text after a user's name in
+             a message header by setting a message author tag for that user.
+             You can set more than one for a user, as well. This can be used
+             as a reminder about who the user is, or any other personal note
+             to yourself.
+ 
+         3B0 Back to previous menu
+             This returns you to the main menu.
+ 
+     3Z0 Pointer edit menu
+         This option brings up another menu, with the following choices:
+ 
+         3S0 Set all pointers
+             This sets all message pointers in all rooms to a specified value.
+             This can be beneficial after returning to a board that you have
+             not called for a few months; you can set the pointer back by a
+             few hundred, so you only have that many new messages to read, not
+             a few thousand.
+ 
+         3N0 Set all pointers to new
+             This sets all message pointers in all rooms to make all messages
+             on the system new.
+ 
+         3O0 Set all pointers to old
+             This sets all message pointers in all rooms to make all messages
+             on the system old.
+ 
+         3R0 Set pointer for a room
+             This sets the message pointer for a specific room to a specified
+             message. This is useful if you only read some of the messages
+             in a room. You can set the message pointer to the last message
+             you read, then bypass the room. On the next call to the system,
+             only messages newer than the last one you read will be new.
+ 
+         3D0 Display all pointers
+             This shows the message pointer for every room on the system that
+             you have access to.
+ 
+         3B0 Back to previous menu
+             This returns you to the main menu.
+ 
+     3E0 Message Editor options
+         This option brings up another menu, with the following choices:
+ 
+         3V0 Verbose continue
+             When using the Continue (3C0) command of the message editor,
+             Citadel can either display the whole message to you as it has
+             been entered up to that point, or just the last 100 bytes.
+             Turning this on tells Citadel to display the full message, and
+             leaving it off tells it to only display the last 100 bytes.
+ 
+         3S0 Confirm Save
+             This tells Citadel to confirm your choice to save a message when
+             in the message editor.
+ 
+         3A0 Confirm Abort
+             This tells Citadel to confirm your choice to abort a message when
+             in the message editor.
+ 
+         3E0 Confirm not .EO
+             This tells Citadel to confirm the loss of aborted messages by
+             not using the .Enter Old Message (3.EOM0) command when entering a
+             message after aborting the last one.
+ 
+         3U0 Bunny filter
+             This tells Citadel to apply the Bunny filter to your messages. The
+             Bunny filter will attempt to correctly capitalize messages posted
+             in all uppercase.
+ 
+         3P0 Spell-checker options
+             This option brings up another menu, with the following choices:
+  
+             3P0 Spell checker mode
+                 This configures Citadel's spell checker for your preference:
+                 Automatic, Verbose, Regular, or Terse modes. See the help file
+                 3cSPELL0 for full information on Citadel's spell checker.
+ 
+             3S0 Check apostraphe S
+                 This tells the spell checker whether or not to include the
+                 "3's0" at the end of a word when it checks for correct
+                 spelling.
+ 
+             3C0 Check all-caps
+                 This tells the spell checker whether or not to check words
+                 entered in all uppercase for correct spelling.
+ 
+             3D0 Check digits
+                 This tells the spell checker whether or not to check words
+                 that contain numbers for correct spelling.
+ 
+             3A0 Add word to dictionary
+                 This adds a word to your personal dictionary used by the spell
+                 checker. See the help file 3cMXhf18X0 for full information
+                 on Citadel's spell checker.
+ 
+             3R0 Remove word from dictionary
+                 This removes a word from your personal dictionary used by the
+                 spell checker. See the help file 3cMXhf18X0 for full                                                  
+                 information on Citadel's spell checker.
+ 
+             3L0 List words in dictionary
+                 This lists the words in your personal dictionary used by the
+                 spell checker. See the help file 3cMXhf18X0 for full
+                 information on Citadel's spell checker.
+ 
+             3B0 Back to previous menu
+                 This returns you to the Message Editor options menu.
+ 
+         3R0 Text replacement options
+             This option brings up another menu, with the following choices:
+ 
+             3L0 List
+                 Citadel has the ability to automatically replace words during
+                 message entry with other words.  This option will list what
+                 words are currently being replaced, and with what. See the
+                 help file 3cMXhf18X0 for full information on Citadel's
+                 spell checker.
+             
+             3A0 Add
+                 This adds a word that you would like to be automatically
+                 replaced with another during message entry. See the help file
+                 3cMXhf18X0 for full information on Citadel's spell
+                 checker.
+ 
+             3R0 Remove
+                 This removes a word from being replaced during message entry.
+                 See the help file 3cMXhf18X0 for full information on
+                 Citadel's spell checker.
+         
+             3B0 Back to previous menu
+                 This returns you to the Message Editor options menu.
+ 
+         3B0 Back to previous menu
+             This returns you to the main menu.
+ 
+     3S0 Save
+         This asks for confirmation, then (if you confirm your choice) saves
+         your configuration as you have specified it.
+ 
+     3A0 Abort
+         This asks for confirmation, then (if you confirm your choice) aborts
+         any configuration changes you have made.
+ 
+ 
+                      3g--- Changing your Password ---0
+ 
+ 3b.Enter Password (.EP) command0
+     This command lets you enter new initials and password. Each of these can
+     be up to 30 characters long and contain any printable chararacters. Case
+     is not considered significant, so the passwords "WOW" and "wow" are
+     considered to be the same by Citadel.
+ 
+ 
+                         2-- Related Help Topics --0
+ 
+ 3cMXhf2X0
+ 3cMXhf18X0
+ 3cMXhf20X0

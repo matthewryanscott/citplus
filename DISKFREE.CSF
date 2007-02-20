@@ -1,0 +1,39 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ This sample script displays the disk space free for directory rooms.  If   บ
+บ the current room is not a directory room, nothing is done.  If it is, it   บ
+บ looks at the directory to see which drive to check.  This is useful as an  บ
+บ auto-application in a "Uploads]" room to tell users how much space is      บ
+บ available.  (When they execute the .Upload... (.U...) command, Citadel     บ
+บ will also display this information.  This script just gives an advance     บ
+บ notice.)                                                                   บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#FUNC _MAIN Void
+
+    Allocate a variable to store the disk space free.
+    #LVAR Long _Space
+
+    First, check to make sure this is a directory room.
+    #CALL ThisRoom
+    #CALL IsRoomDir _Result
+    #IF _Result
+
+	Yes it is. Check the space free...
+	#CALL GetRoomDir
+	#CALL DiskFree _Result
+	#ASGN _Space _Result
+
+	Then divide by 1024 to get K from bytes.
+	#DIV _Space 1024
+
+	And tell the user what we just found out.
+	#CALL PrintM "There is " _Result "K free for uploads."
+	#CALL DoCR
+
+    #ENDIF
+
+    #RET Void
+
+#ENDFUNC

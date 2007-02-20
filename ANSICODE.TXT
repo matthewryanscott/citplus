@@ -1,0 +1,105 @@
+							ANSI CODE REFERENCE
+
+>>>----- Screen Attribute Command Sequences -----<<<
+
+Name/Command	Parameter	Def	Function Operation
+------------	---------	---	------------------
+SET SCREEN	see below	0	Sets the default character display
+ATTRIBUTE:				mode. Command line may contain
+  ESC[px;px;...;pxm			several codes which are separated by
+					semicolons.
+
+	Wherein p is a number specified below:		Wherein x is:
+	--------------------------------------		-------------
+	0  Normal (white on black)			0 = Black
+	1  High intensity				1 = Red
+	4  Underscore (monochrome display only)		2 = Green
+	5  Blink					3 = Yellow
+	7  Reverse video (black on white)		4 = Blue
+	8  Invisible					5 = Magenta
+	3x Set foreground color to x (wherein x is:)	6 = Cyan
+	4x Set backgroung color to x (wherein x is:)	7 = White
+
+>>>----- Cursor Control Command Sequences -----<<<
+
+	Values for parameters are specified in ASCII decimal (that is, row 10
+	is indicated by the characters "10"). Letters following the parameters
+	are case-sensitive.
+
+Name/Command	Parameter	Def	Function Operation
+------------	---------	---	------------------
+SET POSITION:	r = row #	1	Move the cursor to the specified
+  ESC [r;cH	c = column #	1	screen position. Both rows and
+--or--					columns are numbered starting at 1.
+  ESC [r;cf
+
+MOVE UP:	l # of lines	1	Move cursor up specified number of
+  ESC [lA				lines or until top of screen is
+					reached. Column position is not
+					changed.
+
+MOVE DOWN:	l # of lines	1	Move cursor down specified number of
+  ESC [lB				lines or until bottom of screen is
+					reached. Column position is not
+					changed.
+
+MOVE RIGHT:	c # of columns	1	Move cursor right specified number of
+  ESC [cC				columns or until right edge of screen
+					is reached. Row position is not
+					changed.
+
+MOVE LEFT:	c # of columns	1	Move cursor left specified number of
+  ESC [cD				columns or until left edge of screen
+					is reached. Row position is not
+					changed.
+
+SAVE CURSOR	none			The current cursor position is saved
+POSITION:				(in memory). Only the last saved
+  ESC [s				position is remembered.
+
+RESTORE CURSOR	none			Move cursor to the location set with
+POSITION:				last SAVE CURSOR POSITION command.
+  ESC [u
+
+REPORT CURSOR	none			Will return the current cursor
+POSITION:				position in the format of:
+  ESC [6n					ESC [r;cR
+					wherein r is the current cursor row
+					and c is the current cursor column
+
+>>>----- Screen Erase Command Sequences -----<<<
+
+Name/Command	Parameter	Def	Function Operation
+------------	---------	---	------------------
+ERASE SCREEN:	none			Erase entire display and move cursor
+  ESC [2J				to home position.
+
+ERASE LINE:	none			Erase line from cursor position to the
+  ESC [0K				right margin, inclusive. Cursor
+					position is not changed.
+
+>>>----- Display Mode Command Sequences -----<<<
+
+SET MODE:	see below		Sets display mode according to the
+  ESC [=#h				parameter (#) specified.
+
+RESET MODE:	see below		Resets display mode according to the
+  ESC [=#l				parameter (#) specified. Equivalent
+					to set mode except for parameter 7,
+					which turns end-of-line wrap off.
+	wherein # is:
+	-------------
+	0 40 x 25 black and white.	Remember that if these codes are used,
+	1 40 x 25 color.		they may not display correctly on all
+	2 80 x 25 black and white.	monitors due to hardware variations.
+	3 80 x 25 color.
+	4 320 x 200 color.
+	5 320 x 200 black and white.
+	6 640 x 200 black and white.
+	7 End-of-line wrap turned on.
+
+
+* Note:	keyboard reassignment commands are not listed in this
+	reference. For more details, consult your DOS user's manual.
+
+Also see the file MUSICODE.TXT for a listing of Music Codes.

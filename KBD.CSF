@@ -1,0 +1,18 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ This was written to test the keyboard buffer functions.  To try it, change บ
+บ IN to your initials and PW to your password.  Make sure nobody is logged   บ
+บ on to the system, then run it with the .Sysop Run script (.SR) command.    บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#VERSION 65141
+
+#FUNC _Main Void
+
+    #CALL KeyboardFlush
+    #CALL KeyboardAdd "a.lIN;PW\r"
+
+    #RET Void
+
+#ENDFUNC

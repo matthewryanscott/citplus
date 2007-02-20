@@ -1,0 +1,61 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ This was created to test the KillRoom function.  Create a list of rooms to บ
+บ kill (one name per line) as a text file in #SCRIPTPATH named KILLLIST.TXT. บ
+บ This script reads through that file trying to kill each room.  It reports  บ
+บ for each room in the file if it could or could not be killed.              บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#VERSION 65141
+
+#FUNC _Main VOID
+    #CALL FileExists "KILLLIST.TXT"
+
+    #IF _Result
+
+        #CALL OpenFile 0 "KILLLIST.TXT"
+
+        #IF _Result
+
+            #DO
+
+                #LVAR String30 _ToKill
+
+                #CALL ReadStr 0
+                #ASGN _ToKill _Result
+
+                #EQ _ToKill ""
+                #IFNOT _Result
+
+                    #CALL PrintM "\"" _ToKill "\" "
+
+                    #CALL KillRoom _ToKill
+
+                    #IF _Result
+
+                        #CALL PrintM "killed."
+
+                    #ELSE
+
+                        #CALL PrintM "could not be killed."
+
+                    #ENDIF
+
+                    #CALL DoCR
+
+                #ENDIF
+
+            #CALL FileEOF 0
+            #LOOPNOT _Result
+
+        #ELSE
+
+            #CALL PrintM "Could not open file."
+
+        #ENDIF
+
+    #ENDIF
+
+    #RET Void
+#ENDFUNC

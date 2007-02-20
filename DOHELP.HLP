@@ -1,0 +1,58 @@
+  2HELP0
+ 
+ This file gives the basics of Citadel's command structure.  If you are new
+to Citadels in general, read the 2MXhf10X0 help file first; this
+introduces the concepts of rooms and halls, which is essential for the full
+understanding of of Citadel.
+ 
+ Citadel's command structure is designed around two principles: be highly
+consistent, and give quick access to common commands.
+ 
+ Quick access to common commands is achieved by having them be a single key.
+For example, one of the most commonly used commands shows all new messages
+in the current room; the command is New Messages and is accessed by simply
+pressing the "3N0" key.
+ 
+ All multiple-key commands start with a period, which tells Citadel to
+expect more keystrokes, then the key for the command, followed by more keys
+that specify more information about the command to execute.  Actually, though
+a period is displayed on the screen and is used in menus, it is easiest to use
+the space bar; Citadel treats this the same, as it does with the comma and
+slash keys.  You just need to send some part of your hand down to that area of
+the keyboard and press something.  This brings up another point: Citadel often
+allows you to do something in more than one way. This lets you choose the one
+that is easiest for you to remember.
+ 
+ To be highly consistent, command keys in many commands do the same thing.
+For example, the "3V0" key almost always invokes a verbose version of the
+command, the "3R0" key almost always invokes a reverse version of the
+command, etc.  Also, multiple-key commands are usually related to single-key
+commands. For example, the single-key "3E0" command is the Enter Message
+command.  Multiple-key commands starting with "3.E0" are all forms of the
+.Enter command. (Such as "3.EC0" to use the .Enter Configuration command,
+which lets you change your current user configuration.)
+ 
+ The common (single-key) commands are:
+ 
+ "3E0" -- Enter Message.  This lets you enter a message.
+ "3G0" -- Goto.  This goes to the next room with new messages in the current
+            hall.
+ "3M0" -- Mail.  This lets you enter a message that can only be viewed by one
+            other person (the recipeint).
+ "3N0" -- New Messages.  This shows all new messages in the room.
+ "3R0" -- Reverse Messages.  This shows all of the messages in the room in
+            reverse order, starting with the newest.
+ "3T0" -- Terminate.  This logs you off and hangs up.
+ "3>0" -- Next hall.  This moves to the next hall, if you are in a window
+            room.  ("3]0" also works to move to the next hall, and does not
+            require the use of the shift key.)
+ "3<0" -- Previous hall.  This moves to the previous hall, if you are in a
+            window room.  ("3[0" also works to move to the previous hall, and
+            does not require the use of the shift key.)
+ 
+ There are more single-key commands, though they are not used as much. And
+there are many multiple-key commands.  For a list of all single-key commands
+use the "3?0" (Menu) command.  For a list of all multiple-key command groups,
+use the "3.?0" (.Menu) command.  For a list of commands within a multiple-key
+command group, start the command and press "3?0" to get a menu.  For example,
+"3.R?0" will display a list of all of the .Read... commands.

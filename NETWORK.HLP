@@ -1,0 +1,40 @@
+  2Helpfile: MXhf13X0
+ 
+                             3g--- General ---0
+ 
+    Citadel has the ability to send messages posted on one system to other
+systems, and to recive messages from other systems.  To take advantage of the
+networking is fairly simple to use.
+ 
+   NODE or NODENAME refers to the name of another BBS.
+   REGION gennerally tells where that BBS is.
+ 
+                    3g--- Reading networked messages ---0
+ 
+    To read a message that has come in from another Citadel is just like
+reading a normal message, and all the usual read commands work.  You can tell
+a message that has come over the network by its message header.
+ 
+                    3g--- Sending networked messages ---0
+ 
+    To send a message over the network, simply post it in a 'networked/shared'
+room, with the normal Enter commands.  Any room that has messages from another
+system in it is a 'networked/shared' room.  Most Citadels also have a "net
+room prefix" that makes shared rooms easy to spot.  Citadel will pick up the
+message and send it to other Citadels automatically.  To send networked
+E-Mail, is a little bit different.  You must use the normal .EE (enter
+exclusive) command, but for the username, enter the USER @ NODE like:
+ 
+            Fred Smith @ Big City BBS
+ 
+    The network has no was of knowing if there is a 'Fred Smith' at 'Big City
+BBS' so you must have the user name EXACTLY right.  Almost all Citadels also
+have a three letter 'alias' or address that you can use in place of the full
+BBS name:
+ 
+            Fred Smith @ bcb
+ 
+ 
+                         2-- Related Help Topic --0
+ 
+ 3cMXhf12X0

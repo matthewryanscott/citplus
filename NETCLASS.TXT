@@ -1,0 +1,68 @@
+To help provide some better labelling of network rooms, a new field has been
+implemented in Citadel: NetworkClass.
+
+Each networked room has a NetworkClass. If none has been explicitly defined
+for the room, then the default NetworkClass "Unknown" will be used for the
+room.
+
+At this time, network classes are defined by one node, The Anticlimactic
+Teleservice. Periodically, it will transmit to all other nodes on the
+network a NetworkClassList, which lists all NetworkClasses that are
+currently in use on the network.
+
+The other nodes then save this data in the file NETINFO.DAT in their
+#HOMEPATH.
+
+Also, every time a room is assigned to a NetworkClass on The Anticlimactic
+Teleservice, or changed from one NetworkClass to another, it will send a
+message to all other nodes on the network notifying them of the change.
+
+If the other nodes have #CHANGENETWORKCLASS set to TRUE in CONFIG.CIT (the
+default), then the rooms are changed on them. If, however, this is set to
+FALSE, then the remote node will make a note in Aide) if the room is carried
+on the local system and it is in some other class.
+
+These messages to other nodes originating on The Anticlimactic Teleservice
+will be encrypted. The encryption key will be able to be derived from the
+message header, but the method will not be published. This is for security;
+I don't like it much either, but there needs to be some control over who
+is able to send these messages out.
+
+Once all rooms are assigned to NetworkClasses, you can control which other
+nodes get the room by the new NODES.CIT keyword #NOSENDCLASS. You may have
+multiple #NOSENDCLASS keywords for each node in the file. You may also
+include this in the "Default" node, but this operates a little bit strangely:
+if there are any #NOSENDCLASS keywords for a specific node, then they
+completly replace the #NOSENDCLASS keywords for the Default node.
+
+Specify which NetworkClasses you don't want to send to the other node. Then
+Citadel will neither send the room our, nor will it accept the room from
+the other node.
+
+You can also declare which classes you wish to receive from other nodes with
+the #REFUSECLASS keyword in NODES.CIT. Set this like #NOSENDCLASS, but include
+the NetworkClasses that you do not wish to receive. Then the other node will
+not send you messages from rooms in this class (even if you request them in
+your ROOMREQ file), and it will not request the rooms from you in its ROOMREQ
+file.
+
+You can also declare which classes you wish to receive with the #REQUESTCLASS
+keyword. By default, the other node will send you all NetworkClasses that it
+has. If you only want one or two NetworkClasses, set #REQUESTCLASS and then
+the other node will only send you the classes you request.
+
+-----------------------------------------------------------------------------
+
+Nameing the classes...
+
+The technical side is the easy part. This is the hard part.
+
+Potential NetworkClass names are:
+
+Technical
+Network Administration
+Discussions
+Teen
+Recreation
+
+etc.

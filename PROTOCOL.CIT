@@ -1,0 +1,120 @@
+#PROTOCOL       "1K-Xmodem"
+#RECEIVE        "[1kxmodem]"
+#SEND           "[1kxmodem]"
+#RESPONSE_SEND  ""
+#AUTO_UPLOAD    ""
+#BATCH          0
+#BLOCK_SIZE     1024
+
+#PROTOCOL       "CRC Xmodem"
+#RECEIVE        "[crcxmodem]"
+#SEND           "[crcxmodem]"
+#RESPONSE_SEND  ""
+#AUTO_UPLOAD    ""
+#BATCH          0
+#BLOCK_SIZE     128
+
+#PROTOCOL       "HS/Link"
+#RECEIVE        "?hslink -p%p"
+#SEND           "?hslink -p%p %f"
+#RESPONSE_SEND  "?hslink -p%p @%f"
+#AUTO_UPLOAD    "HS*"
+#BATCH          1
+#BLOCK_SIZE     0
+
+#PROTOCOL       "Xmodem"
+#RECEIVE        "[xmodem]"
+#SEND           "[xmodem]"
+#RESPONSE_SEND  ""
+#AUTO_UPLOAD    ""
+#BATCH          0
+#BLOCK_SIZE     128
+
+#PROTOCOL       "Zmodem"
+#RECEIVE        "[zmodem]"
+#SEND           "[zmodem]"
+#RESPONSE_SEND  ""
+#AUTO_UPLOAD    "rz\r**^XB00"
+#BATCH          1
+#BLOCK_SIZE     0
+
+ #PROTOCOL	"1K-Xmodem"
+ #RECEIVE	"?dsz port %p rx -k %f"
+ #SEND		"?dsz port %p sx -k %f"
+ #RESPONSE_SEND	""
+ #AUTO_UPLOAD	""
+ #BATCH		0
+ #BLOCK_SIZE	1024
+
+ #PROTOCOL	"CRC Xmodem"
+ #RECEIVE	"?dsz port %p rc %f"
+ #SEND		"?dsz port %p sx %f"
+ #RESPONSE_SEND	""
+ #AUTO_UPLOAD	""
+ #BATCH		0
+ #BLOCK_SIZE	128
+
+ #PROTOCOL	"MobyTurbo-Zmodem"
+ #RECEIVE	"?dsz port %p rz -m %f"
+ #SEND		"?dsz port %p sz -m %f"
+ #RESPONSE_SEND	"?dsz port %p sz -m @%f"
+ #AUTO_UPLOAD	""
+ #BATCH		1
+ #BLOCK_SIZE	0
+
+ #PROTOCOL	"Puma"
+ #RECEIVE	"?@puma r %f"
+ #SEND		"?@puma s %f"
+ #RESPONSE_SEND	""
+ #AUTO_UPLOAD	""
+ #BATCH		1
+ #BLOCK_SIZE	0
+
+ #PROTOCOL	"RLE-Zmodem"
+ #RECEIVE	"?dsz port %p rz -Z %f"
+ #SEND		"?dsz port %p sz -Z %f"
+ #RESPONSE_SEND	"?dsz port %p sz -Z @%f"
+ #AUTO_UPLOAD	""
+ #BATCH		1
+ #BLOCK_SIZE	0
+
+ #PROTOCOL	"Steve-Punter"
+ #RECEIVE	"?punter R P%p %f"
+ #SEND		"?punter S P%p %f"
+ #RESPONSE_SEND	""
+ #AUTO_UPLOAD	""
+ #BATCH		0
+ #BLOCK_SIZE	0
+
+ #PROTOCOL	"Unfinished-ZModem"
+ #RECEIVE	"?dsz port %p rz -rr %f"
+ #SEND		"?dsz port %p sz -r %f"
+ #RESPONSE_SEND	"?dsz port %p sz -r @%f"
+ #AUTO_UPLOAD	""
+ #BATCH		1
+ #BLOCK_SIZE	0
+
+ #PROTOCOL	"Xmodem"
+ #RECEIVE	"?dsz port %p rx %f"
+ #SEND		"?dsz port %p sx %f"
+ #RESPONSE_SEND	""
+ #AUTO_UPLOAD	""
+ #BATCH		0
+ #BLOCK_SIZE	128
+
+ #PROTOCOL	"Ymodem-Batch"
+ #RECEIVE	"?dsz port %p rb %f"
+ #SEND		"?dsz port %p sb %f"
+ #RESPONSE_SEND	"?dsz port %p sb @%f"
+ #AUTO_UPLOAD	""
+ #BATCH		1
+ #BLOCK_SIZE	1024
+
+ #PROTOCOL	"Zmodem"
+ #RECEIVE	"?dsz port %p rz"
+ #SEND		"?dsz port %p dz %f"
+ #RESPONSE_SEND	"?dsz port %p sz @%f"
+ #AUTO_UPLOAD	"rz\r**^XB00"
+ #BATCH		1
+ #BLOCK_SIZE	0
+

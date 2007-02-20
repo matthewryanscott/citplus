@@ -1,0 +1,20 @@
+  2Helpfile: MXhf11X0
+ 
+ 2--- Logging in ---0
+ 
+ L         -- Login.
+ .L in;pw  -- Single-Line login.
+ 
+ The Login command logs you onto Citadel, and lets you use the system
+more effectively than you could otherwise.  The single-line variant of
+this command is useful for users who wish to use an auto-login facility
+of their terminal program.  If you are a new user, Citadel will ask you
+if you want to be added to the userlog.  Usually, it is a good idea to say
+yes.
+ 
+ 
+                         2-- Related Help Topics --0
+ 
+ 3cMXhf17X0
+ 3cMXhf3X0
+ 3cMXhf2X0

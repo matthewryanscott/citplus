@@ -1,0 +1,58 @@
+  2Helpfile: MXhf15X0
+ 
+                             3g--- General ---0
+ 
+    Rooms are areas for messages of a certain topics, with a 30-character
+name.  A room may appear in one or more halls.  Sometimes you won't be able
+to go to all of the rooms.  This may be because some are in another hall,
+or some of them are group-only, or some of them may be hidden.  See about
+hidden and group-only rooms below.
+ 
+                          3g--- Moving around ---0
+ 
+   3bG0        -- To go to the next room with unread messages.
+   3bB0        -- Skip to next room w/o changing current message pointers.
+   3b+0        -- To go to the next room.
+   3b-0        -- To go to the previous room.
+   3b.Groom0   -- To go to a specific room.
+   3b.Broom0   -- Skip to specific room w/o changing current msg pointers.
+   3bJ0        -- Jump back to the last room you were in.
+ 
+    To go to a specific room, use the ".Groomname" command.  You can enter a
+partial roomname for this command.  ".Groomname" accepts partial roomname
+matches.  To avoid ambiguities, it searches forward from the current room.
+ 
+                          3g--- Listing Rooms ---0
+ 
+  3bK0        -- Known rooms - lists all rooms available to you in hall
+  3b.KD0      -- Known Directory rooms - lists directory rooms
+  3b.KG0      -- Known Group rooms - lists rooms owned by a particular group
+  3b.KL0      -- Known Local rooms - lists all rooms not network/shared
+  3b.KM0      -- Known Mail rooms - lists rooms in which you have mail
+  3b.KN0      -- Known Newrooms only - lists rooms with new messages
+  3b.KS0      -- Known Shared rooms - lists networked rooms
+  3b.KW0      -- Known Windows - lists rooms which go to other halls
+ 
+                          3g--- Creating Rooms ---0
+ 
+  3b.ER0      -- Enter Room.
+  3b.EGR0     -- Enter Group-only (limited access) Room.
+ 
+    These two commands create rooms.  The "Enter Room" command creates a room
+that can possibly be accessed by anyone. The "Enter Limited-Access Room"
+command may create a room that is limited to the members of a particular
+group.  You may only create a group-only room for groups that you are a member
+of.  Citadel will prompt you for the name of the group when the room is first
+created. You may also create hidden rooms with either of these commands.
+Hidden rooms will not be listed in your Known rooms list until you have been
+to them. Once you have visited them, they act just like regular rooms.  But
+you cannot do this until you have explicitly use the ".G" command to goto
+the room, entering its complete roomname.
+ 
+ 
+                         2-- Related Help Topics --0
+ 
+ 3cMXhf7X0
+ 3cMXhf8X0
+ 3cMXhf12X0
+ 3cMXhf16X0

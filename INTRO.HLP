@@ -1,0 +1,153 @@
+  2Helpfile: MXhf10X0
+ 
+ 3gWelcome to Citadel!0
+ 
+ If you've never called a room based bulletin board before, you might have a
+little learning to do to make full use of the features available on this
+board.  This text will attempt to help you find your way around this type of
+software.
+ 
+ First of all, it is highly recommended to use ANSI terminal emulation if you
+can.  It makes reading the messages easier.  Turn it on by first using the 
+.Enter Configuration (3.EC0) command, then choosing the Terminal settings (3T0)
+subcommand, then choosing Terminal type (3T0).  Choose a terminal emulation
+mode that your system supports. ANSI Color is recommended if you have a color
+monitor.  Then press 3B0 to get back to the main .Enter Configuration menu,
+and press 3S0 to save you changes and return to the room prompt.
+ 
+ Messages forming conversations are held in "3grooms0".  Rooms are usually
+grouped  together into "3ghalls0".  Users wander from room to room, reading
+new messages in the rooms that interest them and entering their own messages,
+extending the conversation.  Citadel's format tends to focus users of the
+system on the messages, though file transfers are available.
+ 
+ First and foremost: Nearly any time while text is being displayed, you can
+press certain keys to perform specific actions.  Citadel is not case sensitive,
+so you can enter commands in either uppercase or lowercase; it does not
+matter.  The most used of these keys are:
+ 
+ 3S0 to 3g<S>top0 the output.
+ 
+ 3N0 to skip to the 3g<N>ext0 message.
+ 
+ 3P0 to 3g<P>ause0 the output.  While text is paused, you can press 3S0 or 3N0 to
+    3g<S>top0 the messages or skip to the 3g<N>ext0 message.  Almost any other key
+    will restart the output.
+ 
+ There are many commands that may be used to travel from room to room.  These,
+like most commands, are entered at the "3groom prompt0".  Room prompts usually
+look something like this:
+ 
+    2City Hall>>0       or
+    2Post Office>0      or
+    2Other BBSes]0      or
+    2Words Upon Words:0 or
+    2Secret Place)0     etc.
+ 
+ The common commands to move from room to room are:
+ 
+ 3G0 to 3g<G>oto0 the next room containing new messages since your last call.
+ 
+ 3J0 to 3g<J>umpback0 to the room you were in just before you hit <G>oto.
+ 
+ 3+0 to go to the next room in the hall.
+ 
+ 3-0 to go to the previous room in the hall.
+ 
+ 3.G0 to go to a specific room by name.  After entering 3.G0, type the name (or a
+    portion of the name) of the room you want to go to.  The board will find it
+    for you if it is in the current the hall and take you to it.
+ 
+ Once you have read all of the messages in all of the rooms in a hall, you
+would generally want to move to the next hall.  To do this, use one of the
+following two commands:
+ 
+ 3>0 to go to the next hall.
+ 
+ 3<0 to go to the previous hall.
+ 
+ These commands may only be used from window rooms.  Window rooms are special
+rooms that allow access to different halls.  You can tell which rooms are
+window rooms by looking at the symbols in the room prompt that are after the
+room name.  If there are two ">" characters, or some other character (such as
+":" or "]") followed by a ">" character, then you are in a window room.
+ 
+ To read the messages left in a room, the common commands to use are:
+ 
+  3N0 to read the 3g<N>ew0 messages since your last visit to this room.
+ 
+  3R0 to read the messages in this room in 3g<R>everse0 order, from newest to
+    oldest.  Remember that a room may have many messages, so you'll probably
+    want to use the 3g<S>top0 command mentioned earlier before Citadel is done
+    listing the messages.
+ 
+  3F0 to read the messages in this room in 3g<F>orward0 order, from oldest to
+    newest.  As with the 3g<R>everse0 command, you may want to 3g<S>top0 the output
+    early when using this command.
+
+  3O0 to read the 3g<O>ld0 messages in this room in reverse order.
+ 
+  There are a couple of ways to enter messages, either public or private:
+ 
+  3E0 will 3g<E>nter0 a message in the room for everyone to see.
+ 
+  3.EE0 will enter an exclusive (private) message to a specific user.  You will
+      be asked who to send a message to.  Type the other user's name, or a
+      portion of it.  Citadel will give you the full name of the user you are
+      sending the message to when entering it.  If you entered a partial user
+      name, it is a good idea to check this to make sure that Citadel did not
+      find another user with a similar name.
+ 
+  While entering messages, to put a blank line in your message, you must type
+a <SPACE> then a <RETURN> or <ENTER>.  Hitting <RETURN> or <ENTER> on a blank
+line brings you to Citadel's message editor prompt.  This lets you perform a
+number of edits, including these often used commands:
+ 
+  3S0 will 3g<S>ave0 your message as it is.
+ 
+  3P0 will 3g<P>rint0 your message back to you so you can see what it will look
+    like.
+ 
+  3R0 will 3g<R>eplace0 a word or series of words with another word or series of
+    words.
+ 
+  3A0 will 3g<A>bort0 the message.
+ 
+  3V0 will 3g<V>erify0 the spelling of the message.
+ 
+ Remember that each message is formatted for each caller's screen width when
+displayed, so be careful with your formatting.  If you want to enter a table
+or other columnized list, be sure to start every line with a space.  Citadel
+will then know that it should not combine that line with the last.
+ 
+ Earlier, when giving examples of possible room prompts, you might have
+noticed that they had different symbols after the names.  These symbols tell
+you what type of room it is.  Normal rooms end with a single 3>0 character.
+Other rooms have other characters.  Not all types of rooms have special symbols
+attached to them, however; these end with the normal 3>0 character.  The types of
+rooms are:
+ 
+  3gDirectory0 rooms.  These end with a 3]0 symbol, and allow files to be
+uploaded and downloaded.  Type 3.RD0 to view the files available, or 3.RI0 to
+view an info file, which includes a brief description of the files.  For more
+information on file transfers, refer to the help file 3cFILES0.
+ 
+  3gApplication0 rooms.  These allow access to games and questionnaires.  Use
+3.EA0 to access applications.  For more information on applications, refer to the
+help file 3cDOORS0.
+ 
+  3gHidden0 rooms.  These end with a 3)0 symbol.  To get to a hidden room, you
+must know its name.  Use the 3.G0 command and type the room name.  (Partial room
+names are not allowed here.)
+ 
+  3gGroup-only0 rooms.  These end with a 3:0 symbol.  To get in a group-only
+room, you must be a member of the group.  Otherwise, Citadel will not let you
+see it, or even know of its existence.
+ 
+  3gWindow0 rooms.  As already mentioned, these allow you to travel from hall to
+hall using the 3>0 and 3<0 commands.  Window rooms end with an extra 3>0.
+ 
+ There are many more commands and features available for use.  To see a list
+of available commands at any prompt, press the 3?0 key.  From a room prompt,
+full help is available by using the 3H0 key.  You will be given instructions on
+how to get more help when you use that command.

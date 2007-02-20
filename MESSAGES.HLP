@@ -1,0 +1,184 @@
+  2Helpfile: MXhf12X0
+ 
+                             3g--- General ---0
+ 
+ While messages are being dispayed, Citadel recognises certain keystrokes that
+it interprets as commands. These are:
+ 
+ 3S0 Stop
+     This stops the output and returns you to the room prompt.
+ 
+ 3P0 Pause
+     This pauses the output and Citadel waits for another key to resume.
+ 
+ 3N0 Next
+     This skips the current message and goes on to the next one.
+ 
+ 3J0 Jump
+     This skips a paragraph in the current message.
+ 
+ 3R0 Reverse
+     This acts like a toggle to reverse the flow of messages. That is, if you
+     are currently reading forwards, you will start reading backwards, and if
+     you are currently reading backwards, you will start reading forwards.
+ 
+ 3K0 Kill
+     This will ask for confirmation if you want to remove the message. If you
+     answer yes, it will be removed from the room. To use this command, you
+     have to either be an Aide on the board, or be reading one of your own
+     messages.
+ 
+ 3M0 Mark
+     This will ask for confirmation if you want to mark the message. If you
+     answer yes, Citadel will mark it for later insertion with the .Aide
+     Insert message (3.AI0) command. To use this command, you must be an
+     Aide. For more information on manipulating messages as an Aide, refer to
+     the help file 3cAIDE0.
+ 
+ 3C0 Continuous
+     This will turn off screen pause and pause between messages, if they are
+     currently on. Continuous mode can be turned off again by pressing 3C0
+     again. However, if you are not configured for either screen pause or
+     pause between messages, hitting this has no effect; this just toggles
+     whether to disable them if configured for them, not whether to use them
+     at all.
+ 
+ 3!0 Header scan
+     This will toggle between header scan and regular mode. In header scan
+     mode, Citadel only displays the headers of the messages you are reading.
+ 
+ 3V0 Verbose
+     This will toggle verbose mode on and off. In verbose mode, Citadel
+     displays more information in the message headers. (Such as the message
+     number of the message, the path a networked message traveled to reach
+     the board, etc.)
+ 
+ 3*0 Censor
+     This will ask for confirmantion if you want to censor (or uncensor) the
+     message currently being read. You must be an Aide to use this command.
+     For more information about message censoring, refer to the help file
+     3cCENSOR0.
+ 
+ 
+                         3g--- Reading Messages ---0
+ 
+ Most message reading is done with single letter commands. However, for more
+control over which messages you wish to read, modifiers are provided as
+extended commands. The following single letter commands may be used for
+reading messages:
+ 
+ 3F0 Read Forward
+     This reads all messages in the current room, from the oldest to the
+     newest.
+ 
+ 3N0 Read New
+     This reads all new messages in the current room, from the oldest to the
+     newest. This is the most commonly used message reading command. Citadel
+     can also be configured to display the last old message when reading new
+     messages by using the .Enter Configuration (3.EC0) command. For more
+     information on setting your configuration, refer to the help file 3cCONFIG0.
+ 
+ 3O0 Read Old
+     This reads all old messages in the current room, from the newest to the
+     oldest (reverse order).
+ 
+ 3R0 Read Reverse
+     This reads all messages in the current room, from the newest to the
+     oldest.
+ 
+ When using message reading modifiers, start with the base .Read Messages
+(3.RM0) command. Insert as many modifiers as desired between the 3R0 and the 3M0.
+For example, a possible command would be .Read By user Keyword search Messages
+(3.RBKM0); this would search for messages from a specified user containing
+a specified word or phrase.
+ 
+ 3<number>0 Number of messages
+ 
+ 3A0 All
+ 
+ 3B0 By user
+ 
+ 3E0 Exclusive
+ 
+ 3F0 Forward
+ 
+ 3G0 Group-only
+ 
+ 3K0 or 3*0 Keyword search
+ 
+ 3L0 Local
+ 
+ 3N0 New
+ 
+ 3O0 Old
+ 
+ 3P0 Public
+ 
+ 3R0 Reverse
+ 
+ 3V0 Verbose
+ 
+ 3#0 By message number
+ 
+ 3&0 By date
+ 
+ 3!0 Header scan
+ 
+ 
+                        3g--- Entering Messages ---0
+ 
+  3bE0    -- Enter message.
+  3b.EGM0 -- Enter Group-only Message.
+  3b.ELM0 -- Enter Local Message.
+  3bM0    -- Enter Mail (Exclusive message).
+  3b.EO0  -- Enter Old message.
+ 
+ The Enter Message command is used to create messages.  The Enter Limited
+Access Message command also creates a message, but limits it to a particular
+group (you are prompted for a groupname, partial names are acceptable, and you
+must be a member of the group to create a message in it).  The Enter Mail
+creates a private message.  Private messages can only be seen by the sender
+and recipient.  Enter Old message will recover any message you aborted, if you
+aborted the message the last time you entered a message during the current
+session.
+ 
+ Message entry is very simple.  You just type text (no limit on line
+length, maximum message size is 8196 characters.  To end your message, press
+the carriage return key twice.  This will place you in message edit mode. 
+There are several commands.  The most important are:
+ 
+  Replace String  Find & Replace  Save Buffer  Abort Message  and Continue.
+ 
+These do the obvious things.  A "?" will get you a full list of commands.
+ 
+ You can also upload your message using ASCII protocol as well.  Just start
+the message with the (E)nter Public or (M)ail command then start your ascii
+send.  Make sure you do NOT strip CR's or LF's during the transfer. (most
+programs let you configure this).  If you wish to upload the message using
+Xmodem/CRC or Zmodem just hit return until the message entry menu prompt is
+seen and hit 'X' for X modem/CRC or Z for Zmodem then select upload from your
+terminal like you would for uploading any program.  When the upload is
+complete you will be returned to the message menu - just hit 'P' to list the
+message to the screen to make sure it was sent right - then hit 's' to save
+it.
+ 
+ 
+                            3g--- Formatting ---0
+ 
+ Messages are formatted to the callers screen width.  As much text as
+possible will be collected on one line to send to the caller.  To
+defeat this, start a line with a space.  This is also useful for
+delineating paragraphs in your text.  Whenever you start a line with
+a space, that line will always start a new line, no matter where in
+the previous line the system is.  Experiment in message entry using
+the Print command to see how this works.
+ 
+ 
+                         2-- Related Help Topics --0
+ 
+ 3cMXhf7X0
+ 3cMXhf15X0
+ 3cMXhf17X0
+ 3cMXhf3X0
+ 3cMXhf18X0
+ 3cMXhf20X0

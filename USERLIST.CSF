@@ -1,0 +1,93 @@
+5#VERSION 65141
+
+#FUNC _Main Void
+
+    #LVAR Integer _NumLog
+    #LVAR Integer _ThisLog
+
+    #CALL PrintM "Generating USERLIST.TXT: A list of users on the system."
+    #CALL DoCR
+    #CALL DoCR
+
+    Open the file, assiging it file number 0.
+    #CALL OpenFile 0 USERLIST.TXT
+    #IF _Result
+
+        If we were able to open it...
+
+        Initialize _NumLog to the number on the system, and _ThisLog to 0,
+        for the start of our loop.
+        #CALL GetMaxLogTab
+        #ASGN _NumLog _Result
+        #ASGN _ThisLog 0
+
+        #DO
+
+            Check to see if this slot it in use...
+            #CALL GetLTInuse _ThisLog
+            #IF _Result
+
+                #CALL GetLTName _ThisLog
+                #CALL PrintM "User: " _Result
+                #CALL DoCR
+
+                #CALL WriteStr 0 "---------------------------------" 2
+
+                if it is, then work with it
+                #CALL GetLTLogSlot _ThisLog
+                #CALL UserLoad _Result
+                #IF _Result
+                    #CALL UserGetName
+                    #STR C "Information for user: " _Result
+                    #CALL WriteStr 0 _Result 2
+
+                    #CALL UserGetInitials
+                    #STR C "Initials: " _Result
+                    #CALL WriteStr 0 _Result 2
+
+                    #CALL UserGetPassword
+                    #STR C "Password: " _Result
+                    #CALL WriteStr 0 _Result 2
+
+                    #CALL UserGetPhoneNumber
+                    #STR C "Phone number: " _Result
+                    #CALL WriteStr 0 _Result 2
+
+                    #CALL UserGetRealName
+                    #STR C "Real name: " _Result
+                    #CALL WriteStr 0 _Result 2
+
+                    #CALL WriteStr 0 "" 2
+                #ELSE
+                    We couldn't load the entry...
+                    #CALL GetLTName _ThisLog
+                    #STR C "Could not load log entry for " _Result "! (#" _ThisLog ")"
+
+                    And write it to the file, ending with a CR/LF
+                    #CALL WriteStr 0 _Result 2
+                #ENDIF
+            #ENDIF
+
+            Check the next log entry
+            #ADD _ThisLog 1
+            #ASGN _ThisLog _Result
+
+        Keep doing it while there are still log entries left.
+        #LT _ThisLog _NumLog
+        #LOOP _Result
+
+        #CALL CloseFile 0
+
+        #CALL PrintM "Done."
+
+    #ELSE
+
+        #CALL PrintM "Could not open file!"
+
+    #ENDIF
+
+    #CALL DoCR
+
+    #RET Void
+
+#ENDFUNC

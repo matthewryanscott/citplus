@@ -1,0 +1,33 @@
+                           2Time/Date Stamp Format0
+ 
+    Time/date stamps may be tailored by each user to their individual
+tastes. This is done with the "3T0" command, in the format strings
+submenu (350) of the main config menu (3.EC0). The format consists
+of plain text, with special format codes to represent untypeable characters
+or attributes of the system.  The following are the format codes which can
+be used:
+ 
+    Code        Meaning
+    %a          Abbreviated weekday name (Sun, Mon, ...).
+    %A          Full weekday name (Sunday, Monday, ...).
+    %b          Abbreviated month name (Jan, Feb, ...).
+    %B          Full month name (January, February, ...).
+    %c          Standard time/date: "%a %b %D %H:%M:%S %Y".
+    %d          Day-of-month (1-31).
+    %D          Day-of-month (01-31).
+    %H          Hour, military (00-23).
+    %I          Hour, standard (01-12).
+    %j          Day-of-year (001-366).
+    %m          Month (01-12).
+    %M          Minute (00-59).
+    %p          AM/PM designation.
+    %S          Second (00-59).
+    %U          Week-of-year (00-52) (Sunday first).
+    %w          Weekday (0-6) (Sunday 0).
+    %W          Week-of-year (00-52) (Monday first).
+    %x          Standard date: "%y%b%D" or holiday.
+    %X          Standard time: "%H:%M:%S".
+    %y          Year without century (00-99).
+    %Y          Year with century (1980-...).
+    %Z          Local timezone name.
+    %%          The percent symbol ('%').

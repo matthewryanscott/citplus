@@ -1,0 +1,790 @@
+==============================================================================
+The EXTERNAL.CIT file is used mostly to define external commands that Citadel
+can use, such as door games and file archivers (thus its name).  It is also
+used for a few other things, which need to be read every time Citadel loads,
+or occasionally when it is operating.
+
+The variables that are defined in this file are:
+
+  External programs:
+    #EDITOR             External message editors.
+    #AUTO_EDITOR        External message editors that are used automatically.
+    #USERAPP            Applications to run for a user each time he logs in.
+    #DOOR               Programs to run as if they were Citadel commands.
+    #EVENT              Applications to run at a system event.
+    #ARCHIVER           Applications to run to access archive files (.ZIP,
+                         .ARJ, .ZOO, etc.).
+    #RLM                Run-time Link Modules: sections of code that Citadel
+                         can load and link into itself at run-time, thus
+                         extending its functionality.
+    #NETCOMMAND         Actually, not external programs, but scripts that are
+                         hooked into the network command processor.
+
+  Things that cannot easily be saved in ETC.TAB, so they are read every time
+  the program loads:
+    #REPLACE            Replace words output to the user.
+    #CENSOR_AUTHOR      Users to censor.
+    #CENSOR_NODE        Nodes to censor.
+    #CENSOR_TEXT        Text to censor.
+    #HOLIDAY            When to print something special for the date, such as
+                         "New Year's Day '93" instead of "January 1, 1993".
+    #HOLIDAYWITHYEAR    Wow.
+
+  Things that the program loads as they are needed:
+    #DIRECTORY          Directories that are locked: remote sysops cannot
+                         access them.
+    #REFUSER            User names to refuse.
+    #BANPORT            Ports to refuse connections from.
+
+==============================================================================
+
+In the external program variables, where you need to supply a {command}
+parameter, flags can be put at the start of the command line to tell
+Citadel how to run the application.  To make this file smaller, they are
+listed here with full explanations, and later briefly.
+
+     !   This tells Citadel to "Super-shell," or swap as much of itself as
+         possible out of memory, thus giving the application the most memory
+         possible in which to run.  Citadel leaves less than 1K of itself in
+         memory, swapping the rest of itself to XMS, EMS, or disk.  Swapping
+         to XMS or EMS is nearly instantaneous, but swapping to disk takes a
+         few seconds.  This is only active in the DOS versions of Citadel, and
+         has no effect in the Windows version.
+
+     @   This tells Citadel to not clear the screen before running the
+         application, and to not restore the screen before returning.  This
+         is used to save memory if you are not super-shelling and the
+         application saves and restores the screen for you: An 80x25 text
+         screen takes nearly 4K to save in memory.  When using the super-shell,
+         this does not make any difference, because the memory used to save
+         the screen is also swapped out when shelling.  This is only active in
+         the DOS versions of Citadel, and has no effect in the Windows
+         version.
+
+     $   This tells Citadel to load COMMAND.COM (or, actually, the program
+         pointed to by the COMSPEC environment variable) and tell it to
+         process the command.  This is used to run DOS batch files or to
+         redirect program output to a file.
+
+     ?   This tells Citadel not to write out the door files when shelling.
+         Writing door files takes some time and some disk space, but not
+         much.  Usually, it does not matter if the files are written out when
+         they are not needed.  But, if you are very tight on disk space or
+         running on a slow machine, this makes a difference.
+
+     *   This tells Citadel that the application is a script file, not a
+         program.  This overrides all other flags.  That is, if this flag is
+         present then all others are ignored.  This is because the other flags
+         do not apply to script files.  Also, when running a script file the
+         command line arguments are not passed to it, since script files have
+         no command line parameters.
+
+     &   This tells Citadel not to wait for the external program to finish
+         before returning to Citadel; the external program is run in the
+         background instead.  This is only active in the Windows version of
+         Citadel, and has no effect in the DOS versions.
+
+==============================================================================
+
+  #EDITOR {name} {console only} {command} {confirm}
+
+The lines starting with #EDITOR tell Citadel about external text editors,
+which can be used as message editors.
+
+The first parameter {name} is the name of the editor.  Citadel uses the first
+letter of the name as the command key, so they must all be unique.
+
+The second parameter {console only} is boolean: set it to 1 if the editor can
+only be used on local, or 0 if remote users may use the editor as well.  This
+can be used, for example, to let the console user of the system to use an
+editor such as MS-DOS Edit, Brief, or QEdit that cannot be used over the
+modem.
+
+The third parameter {command} is the command to run to execute the editor.
+With the command line, the following variables may be used:
+
+    %f   The file being edited.
+
+    %p   The serial port that is being used: 1 to 4.
+
+    %s   The actual speed (baud) in use to talk to the serial port.
+
+    %c   The modem-to-modem connect speed.  For high speed modems, the actual
+         speed of the connection from the computer to the modem is often
+         higher than the actual speed that the two modems are connected at.
+
+    %a   The application path, as set by the #APPLICPATH variable in
+         CONFIG.CIT.
+
+In addition, the following flags can be put at the start of the command line
+to tell Citadel how to run the application (see above for full explanations):
+
+     !   "Super-shell".
+
+     @   Don't clear the screen before running the application, and don't
+         restore the screen before returning.
+
+     $   Load COMMAND.COM (or COMSPEC program).
+
+     ?   Don't write out the door files.
+
+     *   The application is a script file.
+
+     &   Run application in the background.
+
+The fourth parameter {confirm} is boolean: set it to 1 to ask for confirmation
+to run the editor, or 0 to not ask for confirmation to run the editor.  This
+is used for message filters that automatically edit the text; by asking for
+confirmation, you make it less likely for such an editor to be run by
+accident.
+
+Here are some common #EDITOR command lines:
+
+ #EDITOR "QEdit"          1 "?q %f"                0
+ #EDITOR "MS-DOS Editor"  1 "?edit %f"             0
+ #EDITOR "Brief"          1 "?b %f"                0
+ #EDITOR "Jive filter"    0 "?$type %f | jive >%f" 1
+
+==============================================================================
+
+  #AUTO_EDITOR {name} {console only} {command} {confirm}
+
+The lines starting with #AUTO_EDITOR tell Citadel about external text editors
+to run automatically on each message as it is saved.  If there are more than
+one #AUTO_EDITORs defined, Citadel runs the message through each one, in the
+order that they are in the file.
+
+The first parameter {name} is the name of the editor.  This is not really
+used; this is only here because the code that implements #AUTO_EDITORs is the
+same as that which implements #EDITORs, which use this field.
+
+The second parameter {console only} is boolean: set it to 1 if the editor can
+only be used on local, or 0 if remote users may use the editor as well.  This
+can be used, for example, to let the console user of the system to use an
+external spell checker (which might be better than Citadel's internal one) or
+grammar checker to run every time the message is saved, but that is not usable
+over the modem.
+
+The third parameter {command} is the command to run to execute the editor.
+With the command line, the following variables may be used:
+
+    %f   The file being edited.
+
+    %p   The serial port that is being used: 1 to 4.
+
+    %s   The actual speed (baud) in use to talk to the serial port.
+
+    %c   The modem-to-modem connect speed.  For high speed modems, the actual
+         speed of the connection from the computer to the modem is often
+         higher than the actual speed that the two modems are connected at.
+
+    %a   The application path, as set by the #APPLICPATH variable in
+         CONFIG.CIT.
+
+In addition, the following flags can be put at the start of the command line
+to tell Citadel how to run the application (see above for full explanations):
+
+     !   "Super-shell".
+
+     @   Don't clear the screen before running the application, and don't
+         restore the screen before returning.
+
+     $   Load COMMAND.COM (or COMSPEC program).
+
+     ?   Don't write out the door files.
+
+     *   The application is a script file.
+
+     &   Run application in the background.
+
+The fourth parameter {confirm} is boolean: set it to 1 to ask for confirmation
+to run the editor, or 0 to not ask for confirmation to run the editor.  This
+can be used, for example, to skip the grammar checker on a message that the
+sysop does not care about the grammar of.
+
+There are no common #AUTO_EDITOR command lines.
+
+==============================================================================
+
+  #USERAPP {user name} {display text} {command} {hang up}
+
+The lines starting with #USERAPP tell Citadel about applications that it
+should run whenever a specified user logs on.  You can choose to have Citadel
+hang up on the user after running the application and whether it should
+display anything to the user before running the application.
+
+Each user can have more than one #USERAPP: Citadel will run each one in the
+order that it finds them in this file.
+
+The first parameter {user name} is the full name of the user to run the user
+application for.
+
+The second parameter {display text} is the text to display to the user before
+running the application.  Set this to "" if you don't want anything to be
+displayed.
+
+The third parameter {command} is the command line to execute as the
+application.  The following variables are allowed in the command line:
+
+    %p   The serial port that is being used: 1 to 4.
+
+    %s   The actual speed (baud) in use to talk to the serial port.
+
+    %c   The modem-to-modem connect speed.  For high speed modems, the actual
+         speed of the connection from the computer to the modem is often
+         higher than the actual speed that the two modems are connected at.
+
+    %a   The application path, as set by the #APPLICPATH variable in
+         CONFIG.CIT.
+
+In addition, the following flags can be put at the start of the command line
+to tell Citadel how to run the application (see above for full explanations):
+
+     !   "Super-shell".
+
+     @   Don't clear the screen before running the application, and don't
+         restore the screen before returning.
+
+     $   Load COMMAND.COM (or COMSPEC program).
+
+     ?   Don't write out the door files.
+
+     *   The application is a script file.
+
+     &   Run application in the background.
+
+The fourth parameter {hang up} is boolean: set it to 1 to have Citadel hang up
+on the user after running the application, or 0 to not hang up on the user.
+
+A possible use for user applications is to always route certain users to a
+sub-board.  (This is useful if you want to limit users from using your main
+board, or to allow easy networking of your sub-board: when a node calls in
+to the main board, have its #USERAPP invoke the sub-board.)
+
+There are no common #USERAPP command lines.
+
+==============================================================================
+
+  #DOOR {name} {command} {group} {console} {sysop} {aide} {dir room} [regdot]
+
+Lines starting with #DOOR tell Citadel to define new commands that are
+assigned to keys accessed from the room prompt, as if they were internal
+commands.  #DOORs can even override internal commands, giving (for example)
+the ability to use an alternate chat mode, which could support split screen
+chat for ANSI users.
+
+The first parameter {name} is the name of the door.  Citadel uses the first
+character of this name as the command key to invoke the door, so all initial
+characters must be unique.
+
+The second parameter {command} is the command to use to run the door.  The
+following variables are allowed in the command line:
+
+    %p   The serial port that is being used: 1 to 4.
+
+    %s   The actual speed (baud) in use to talk to the serial port.
+
+    %c   The modem-to-modem connect speed.  For high speed modems, the actual
+         speed of the connection from the computer to the modem is often
+         higher than the actual speed that the two modems are connected at.
+
+    %a   The application path, as set by the #APPLICPATH variable in
+         CONFIG.CIT.
+
+In addition, the following flags can be put at the start of the command line
+to tell Citadel how to run the application (see above for full explanations):
+
+     !   "Super-shell".
+
+     @   Don't clear the screen before running the application, and don't
+         restore the screen before returning.
+
+     $   Load COMMAND.COM (or COMSPEC program).
+
+     ?   Don't write out the door files.
+
+     *   The application is a script file.
+
+     &   Run application in the background.
+
+The third parameter {group} specifies a group that the user must be in to be
+able to run the door.  Set this to "" if you wish to allow all users access to
+the door.
+
+The fourth parameter {console} is boolean: set it to 1 if the door can only be
+used from console, or 0 if remote users may use the door as well.
+
+The fifth parameter {sysop} is boolean: set it to 1 if the door can only be
+used by sysops, or 0 to allow non-sysops to use the door.
+
+The sixth parameter {aide} is boolean: set it to 1 if the door can only be
+used by aides, or 0 to allow non-aides to use the door.
+
+The seventh parameter {dir room} is boolean: set it to 1 if the door can only
+be used while the user is in a directory room, or 0 to allow users to use it
+in all rooms.
+
+The eighth parameter [regdot] is a number from 0 to 3: set it to 0 to restrict
+this door to the .ED command, or 1 to enable it as a regular command, or 2
+to enable it as a dot command, or 3 to enable it as both a regular command
+and a dot command.  The door is accessible from .ED in all cases.  The default
+is 3.
+
+There are no common #DOOR command lines.
+
+==============================================================================
+
+  #EVENT {event} {command}
+
+Lines starting with #EVENT tell Citadel to run a certain application whenever
+a certain system event occurs.  This can, for example, alert the sysop with a
+sound prompt whenever something "interesting" happens on the board, such as
+a new user logging in.  Multiple applications can be connected to any system
+event: Citadel will run each one in the order they are specified in this file.
+
+The first parameter {event} is the event, which is one of the following:
+
+     LOGIN        Occurs when a user logs in.
+
+     LOGOUT       Occurs when a user logs out.
+
+     ROOMPROMPT   Occurs when the room prompt is displayed.
+
+     DOWNLOAD     Occurs when a file is downloaded.  (After it is complete.)
+
+     READDIR      Occurs when the user reads a directory.
+
+     READINFO     Occurs when the user reads an info file.
+
+     UPLOAD       Occurs when a file is uploaded.  (After it is complete.)
+
+     CHAT         Occurs when the user requests chat.
+
+     SAVEMSG      Occurs when the user saves a message.
+
+     READMSG      Occurs when the user reads a message.
+
+     READMSGS     Occurs when the user invokes a command to read messages.
+
+     BEEP         Occurs when the computer would sound its internal bell.  (My
+                  computer's bell is broken, so I use this to tell it to sound
+                  my Sound Blaster.  Overkill, but it works.)
+
+     CARRIER      Occurs when carrier is detected.
+
+     NEWROOM      Occurs when the user creates a new room.
+
+     ANONYMOUS    Occurs when the user leaves an anonymous message.
+
+     PASSWORD     Occurs when the user changes his password.
+
+     AIDE         Occurs when the user uses an aide command.
+
+     SYSOP        Occurs when the user uses a sysop command.
+
+     ERROR        Occurs when Citadel detects an internal error.
+
+     NETWORK      Occurs when Citadel networks.
+
+     ACCOUNT      Occurs when some accounting related function happens.
+
+     APPLIC       Occurs when an application is run.  (Before it is run.)  To
+                  avoid infinite recursion, and make things run as expected,
+                  applications run as #EVENTs do not trigger this #EVENT.
+
+     CRON         Occurs when Citadel executes a cron event.
+
+     HACK         Occurs when someone tries to log on with invalid initials
+                  and password.
+
+     NEWUSER      Occurs when a new user creates an account.
+
+     SMALLCHAT    Occurs when a user enters a semicolon as the first character
+                  of the smallchat text and the text is not already an internal
+                  smallchat function.
+
+The second parameter {command} is the command to run.  The following variables
+are allowed in the command line:
+
+    %p   The serial port that is being used: 1 to 4.
+
+    %s   The actual speed (baud) in use to talk to the serial port.
+
+    %c   The modem-to-modem connect speed.  For high speed modems, the actual
+         speed of the connection from the computer to the modem is often
+         higher than the actual speed that the two modems are connected at.
+
+    %a   The application path, as set by the #APPLICPATH variable in
+         CONFIG.CIT.
+
+In addition, the following flags can be put at the start of the command line
+to tell Citadel how to run the application (see above for full explanations):
+
+     !   "Super-shell".
+
+     @   Don't clear the screen before running the application, and don't
+         restore the screen before returning.
+
+     $   Load COMMAND.COM (or COMSPEC program).
+
+     ?   Don't write out the door files.
+
+     *   The application is a script file.
+
+     &   Run application in the background.
+
+There are no common #EVENT command lines, unless you are using the Sound
+Blaster support files; samples are given with those files.
+
+==============================================================================
+
+  #ARCHIVER {name} {view} {extract} {extension}
+
+Lines starting with #ARCHIVER tell Citadel how to view the contents of archive
+files (.ZIP, .ZOO, .ARC, .SIT, .ARJ, .LZH, etc.).  This is used for the
+.Read Archive file (.RZ) command.  Though there is a place to put the command
+for extracting files from archives, Citadel does not currently use this
+command.  However, if you put valid data in the field, then you will be ready
+if Citadel ever does start using it.
+
+The first parameter {name} is the name of the archiver.  The first character of
+the name is used for the command key in Citadel, so make sure they are all
+unique.
+
+The second parameter {view} is the command to view the archive.  The output
+from this command must be placed in the README.APL file in the application
+path, as set by the #APPLICPATH variable in CONFIG.CIT.  This is usually done
+by redirecting the output of the archiver to this file.  Remember, to redirect
+command output, you need to use the "$" flag in the command line, as explained
+below.
+
+The third parameter {extract} is the command to extract a file from the
+archive.
+
+The following variables are allowed in the command lines:
+
+    %p   The serial port that is being used: 1 to 4.
+
+    %s   The actual speed (baud) in use to talk to the serial port.
+
+    %c   The modem-to-modem connect speed.  For high speed modems, the actual
+         speed of the connection from the computer to the modem is often
+         higher than the actual speed that the two modems are connected at.
+
+    %a   The application path, as set by the #APPLICPATH variable in
+         CONFIG.CIT.
+
+    %f   The name of the archive file to view or extract files from.
+
+    %d   The name of the file or files to extract from the archive; this is
+         only used in the extract command line.
+
+In addition, the following flags can be put at the start of the command line
+to tell Citadel how to run the application (see above for full explanations):
+
+     !   "Super-shell".
+
+     @   Don't clear the screen before running the application, and don't
+         restore the screen before returning.
+
+     $   Load COMMAND.COM (or COMSPEC program).
+
+     ?   Don't write out the door files.
+
+     *   The application is a script file.
+
+     &   Run application in the background.
+
+The fourth parameter {extension} is the standard extension for the file format
+(ZIP, ZOO, ARC, SIT, ARJ, LZH, etc.).
+
+Here are some common #ARCHIVER command lines:
+
+#ARCHIVER "ARJ file"   "$arj l %f >%a\\readme.apl"      "arj e %f %d"   "ARJ"
+#ARCHIVER "! ARC file" "$pkunpak /v %f >%a\\readme.apl" "pkunpak %f %d" "ARC"
+#ARCHIVER "LZH file"   "$lha l %f >%a\\readme.apl"      "lha e %f %d"   "LZH"
+#ARCHIVER "ZIP file"   "$pkunzip /v %f >%a\\readme.apl" "pkunzip %f %d" "ZIP"
+
+
+==============================================================================
+
+  #RLM {reserved}
+
+RLMs (Run-time Link Modules) are not fully implemented, so I am not going to
+document them yet; things may change significantly with them.
+
+==============================================================================
+
+  #NETCOMMAND {command name} {script}
+
+Messages addressed to the board itself ("nodename @ nodename") are network
+commands.  The subject line of the message determines the command.  Citadel
+has some network commands built into it, but you can create your own by
+writing a special script and linking it to the network command processor with
+this keyword.
+
+{command name} is the name of the command that is placed in the subject of
+the message.  (Citadel prepends a # character to this, so don't include one
+yourself.)  {script} is the filename of the script file to use to process
+the command.
+
+==============================================================================
+
+  #REPLACE {replaced word} {replace with}
+
+Lines starting with #REPLACE tell Citadel to replace certain words with other
+words (or phrases) when it outputs text to the user.  Nothing is changed
+internally or on the network; this is a local-only command.  While it was
+implemented for pure obnoxiousness, it can also be used as a form of
+censorship.
+
+The first parameter {replaced word} is the word to replace.
+
+The second parameter {replace with} is the word or phrase to replace it with.
+
+There are no common #REPLACE command lines.
+
+==============================================================================
+
+  #CENSOR_AUTHOR {user}
+
+Lines starting with #CENSOR_AUTHOR give you a way to censor any specific user
+on your system.  This applies to messages left locally, or that come in on the
+network.
+
+If a message is censored, then only those users who have enabled the viewing
+of censored messages see it.  By default, users can choose for themselves
+whether to view censored messages, but using the * option of the .Enter
+Configuration (.EC) command.  By setting the #CENSOR keyword in CONFIG.CIT
+to 1, you can keep users from setting this themselves.  It is always possible,
+as a sysop, to determine if a user can view censored messages by using the
+.Sysop Userlog edit (.SU) command.
+
+There is only one parameter {user}: The name of the user who gets censored.
+
+There are no common #CENSOR_AUTHOR command lines.
+
+==============================================================================
+
+  #CENSOR_NODE {node}
+
+Lines starting with #CENSOR_NODE give you a way to censor all messages
+originating on any specific node on the network.
+
+If a message is censored, then only those users who have enabled the viewing
+of censored messages see it.  By default, users can choose for themselves
+whether to view censored messages, by using the * option of the .Enter
+Configuration (.EC) command.  By setting the #CENSOR keyword in CONFIG.CIT
+to 1, you can keep users from setting this themselves.  It is always possible,
+as a sysop, to determine if a user can view censored messages by using the
+.Sysop Userlog edit (.SU) command.
+
+There is only one parameter {node}: The name of the node that gets censored.
+
+There are no common #CENSOR_NODE command lines.
+
+==============================================================================
+
+  #CENSOR_TEXT {text}
+
+Lines starting with #CENSOR_TEXT give you a way to censor all messages
+containing objectionable text.  This applies to all viewable fields of the
+message, not just the message text.  By all viewable fields, we mean all
+viewable fields: the source software, the origin node phone, even the message
+number.  (Perhaps this last one was going a bit overboard...)
+
+If a message is censored, then only those users who have enabled the viewing
+of censored messages see it.  By default, users can choose for themselves
+whether to view censored messages, by using the * option of the .Enter
+Configuration (.EC) command.  By setting the #CENSOR keyword in CONFIG.CIT
+to 1, you can keep users from setting this themselves.  It is always possible,
+as a sysop, to determine if a user can view censored messages by using the
+.Sysop Userlog edit (.SU) command.
+
+There is only one parameter {text}: The text that gets censored.  Note that
+some text may be objectionable by itself, but not within another word.  For
+example, it would take an amazing amount of prudishness to find objection with
+the word "assume".  However, it would not take so much to find objection with
+its first three letters used on their own.  Therefore, you might want to put
+spaces around the word, so you only get the word on its own.  However, then
+you get to worry about punctuation as well.  (You would need a separeate line
+for #CENSOR_TEXT "word.", #CENSOR_TEXT "word,", and #CENSOR_TEXT "word!", and
+the like.) Nothing's perfect.
+
+There are no common #CENSOR_TEXT command lines.
+
+==============================================================================
+
+  #HOLIDAY {month} {date} {week} {day} {name}
+  #HOLIDAYWITHYEAR {month} {date} {week} {day} {year} {name}
+
+Lines starting with #HOLIDAY inform Citadel of days which are holidays.  It
+uses these, if present, when formatting the time or date with the %x format
+specifier.
+
+Lines starting with #HOLIDAYWITHYEAR are the same as normal #HOLIDAYs but
+you may also specify the year.
+
+The first parameter {month} is the month of the holiday.  This may not be
+zero.
+
+The second parameter {date} is the date of the holiday, if it always falls on
+the same day of the month.  (For example, Valentine's Day is always on the
+14th.) If it varies, like Mother's Day, set this to 0.
+
+The third parameter {week} is the week of the month that the holiday always
+falls on if it is not the type that is always on the same day. (For example,
+Mother's Day is always in the second week.) Set this to 0 if the holiday is
+always on the same date, such as Valentine's day.
+
+The fourth parameter {day} is used for the day of the week that the holiday
+always falls on, for holidays that are always on the same day of the week.
+(For example, Mother's Day is always on a Sunday.) Set this to 0 if the
+holiday is always on the same date, such as Valentine's day.
+
+The fifth parameter, {name} or {year}, depends on whether you are using
+#HOLIDAY or #HOLIDAYWITHYEAR. For #HOLIDAY command lines, this is the {name}
+of the holiday you want to be displayed. If you are using #HOLIDAYWITHYEAR,
+the fifth parameter is the specific {year} (eg. 1994) for the holiday. In
+turn, you specify a #HOLIDAYWITHYEAR's {name} as a sixth parameter.
+
+If you with to put in a holiday that cannot be calculated by the above system,
+such as Jewish holidays or Easter, then you may use a series of
+#HOLIDAYWITHYEAR command lines to plot the holiday's date for the coming
+years.
+
+Common #HOLIDAY command lines are:
+
+#HOLIDAY 1  0  3 2 "M. L. King, Jr. Day"         (3rd Monday in Jan)
+#HOLIDAY 1  1  0 0 "New Year's Day"              (Jan 1)
+
+#HOLIDAY 2  0  3 2 "President's Day"             (3rd Monday in Feb)
+#HOLIDAY 2  2  0 0 "Groundhog Day"               (Feb 2)
+#HOLIDAY 2  12 0 0 "Lincoln's Birthday"          (Feb 12)
+#HOLIDAY 2  14 0 0 "Valentine's Day"             (Feb 14)
+#HOLIDAY 2  22 0 0 "Washington's Birthday"       (Feb 22)
+#HOLIDAY 2  29 0 0 "Leap Day"                    (Feb 29)
+
+#HOLIDAY 3  17 0 0 "St. Patrick's Day"           (Mar 17)
+
+#HOLIDAY 4  1  0 0 "April Fool's Day"            (Apr 1)
+#HOLIDAY 4  14 0 0 "Pan American Day"            (Apr 14)
+#HOLIDAY 4  15 0 0 "Tax Day"                     (Apr 15)
+
+#HOLIDAY 5  0  2 1 "Mother's Day"                (2nd Sunday in May)
+#HOLIDAY 5  0  3 7 "Armed Forces Day"            (3rd Saturday in May)
+#HOLIDAY 5  1  0 0 "May Day"                     (May 1)
+#HOLIDAY 5  30 0 0 "Memorial Day"                (May 30)
+
+#HOLIDAY 6  0  3 1 "Father's Day"                (3rd Sunday in Jun)
+#HOLIDAY 6  14 0 0 "Flag Day"                    (Jun 14)
+
+#HOLIDAY 7  1  0 0 "Canada Day"                  (Jul 1)
+#HOLIDAY 7  4  0 0 "Independence Day"            (Jul 4)
+
+#HOLIDAY 9  0  1 2 "Labor Day"                   (1st Monday in Sep)
+#HOLIDAY 9  0  4 6 "American Indian Day"         (4th Friday in Sep)
+#HOLIDAY 9  17 0 0 "Citizenship Day"             (Sep 17)
+
+#HOLIDAY 10 0  2 2 "Canadian Thanksgiving Day"   (2nd Monday in Oct)
+#HOLIDAY 10 12 0 0 "Columbus Day"                (Oct 12)
+#HOLIDAY 10 24 0 0 "United Nations Day"          (Oct 24)
+#HOLIDAY 10 31 0 0 "Halloween"                   (Oct 31)
+
+#HOLIDAY 11 11 0 0 "Veterans' (Remembrance) Day" (Nov 11)
+#HOLIDAY 11 0  4 5 "Thanksgiving Day"            (4th Thursday)
+
+#HOLIDAY 12 24 0 0 "Christmas Eve"               (Dec 24)
+#HOLIDAY 12 25 0 0 "Christmas Day"               (Dec 25)
+#HOLIDAY 12 26 0 0 "Boxing Day"                  (Dec 26)
+#HOLIDAY 12 31 0 0 "New Year's Eve"              (Dec 31)
+
+In the Southern states, the following two are common:
+
+ #HOLIDAY 1  19 0 0 "Robert E. Lee's Birthday"   (Jan 19)
+ #HOLIDAY 6  3  0 0 "Jefferson Davis's Birthday" (Jun 3)
+
+There are no common #HOLIDAYWITHYEAR command lines.
+
+==============================================================================
+
+  #DIRECTORY {directory}
+
+Lines starting with #DIRECTORY lock directories from remote sysops.  This can
+be used if you want to give people more power over the board (that is, make
+them remote sysops) but don't want to put your non-BBS files at risk.
+
+The only parameter {directory} is the directory that you want to lock.  Note
+that this is actually a wildcard expression that is compared against the
+directory name.  If you want to lock everything, set it to "*", which matches
+everything.
+
+Common #DIRECTORY command lines are:
+
+#DIRECTORY [A-B]:*
+
+This guards against people trying to make directories on your floppy disks.
+While Citadel will not be harmed by making a directory to a floppy disk, even
+if there is no disk in the drive, you might have put a disk with a sensitive
+file in your floppy drive and forgotten about it.
+
+Also, if you have only one drive, your board could be locked up by setting
+a directory room to the B: drive; DOS will print "Insert disk for drive B:" on
+the screen, and wait for someone on console to press a key.  While no damage
+is done, this does keep the board from doing anything until someone sees the
+message on console.
+
+#DIRECTORY *..*
+
+This locks out using ".." in a directory name.  This is useful to prevent
+against clever people who might try to use something like "C:\BOGUS\..\CIT"
+to get to your root Citadel home path, even if you have "C:\CIT" locked.  DOS
+will accept the above path, even if there is no "C:\BOGUS" directory.  (At
+least, MS-DOS Version 6.00 does; I just tested it.)
+
+#DIRECTORY \*
+
+This locks out any path that starts with a "\" character, again to guard
+against clever people.  If you only locked "C:\CIT" out, "\CIT" would still
+work.
+
+#DIRECTORY \.*
+
+More guarding against clever users: "C:\.\CIT" would not match "C:\CIT" so
+people could use it to get to your Citadel home path, even if you have locked
+"C:\CIT" out.
+
+==============================================================================
+
+  #REFUSER {name}
+
+Lines starting with #REFUSER tell Citadel to refuse certain user names.
+Citadel always refuses the names "Sysop," "Aide," "[Unlogged User]," and the
+name of the board, as set by #NODENAME in CONFIG.CIT.  This is done because
+these names are used internally for special purposes by Citadel.
+
+The only parameter {name} is the name that you want to exclude.  This is read
+as a wildcard expression, so you can specify "*word*" to exclude the use of
+the word "word" anywhere in the name of users.
+
+There are no common #REFUSER command lines.
+
+==============================================================================
+
+  #BANPORT {port}
+
+This keyword is active only in the Win32 version.
+
+Lines starting with #BANPORT inform Citadel what IP address(es), or COM
+port(s), not to accept connections from. If a user who has been Banned (.SU6)
+tries to log in, Citadel displays BANNED.BLB to the user and promptly
+disconnects. A corresponding #BANPORT line is added to this file
+automatically.
+
+When a connection from a port specified by a #BANPORT command
+line is attempted, Citadel disconnects immediately with no warning to the
+user. You can have as many #BANPORT command lines as you wish.
+
+There are no common #BANPORT command lines.
+
+==============================================================================

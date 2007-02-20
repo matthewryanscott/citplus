@@ -1,0 +1,19 @@
+  2Helpfile: MXhf5X0
+ 
+    Doors are gateways to other programs, much as the applications you access
+with the "3b.EA0" command.  Doors are accessible from any room on the BBS
+while applications are accessible only from a certain room.
+ 
+                                3g Commands 0
+ 
+    "3b.ED?0" - This command will show the Door Menu.  It will list all the
+             available doors that can be accessed by the "3.EDx0" command.
+             Where "3x0" is the menu letter of the Door you wish to use.
+ 
+    "3b.EDx0" - This is the Command to access a certain Door.. where "3bx0"
+             is the menu letter of the door you wish to use.
+ 
+ 
+                         2-- Related Help Topic --0
+ 
+ 3cMXhf17X0

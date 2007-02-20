@@ -1,0 +1,9 @@
+check hard drive space when resizing message/log file
+.AE: if 'W', turn on shared
+Entry cmd: Upload -- just set %f=something, append it
+Entry cmd: Group/Limited
+.S!, .S@: close print file (ALT+P) if open
+.S!, .S@: when not logged in send modem str if #OFFHOOK when shelling, setup str after return
+#HOURS/#DAYS should be bitfields (netting)
+INT 2Fh call while idle (for Windows, OS/2, power mgmt, etc)
+Use only one function for displaying the message header

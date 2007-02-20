@@ -1,0 +1,93 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ This script is designed to generate a readable report based on the data    บ
+บ files created by DRCHECK.CSF.  Unless you have already run that script,    บ
+บ this script is useless.  After you have DRCHECK.CSF running, you just need บ
+บ to run this script: there are no configuration options for it.             บ
+บ                                                                            บ
+วฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤฤถ
+บ                                                                            บ
+บ If you have any questions on the use of this script, ask them in the       บ
+บ GremCit Test> room on the network.  Feel free to modify this script in any บ
+บ way you desire to make it useful for you.                                  บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#VERSION 65141
+
+#FUNC _Main Boolean
+
+    #CALL DoCR
+    #CALL PrintM "Dead Room Report Generator 1.00 - October 8, 1994"
+    #CALL DoCR
+    #CALL DoCR
+
+
+    Sort by name - this also sorts oldest time to newest time.  Do it in
+    reverse because we work our way through the list backwards
+    #CALL GetDirectory "" *.DRL 1 TRUE
+
+    #LVAR Integer _DirIndex
+    #CALL CountDirectory
+    #ASGN _DirIndex _Result
+
+    #LVAR String30 _RoomName
+
+    #LVAR Long _FileTime
+    #LVAR Long _CurTime
+    #CALL GetCurrentTime
+    #ASGN _CurTime _Result
+
+    #WHILE _DirIndex
+        #LVAR String15 _FileName
+
+        #CALL DirectoryGetName _DirIndex
+        #ASGN _FileName _Result
+
+        #STR B _FileName 0 8
+        #CALL HexToDec _Result
+        #ASGN _FileTime _Result
+
+        #CALL StrfTime "%x %X" _FileTime 255
+
+        #CALL PrintM "These rooms have been dead since " _Result ".  ("
+        #CALL HowLongAgoWasIt _FileTime
+        #CALL PrintM _Result " ago.)"
+
+        #CALL OpenFile 0 _FileName
+        #IF _Result
+            #CALL ReadStr 0
+            #IF _Result
+                #CALL PrintM "  They have been moved out of their original hall."
+            #ENDIF
+            #CALL DoCR
+
+            #CALL FileEOF 0
+            #WHILENOT _Result
+
+                #CALL ReadStr 0
+                #ASGN _RoomName _Result
+
+                #NE _RoomName ""
+                #IF _Result
+                    #CALL PrintM _RoomName
+                    #CALL DoCR
+                #ENDIF
+
+            #CALL FileEOF 0
+            #WEND
+        #ELSE
+            #CALL DoCR
+            #CALL PrintM "Error opening file " _FileName "."
+            #CALL DoCR
+        #ENDIF
+
+        #CALL DoCR
+
+        #SUB _DirIndex 1
+        #ASGN _DirIndex _Result
+    #WEND
+
+    #RET TRUE
+
+#ENDFUNC

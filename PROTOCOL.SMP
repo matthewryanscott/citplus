@@ -1,0 +1,262 @@
+==============================================================================
+PROTOCOL.CIT is used to tell Citadel which external file transfer protocols
+you have installed on your system.  It also tells Citadel how to use these
+protocols.
+
+Each protocol starts with the #PROTOCOL keyword (which gives the protocol's
+name), then some number of other keywords giving specifics about the
+particular protocol.  The other keywords are:
+
+    #MENU_NAME          The name as it should appear on the menu.  This
+                        keyword is optional: if it is not present, Citadel
+                        will use the name provided by #PROTOCOL.
+
+    #COMMAND_KEY        The key to use to access the protocol.  This keyword
+                        is optional: if it is not present, Citadel will use
+                        the first character of the name provided by #PROTOCOL.
+
+    #BATCH              Boolean: Whether the protocol supports multiple file
+                        transfers in a single session, and sends the name of
+                        the file to the receiver.
+
+    #BLOCK_SIZE         The size of each byte, in blocks.  For protocols with
+                        variable-length blocks (such as Zmodem), use 0.
+
+    #RECEIVE            The command line that Citadel should use to receive
+                        files with the protocol.  See the notes on command
+                        lines below.
+
+    #SEND               The command line that Citadel should use to send files
+                        with the protocol.  See the notes on command lines
+                        below.
+
+    #RESPONSE_SEND      The command line that Citadel should use to send files
+                        with the protocol using a response file (a text file
+                        that lists the names of all the files to be
+                        transferred).  If the protocol does not support
+                        sending with a response file, don't include this
+                        command line; Citadel will then not allow this
+                        protocol to be used with the file queueing commands.
+                        See the notes on command lines below.
+
+    #AUTO_UPLOAD        A string that Citadel should respond to at the room
+                        prompt by initiating a download using the protocol.
+
+    #NET_ONLY           Boolean: Whether the protocol is to be used for
+                        networking purposes only (such as QuickNet), and
+                        should not be made available for people to use.
+
+    #CHECK_TRANSFER     Two values: the first is numeric, the second a string.
+                        Used to check the success of a file transfer.
+
+                        If the numeric value is 1, the string will be
+                        interpreted as a command to send files and erase
+                        the files sent successfully.  This numeric value
+                        of 1 is currently only used in Net 6.9 transfers
+                        for future attempts to transmit packets.  The burden
+                        of erasing packets is placed on this send command
+                        rather than on Citadel.
+
+                        If the numeric value is 2, the string will be
+                        interpreted as a command to run in #TRANSPATH after
+                        #SEND has been used.  This numeric value of 2 is
+                        currently only used in Net 6.9 transfers for future
+                        attempts to transmit packets.  The burden of erasing
+                        packets is placed on this command rather than on
+                        Citadel.  The parameter passed via %f is the sent
+                        file names (e.g. alias + "69*.*").
+
+==============================================================================
+NOTE ON COMMAND LINES:
+
+With all of the command lines, the following variables may be used:
+
+    %f   The file being send or received.  This is not used in the file
+         receive string of a batch protocol: the protocol supplies the
+         file name.  Also, this is the name of the text file that lists
+         the files to be sent when used in the response file send file
+         command.
+
+    %p   The serial port that is being used: 1 to 4.
+
+    %s   The actual speed (baud) in use to talk to the serial port.
+
+    %c   The modem-to-modem connect speed.  For high speed modems, the actual
+         speed of the connection from the computer to the modem is often
+         higher than the actual speed that the two modems are connected at.
+         The %s variable is used if the file transfer protocol needs to set
+         the port rate to use; the %c variable is used to let the protocol
+         more accurately guess the time that the transfer will take.
+
+    %a   The application path, as set by the #APPLICPATH variable in
+         CONFIG.CIT.
+
+In addition, the following flags can be put at the start of the command line
+to tell Citadel how to run the application:
+
+     !   This tells Citadel to "Super-shell," or swap as much of itself as
+         possible out of memory, thus giving the application the most memory
+         possible in which to run.  Citadel leaves less than 1K of itself in
+         memory, swapping the rest of itself to XMS, EMS, or disk.  Swapping
+         to XMS or EMS is nearly instantaneous, but swapping to disk takes a
+         few seconds.  This is only active in the DOS versions of Citadel, and
+         has no effect in the Windows version.
+
+     @   This tells Citadel to not clear the screen before running the
+         application, and to not restore the screen before returning.  This
+         is used to save memory if you are not super-shelling and the
+         application saves and restores the screen for you: an 80x25 text
+         screen takes nearly 4K to save in memory.  When using the super-shell,
+         this does not make any difference, because the memory used to save
+         the screen is also swapped out when shelling.  This is only active in
+         the DOS versions of Citadel, and has no effect in the Windows
+         version.
+
+     $   This tells Citadel to load COMMAND.COM (or, actually, the program
+         pointed to by the COMSPEC environment variable) and tell it to
+         process the command.  This is used to run DOS batch files or to
+         redirect program output to a file.
+
+     ?   This tells Citadel not to write out BBS information files when
+         shelling.  Writing these files takes some time and some disk space,
+         but not much.  Usually, it does not matter if they are written out
+         when not needed.  But, if you are very tight on disk space or running
+         on a slow machine, this makes a difference.
+
+     *   This tells Citadel that the application is a script file, not a
+         program.  This overrides all other flags.  That is, if this flag is
+         present then all others are ignored.  This is because the other flags
+         do not apply to script files.  Also, when running a script file the
+         command line arguments are not passed to it, since script files have
+         no command line parameters.
+
+     &   This tells Citadel not to wait for the external program to finish
+         before returning to Citadel; the external program is run in the
+         background instead.  This is only active in the Windows version of
+         Citadel, and has no effect in the DOS versions.
+
+Citadel also has some internal file transfer protocols, which can be specified
+by setting the command lines to special values: "[xmodem]" for Xmodem
+checksum; "[crcxmodem]" for Xmodem CRC; "[1kxmodem]" for 1K Xmodem (sometimes
+incorrectly referred to as Ymodem); and "[zmodem]" for Zmodem.  The internal
+file transfer protocols do not work with file queueing.
+
+==============================================================================
+Following are the settings for some common file transfer protocols:
+
+#PROTOCOL       "1K-Xmodem"
+#RECEIVE        "[1kxmodem]"
+#SEND           "[1kxmodem]"
+#RESPONSE_SEND  ""
+#AUTO_UPLOAD    ""
+#BATCH          0
+#BLOCK_SIZE     1024
+
+#PROTOCOL       "CRC Xmodem"
+#RECEIVE        "[crcxmodem]"
+#SEND           "[crcxmodem]"
+#RESPONSE_SEND  ""
+#AUTO_UPLOAD    ""
+#BATCH          0
+#BLOCK_SIZE     128
+
+#PROTOCOL       "HS/Link"
+#RECEIVE        "?hslink -p%p"
+#SEND           "?hslink -p%p %f"
+#RESPONSE_SEND  "?hslink -p%p @%f"
+#AUTO_UPLOAD    "HS*"
+#BATCH          1
+#BLOCK_SIZE     0
+
+#PROTOCOL       "Xmodem"
+#RECEIVE        "[xmodem]"
+#SEND           "[xmodem]"
+#RESPONSE_SEND  ""
+#AUTO_UPLOAD    ""
+#BATCH          0
+#BLOCK_SIZE     128
+
+#PROTOCOL       "Zmodem"
+#RECEIVE        "[zmodem]"
+#SEND           "[zmodem]"
+#RESPONSE_SEND  ""
+#AUTO_UPLOAD    "rz\r**^XB00"
+#BATCH          1
+#BLOCK_SIZE     0
+
+==============================================================================
+Here are some others that you may want to use.  To use these, remove the
+leading space from the lines that define the ones you want to use.
+
+Note that the batch protocols that use dsz have the "restrict" option in
+place.  This prevents receiving files that already exist, among other things.
+Please read dsz's documentation for further information.
+
+ #PROTOCOL      "1K-Xmodem"
+ #RECEIVE       "?dsz port %p rx -k %f"
+ #SEND          "?dsz port %p sx -k %f"
+ #BATCH         0
+ #BLOCK_SIZE    1024
+
+ #PROTOCOL      "CRC Xmodem"
+ #RECEIVE       "?dsz port %p rc %f"
+ #SEND          "?dsz port %p sx %f"
+ #BATCH         0
+ #BLOCK_SIZE    128
+
+ #PROTOCOL      "MobyTurbo-Zmodem"
+ #RECEIVE       "?dsz port %p rz -m %f"
+ #SEND          "?dsz port %p sz -m %f"
+ #RESPONSE_SEND "?dsz port %p sz -m @%f"
+ #BATCH         1
+ #BLOCK_SIZE    0
+
+ #PROTOCOL      "Puma"
+ #RECEIVE       "?@puma r %f"
+ #SEND          "?@puma s %f"
+ #BATCH         1
+ #BLOCK_SIZE    0
+
+ #PROTOCOL      "RLE-Zmodem"
+ #RECEIVE       "?dsz port %p restrict rz -Z %f"
+ #SEND          "?dsz port %p sz -Z %f"
+ #RESPONSE_SEND "?dsz port %p sz -Z @%f"
+ #BATCH         1
+ #BLOCK_SIZE    0
+
+ #PROTOCOL      "Steve-Punter"
+ #RECEIVE       "?punter R P%p %f"
+ #SEND          "?punter S P%p %f"
+ #BATCH         0
+ #BLOCK_SIZE    0
+
+ Note: choose one of the #RECEIVE lines depending on whether or not you want
+ users restricted from adding to/overwriting existent files.
+ #PROTOCOL      "Unfinished-Zmodem"
+  #RECEIVE       "?dsz port %p restrict rz %f"
+  #RECEIVE       "?dsz port %p rz -rr %f"
+ #SEND          "?dsz port %p sz -r %f"
+ #RESPONSE_SEND "?dsz port %p sz -r @%f"
+ #BATCH         1
+ #BLOCK_SIZE    0
+
+ #PROTOCOL      "Xmodem"
+ #RECEIVE       "?dsz port %p rx %f"
+ #SEND          "?dsz port %p sx %f"
+ #BATCH         0
+ #BLOCK_SIZE    128
+
+ #PROTOCOL      "Ymodem-Batch"
+ #RECEIVE       "?dsz port %p restrict rb %f"
+ #SEND          "?dsz port %p sb %f"
+ #RESPONSE_SEND "?dsz port %p sb @%f"
+ #BATCH         1
+ #BLOCK_SIZE    1024
+
+ #PROTOCOL      "Zmodem"
+ #RECEIVE       "?dsz port %p restrict rz"
+ #SEND          "?dsz port %p sz %f"
+ #RESPONSE_SEND "?dsz port %p sz @%f"
+ #AUTO_UPLOAD   "rz\r**^XB00"
+ #BATCH         1
+ #BLOCK_SIZE    0

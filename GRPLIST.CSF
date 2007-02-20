@@ -1,0 +1,148 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ This script lists all non-locked and non-hidden groups that the current    บ
+บ user is not in.  This could be used, for example, as an auto-application   บ
+บ int an "Access Requests" room, to tell users what groups they may request  บ
+บ access to.  It does not list locked or hidden groups, so you can keep      บ
+บ users from seeing them by locking or hiding them.                          บ
+บ                                                                            บ
+บ The script also prints the group's description, so users can know what the บ
+บ group is about.  If there is no description for a group, the script prints บ
+บ "(No Information)" where the description goes.                             บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#FUNC _Main Void
+
+    First, allocate some variables:
+
+        _NumGrps is the number of groups on your system, as set in CONFIG.CIT
+                 with #MAXGROUPS.
+
+        _ThisGrp is an index, which is the group number currently being
+                 checked.
+
+        _GrpName is the name of the group currently being checked.
+
+        _GrpDesc is the description of the group currently being checked.
+
+        _Listed is set TRUE if any groups are listed. After checking all
+                groups, the script checks this value to see if any groups
+                have been listed. If none have been listed, it tells the user
+                that he is in all of the groups.
+
+    #LVAR Integer _NumGrps
+    #LVAR Integer _ThisGrp
+    #LVAR String80 _GrpName
+    #LVAR String128 _GrpDesc
+    #LVAR Boolean _Listed
+
+
+    Assure that _Listed is set to FALSE to start with.  In actuallity, it is
+    set to FALSE when the variable is made, but this makes things look more
+    like they came from a computer science class at some university.
+    #ASGN _Listed FALSE
+
+
+    Tell the user what we are listing.  You may want to say something like
+    "Use the .EE command and send mail to AIDE to request access" here.
+    #CALL PrintM "You can request access to the following groups:"
+    #CALL DoCR
+    #CALL DoCR
+
+
+    Get the #MAXGROUPS setting from CONFIG.CIT and store it in the _NumGrps
+    variable.  Initialize the _ThisGrp index to 0.  As with the _Listed
+    variable, this is not really needed, but it looks cool.
+    #CALL GetMaxGroups
+    #ASGN _NumGrps _Result
+    #ASGN _ThisGrp 0
+
+
+    Start the loop here...
+    #DO
+
+        Is this group in use?
+        #CALL IsGrpInuse _ThisGrp
+        #IF _Result
+
+            Yes... is it locked?
+            #CALL IsGrpLocked _ThisGrp
+            #IFNOT _Result
+
+                It is not locked... is it hidden?
+                #CALL IsGrpHidden _ThisGrp
+                #IFNOT _Result
+
+                    It is not hidden... is the user in this group already?
+                    #CALL IsInGroup _ThisGrp
+                    #IFNOT _Result
+
+                        The group is inuse, is not locked, is not
+                        hidden, and the user is not in it... display its
+                        name and description.
+
+                        Get the name and store it in the _GrpName variable.
+                        #CALL GetGrpName _ThisGrp
+                        #ASGN _GrpName _Result
+
+                        Pad it to the right out to 32 characters, so the
+                        columns look pretty. Note that this will not
+                        work if you have ANSI codes in your group names.
+                        #STR PR _GrpName 32
+                        #ASGN _GrpName _Result
+
+                        Get its description and store it in the _GrpDesc
+                        variable.
+                        #CALL GetGrpDesc _ThisGrp
+                        #ASGN _GrpDesc _Result
+
+                        Remember that we have displayed at least one group
+                        #ASGN _Listed TRUE
+
+                        Check to see if there is any description. (That
+                        is, if the length of the string is not 0.)
+                        #STR E _GrpDesc
+                        #IF _Result
+
+                            There is a description, use it.
+                            #CALL PrintM _GrpName ( _GrpDesc )
+
+                        #ELSE
+
+                            No description, say so.
+                            #CALL PrintM _GrpName "(No information)"
+
+                        #ENDIF
+
+                        #CALL DoCR
+
+                    #ENDIF
+
+                #ENDIF
+
+            #ENDIF
+
+        #ENDIF
+
+        Increment the index to look at the next group.
+        #ADD _ThisGrp 1
+        #ASGN _ThisGrp _Result
+
+    And do the loop again if we have not run out of groups.
+    #LT _ThisGrp _NumGrps
+    #LOOP _Result
+
+
+    Have we listed any groups?
+    #IFNOT _Listed
+
+        No... tell them that they are in them all already.
+        #CALL PrintM "   You are in all available groups."
+
+    #ENDIF
+
+    #CALL DoCR
+
+    #RET Void
+#ENDFUNC

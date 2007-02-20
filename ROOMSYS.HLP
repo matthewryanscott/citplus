@@ -1,0 +1,42 @@
+  2Helpfile: MXhf16X0
+ 
+                   General description of a room system
+   
+    A room system (BBS) is made up of some number of rooms. A room is simply a
+grouping of messages, files, and other objects with a related topic. The name
+of the room often relates to that topic.   
+  
+    So the basic unit in this system is a room. This is comparable with 'areas'
+in a lot of other BBS software, but rooms can have both messages AND files
+grouped in the same room. (This is commonly done so that the files in the area
+can be discussed, or so that files can be uploaded to complement the
+discussion in the room.)
+ 
+    Almost all room systems start with a basic command set, and then extend it
+for features specific to that BBS software. So once you learn one room system,
+going to another is normally quite easy. 
+ 
+    Your prompt will also be the name of the room, so you always know what
+room you are in.  This is referred to as the 'room prompt'.
+ 
+    On some room systems, including this one, rooms are grouped into larger
+units called halls. These are simply a group of rooms with related topics. It
+is also common for room systems to have a large number of rooms, often over
+one hundred. (This is why grouping them by hall becomes important.)
+  
+    The commands in a room system are divided into two types, single key
+commands for all the basic functions, such as reading all the new messages in
+the current room, and multi-key commands (referred to as 'dot commands'
+because they all start with a period) that allow access to advanced features
+of the system. You can use a room system without learning the 'dot commands',
+but they offer a lot of extra power. This can be everything from searching
+the text of the messages in the curent room, to listing the contents of a ZIP
+file.
+ 
+ 
+                         2-- Related Help Topics --0
+ 
+ 3cMXhf15X0
+ 3cMXhf8X0
+ 3cMXhf12X0
+ 3cMXhf20X0

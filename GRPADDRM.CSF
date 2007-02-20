@@ -1,0 +1,142 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ This is a sample script that you can modify to make it so uses can add and บ
+บ remove themselves from certian groups.  This could be used, for example,   บ
+บ as an application in an "Access Requests" room, or as part of the login    บ
+บ process as a #NEWUSERAPP, to give access to groups that you give anybody   บ
+บ access to that requests it, such as a group for programmers, which you     บ
+บ have to keep non-programmers from having to see programming related rooms. บ
+บ                                                                            บ
+บ Unless you have groups named the same as are in this script, of course,    บ
+บ you will need to modify this slightly to work for your BBS; this is just   บ
+บ a template, which should help illustrate the concept of creating Citadel   บ
+บ script files.                                                              บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+Allocate space to store the user's name in.
+#GVAR String30 _UserName
+
+#FUNC _Main Void
+
+    Define a 30 character string for saving the group's name we are
+    working on, and two 80 character strings for a description.
+    #LVAR String30 _Group
+    #LVAR String80 _Desc1
+    #LVAR String80 _Desc2
+
+    Store the user's name in _UserName so _DoWork has access to it.
+    #CALL GetUserName
+    #ASGN _UserName _Result
+
+    Let the caller in on what is going on...
+    #CALL DoCR
+    #CALL PrintM "You will now have the opportunity to join or remove yourself "
+    #CALL PrintM "from certain special-interest groups.  By being a member of a "
+    #CALL PrintM "group, you will see rooms dealing with its topic.  If you are "
+    #CALL PrintM "no longer interested in a group, you can remove yourself from "
+    #CALL PrintM "it, avoiding the distraction of its rooms."
+    #CALL DoCR
+
+    Now, it is just a matter of assinging values to the strings, then
+    passing them to the _DoWork function that actually does the work of the
+    script file.
+
+    This is the area of the script that you should customize for your BBS,
+    by using your group names and descriptions.
+
+    #ASGN _Group "Progammers"
+    #ASGN _Desc1 "The \"Progammers\" group is for programmers. It has access to the netted "
+    #ASGN _Desc2 "progamming rooms and directories of source code, tools, and reference material."
+    #CALL _DoWork _Group _Desc1 _Desc2
+
+    #ASGN _Group "Pagans"
+    #ASGN _Desc1 "The \"Pagans\" group is for people interested in Paganism. It gives access to "
+    #ASGN _Desc2 "the netted pagan discussion rooms."
+    #CALL _DoWork _Group _Desc1 _Desc2
+
+    #ASGN _Group "Writers"
+    #ASGN _Desc1 "The \"Writers\" group is for people interested in writing. Access to it lets you "
+    #ASGN _Desc2 "talk to other writers around the country, and read their writings."
+    #CALL _DoWork _Group _Desc1 _Desc2
+
+    #ASGN _Group "Sci-Fi"
+    #ASGN _Desc1 "The \"Sci-Fi\" group is dedicated to science-fiction. Topics in the Sci-Fi rooms "
+    #ASGN _Desc2 "include discussions about books, movies, TV shows, and conventions."
+    #CALL _DoWork _Group _Desc1 _Desc2
+
+    #RET Void
+#ENDFUNC
+
+
+Here is the _DoWork function, which determines if the user is in the
+group, and then prompts if he wants to be added or removed from it,
+after printing the description of the group.
+#FUNC _DoWork Void String30 _Group String80 _Desc1 String80 _Desc2
+
+    Storage for a groupslot and a prompt...
+    #LVAR Integer _GroupSlot
+    #LVAR String80 _Prompt
+
+    First, print out the description of the group...
+    #CALL DoCR
+    #CALL DoCR
+    #CALL PrintM _Desc1
+    #CALL PrintM _Desc2
+    #CALL DoCR
+
+    Then, determine if the user is in the group...
+
+    Find the group slot...
+    #CALL GetGrpSlot _Group
+    #ASGN _GroupSlot _Result
+
+    Check for a valid _GroupSlot...
+    #NE _GroupSlot -1
+    #IF _Result
+
+        If we are here, then the group exists. Check to see if the user
+        is in it or not...
+        #CALL IsInGroup _GroupSlot
+        #IF _Result
+
+            The user is in the group; ask if he wants to be removed.
+            #STR C "Do you want to be removed from the group " _Group
+            #ASGN _Prompt _Result
+
+            #CALL AskYN _Prompt 0
+            #IF _Result
+
+                Remove the user...
+                #CALL RemoveUser _UserName _Group
+
+            #ENDIF
+
+        #ELSE
+
+            The user is not in the group; ask if he wants to be added.
+            #STR C "Do you want to be added to the group " _Group
+            #ASGN _Prompt _Result
+
+            #CALL AskYN _Prompt 0
+            #IF _Result
+
+                Add the user...
+                #CALL AddUser _UserName _Group
+
+            #ENDIF
+
+        #ENDIF
+
+    #ELSE
+
+        If we are here, then the group does not exist on this BBS... abort
+        out.
+        #CALL PrintM "The group \"" _Group "\" does not exist!  Error in Script file!"
+        #CALL DoCR
+        #EXIT FALSE
+
+    #ENDIF
+
+    #RET Void
+#ENDFUNC

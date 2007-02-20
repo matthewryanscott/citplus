@@ -1,0 +1,636 @@
+…ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕª
+∫                                                                            ∫
+∫ This script is designed to check your system for dead rooms.  You can      ∫
+∫ control what the script does with the dead rooms by creating a file named  ∫
+∫ DRCHECK.CFG in your #SCRIPTPATH.  (If you do not explicitly set a          ∫
+∫ #SCRIPTPATH in CONFIG.CIT, then it is the same as your #HOMEPATH.) The     ∫
+∫ options are:                                                               ∫
+∫                                                                            ∫
+∫     #ADDHALL days "hall name" remove                                       ∫
+∫         This specifies when to add dead rooms to a special hall.  Specify  ∫
+∫         the number of days of no activity until the room is added to the   ∫
+∫         hall and the name of the hall.  If you want to room to be removed  ∫
+∫         from all other halls (other than Maintenance) when it is added to  ∫
+∫         the new hall, set remove to a non-zero value.                      ∫
+∫                                                                            ∫
+∫         If the specified hall does not exist, then the rooms are not added ∫
+∫         to the hall.  However, if remove is set non-zero, then the rooms   ∫
+∫         will still be removed from other halls. You can therefore specify  ∫
+∫         an invalid hall name to have the script simply remove dead rooms   ∫
+∫         from all halls except Maintenance.                                 ∫
+∫                                                                            ∫
+∫         If days is set to 0, then this option is turned off, and the rooms ∫
+∫         are never moved.                                                   ∫
+∫                                                                            ∫
+∫         The default setting for this option is 60 "Dead Rooms" 1.  This    ∫
+∫         tells the script to let a room be dead for 60 days before moving   ∫
+∫         it to the hall named "Dead Rooms" and removing it from all other   ∫
+∫         halls.  If you do not have a hall named "Dead Rooms" on your       ∫
+∫         system, then the script just removes the rooms from all halls      ∫
+∫         except Maintenance.                                                ∫
+∫                                                                            ∫
+∫                                                                            ∫
+∫     #KILL days                                                             ∫
+∫         This specifies how long a room can have no activity before it is   ∫
+∫         killed.  You can turn this feature off by setting days to 0.  The  ∫
+∫         default setting of this option is 120.  This tells the script to   ∫
+∫         let a room be inactive for 120 days before it kills it.            ∫
+∫                                                                            ∫
+∫                                                                            ∫
+∫     #SEEPERMANENT value                                                    ∫
+∫         This sets if the script should work with permanent rooms.  Set     ∫
+∫         value to 1 to let the script move and kill permanent rooms, or 0 to∫
+∫         not let it.  The default setting for this option is 0, which tells ∫
+∫         the script to leave permanent rooms alone.                         ∫
+∫                                                                            ∫
+∫                                                                            ∫
+∫     #SEENETWORK value                                                      ∫
+∫         This sets if the script should work with networked rooms.  Set     ∫
+∫         value to 1 to let the script move and kill networked rooms, or 0 to∫
+∫         not let it.  The default setting for this option is 1, which tells ∫
+∫         the script to work with networked rooms.                           ∫
+∫                                                                            ∫
+∫                                                                            ∫
+∫     #SEELOCAL value                                                        ∫
+∫         This sets if the script should work with local rooms.  Set value to∫
+∫         1 to let the script move and kill local rooms, or 0 to not let it. ∫
+∫         The default setting for this option is 1, which tells the script to∫
+∫         work with local rooms.                                             ∫
+∫                                                                            ∫
+«ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ∂
+∫                                                                            ∫
+∫ After setting the options in DRCHECK.CFG, you can either run the script    ∫
+∫ manually every few days with the .Sysop Run script (.SR) command, or you   ∫
+∫ can automate the process by creating a Cron event to do it for you.  To    ∫
+∫ create the Cron event, add the following lines to your CRON.CIT file:      ∫
+∫                                                                            ∫
+∫     #DO         COMMAND "DRCHECK"                                          ∫
+∫     #REDO_TIME  1440                                                       ∫
+∫                                                                            ∫
+∫ This tells Citadel to run the script once a day.  As the script may take a ∫
+∫ while to run if you have many dead rooms, you may want to have Citadel run ∫
+∫ it only at night so it doesn't tie up the system during prime calling      ∫
+∫ hours.  If you add the following line to CRON.CIT with the previous two,   ∫
+∫ then Citadel will only execute the script between 4AM and 5AM:             ∫
+∫                                                                            ∫
+∫     #HOURS      4                                                          ∫
+∫                                                                            ∫
+«ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ∂
+∫                                                                            ∫
+∫ If you want to view a report of what this script has found, run the script ∫
+∫ DRREPORT.CSF.  That script reads the data files created by this script and ∫
+∫ reports what is in them in an easy-to-read format.                         ∫
+∫                                                                            ∫
+«ƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒƒ∂
+∫                                                                            ∫
+∫ If you have any questions on the use of this script, ask them in the       ∫
+∫ GremCit Test> room on the network.  Feel free to modify this script in any ∫
+∫ way you desire to make it useful for you.                                  ∫
+∫                                                                            ∫
+»ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕº
+
+#VERSION 65141
+
+#GVAR Long _AddHallTime
+#GVAR String30 _AddHallName
+#GVAR Boolean _RemoveHall
+#GVAR Long _KillTime
+#GVAR Boolean _SeePermanent
+#GVAR Boolean _SeeNetwork
+#GVAR Boolean _SeeLocal
+
+#FUNC _Main Boolean
+
+    #CALL DoCR
+    #CALL PrintM "Dead Room Checker 1.00 - October 8, 1994"
+    #CALL DoCR
+
+    #CALL _ReadConfigFile
+    #IF _Result
+
+        #LVAR Integer _RoomIndex
+        #LVAR Boolean _AddedToNew
+
+        Create a blank user entry. This is a bit of a hack of a way to keep
+        track of rooms we have checked: if a room is in this blank user's
+        personal hall, then it has been checked.
+        #CALL UserStart
+
+        Sort by name - this also sorts oldest time to newest time.  Do it in
+        reverse because we work our way through the list backwards
+        #CALL GetDirectory "" *.DRL 1 TRUE
+
+        #LVAR Integer _DirIndex
+        #CALL CountDirectory
+        #ASGN _DirIndex _Result
+
+        #LVAR String30 _RoomName
+
+        #LVAR Long _FileTime
+        #LVAR Long _CurTime
+        #CALL GetCurrentTime
+        #ASGN _CurTime _Result
+
+        #WHILE _DirIndex
+            #LVAR String15 _FileName
+
+            #CALL DirectoryGetName _DirIndex
+            #ASGN _FileName _Result
+
+            #STR B _FileName 0 8
+            #CALL HexToDec _Result
+            #ASGN _FileTime _Result
+
+            #CALL StrfTime "  (%x %X)" _FileTime 255
+
+            #CALL PrintM "Checking list: " _FileName "." _Result
+            #CALL DoCR
+
+            #CALL OpenFile 0 _FileName
+            #IF _Result
+                #LVAR Bool _Killed
+                #ASGN _Killed FALSE
+
+                #IF _KillTime
+                    #SUB _CurTime _FileTime
+                    #GE _Result _KillTime
+                    #IF _Result
+
+                        #ASGN _Killed TRUE
+
+                        #CALL PrintM "Killing expired rooms..."
+                        #CALL DoCR
+
+                        skip the moved flag
+                        #CALL ReadStr 0
+
+                        #CALL FileEOF 0
+                        #WHILENOT _Result
+                            #CALL ReadStr 0
+                            #ASGN _RoomName _Result
+
+                            #CALL PrintM _RoomName
+
+                            #CALL FindRoomByName _RoomName FALSE
+                            #ASGN _RoomIndex _Result
+
+                            #GE _RoomIndex 0
+                            #IF _Result
+                                #CALL UserSetRoomInPersonalHall _RoomIndex TRUE
+
+                                #LVAR Boolean _Kill
+                                #ASGN _Kill TRUE
+
+                                #IFNOT _SeePermanent
+                                    #CALL IsRoomPerm _RoomIndex
+                                    #EQ _Result FALSE
+                                    #ASGN _Kill _Result
+                                #ENDIF
+
+                                #IF _Kill
+                                    #IFNOT _SeeLocal
+                                        #CALL IsRoomShared _RoomIndex
+                                        #ASGN _Kill _Result
+                                    #ENDIF
+
+                                    #IF _Kill
+                                        #IFNOT _SeeNetwork
+                                            #CALL IsRoomShared _RoomIndex
+                                            #EQ _Result FALSE
+                                            #ASGN _Kill _Result
+                                        #ENDIF
+
+                                        #IF _Kill
+                                            #CALL GetRoomTotal _RoomIndex
+                                            #IFNOT _Result
+                                                #CALL KillRoom _RoomName
+                                                #IF _Result
+                                                    #CALL PrintM " -- Killed."
+                                                #ELSE
+                                                    #CALL PrintM " -- Could not kill."
+                                                #ENDIF
+                                            #ELSE
+                                                #CALL PrintM " -- Skipped because it has been revived."
+                                            #ENDIF
+                                        #ELSE
+                                            #CALL PrintM " -- Skipped because it is networked."
+                                        #ENDIF
+                                    #ELSE
+                                        #CALL PrintM " -- Skipped because it is local."
+                                    #ENDIF
+                                #ELSE
+                                    #CALL PrintM " -- Skipped because it is permanent."
+                                #ENDIF
+                            #ELSE
+                                #NE _RoomName ""
+                                #IF _Result
+                                    #CALL PrintM " -- Room does not exist."
+                                #ENDIF
+                            #ENDIF
+
+                            #CALL DoCR
+
+                        #CALL FileEOF 0
+                        #WEND
+
+                        #CALL CloseFile 0
+                        #CALL DeleteFile _FileName
+                    #ENDIF
+                #ENDIF
+
+                #IFNOT _Killed
+                    #CALL OpenFile 1 "DRCHECK.TMP"
+                    #IF _Result
+                        #LVAR Boolean _MoveThem
+                        #ASGN _MoveThem FALSE
+
+                        #IF _AddHallTime
+                            #SUB _CurTime _FileTime
+                            #GE _Result _AddHallTime
+                            #ASGN _MoveThem _Result
+                        #ENDIF
+
+                        Check already moved flag
+                        #CALL ReadStr 0
+                        #IF _Result
+                            #ASGN _MoveThem _FALSE
+                            #CALL WriteStr 1 "1" 2
+                        #ELSE
+                            #CALL WriteStr 1 _MoveThem 2
+                        #ENDIF
+
+                        #IF _MoveThem
+                            #CALL PrintM "Moving expired rooms..."
+                            #CALL DoCR
+                        #ENDIF
+
+                        #ASGN _AddedToNew FALSE
+
+                        #CALL FileEOF 0
+                        #WHILENOT _Result
+
+                            #CALL ReadStr 0
+                            #ASGN _RoomName _Result
+
+                            #IF _MoveThem
+                                #CALL PrintM _RoomName
+                            #ENDIF
+
+                            #CALL FindRoomByName _RoomName FALSE
+                            #ASGN _RoomIndex _Result
+
+                            #GE _RoomIndex 0
+                            #IF _Result
+
+                                #CALL UserSetRoomInPersonalHall _RoomIndex TRUE
+
+                                #LVAR Boolean _StillGood
+                                #ASGN _StillGood TRUE
+
+                                #IFNOT _SeePermanent
+                                    #CALL IsRoomPerm _RoomIndex
+                                    #EQ _Result FALSE
+                                    #ASGN _StillGood _Result
+                                #ENDIF
+
+                                #IF _StillGood
+                                    #IFNOT _SeeLocal
+                                        #CALL IsRoomShared _RoomIndex
+                                        #ASGN _StillGood _Result
+                                    #ENDIF
+
+                                    #IF _StillGood
+                                        #IFNOT _SeeNetwork
+                                            #CALL IsRoomShared _RoomIndex
+                                            #EQ _Result FALSE
+                                            #ASGN _StillGood _Result
+                                        #ENDIF
+
+                                        #IF _StillGood
+                                            #CALL GetRoomTotal _RoomIndex
+                                            #IFNOT _Result
+                                                #CALL WriteStr 1 _RoomName 2
+
+                                                #ASGN _AddedToNew TRUE
+
+                                                #IF _MoveThem
+                                                    #LVAR Integer _HallIndex
+
+                                                    #IF _RemoveHall
+                                                        #CALL GetMaxHalls
+                                                        #ASGN _HallIndex _Result
+
+                                                        #WHILE _HallIndex
+                                                            #SUB _HallIndex 1
+                                                            #ASGN _HallIndex _Result
+
+                                                            Not out of Maintenance
+                                                            #NE _HallIndex 1
+                                                            #IF _Result
+                                                                #CALL SetRoomInHall _HallIndex _RoomIndex FALSE
+                                                            #ENDIF
+                                                        #WEND
+                                                    #ENDIF
+
+                                                    #CALL FindHallByName _AddHallName
+                                                    #ASGN _HallIndex _Result
+
+                                                    #GE _HallIndex 0
+                                                    #IF _Result
+                                                        #CALL SetRoomInHall _HallIndex _RoomIndex TRUE
+                                                    #ENDIF
+
+                                                    #CALL PrintM " -- Moved."
+                                                #ENDIF
+                                            #ELSE
+                                                #IF _MoveThem
+                                                    #CALL PrintM " -- Skipped because it has been revived."
+                                                #ELSE
+                                                    #CALL PrintM _RoomName " has been revived."
+                                                    #CALL DoCR
+                                                #ENDIF
+                                            #ENDIF
+                                        #ELSE
+                                            #IF _MoveThem
+                                                #CALL PrintM " -- Skipped because it is networked."
+                                            #ENDIF
+                                        #ENDIF
+                                    #ELSE
+                                        #IF _MoveThem
+                                            #CALL PrintM " -- Skipped because it is local."
+                                        #ENDIF
+                                    #ENDIF
+                                #ELSE
+                                    #IF _MoveThem
+                                        #CALL PrintM " -- Skipped because it is permanent."
+                                    #ENDIF
+                                #ENDIF
+                            #ELSE
+                                #IF _MoveThem
+                                    #NE _RoomName ""
+                                    #IF _Result
+                                        #CALL PrintM " -- Room does not exist."
+                                    #ENDIF
+                                #ENDIF
+                            #ENDIF
+
+                            #IF _MoveThem
+                                #CALL DoCR
+                            #ENDIF
+
+                        #CALL FileEOF 0
+                        #WEND
+
+                        #CALL CloseFile 0
+                        #CALL CloseFile 1
+
+                        #CALL DeleteFile _FileName
+
+                        #IF _AddedToNew
+                            #CALL RenameFile "DRCHECK.TMP" _FileName
+                        #ENDIF
+
+                        #CALL DeleteFile "DRCHECK.TMP"
+
+                    #ELSE
+                        #CALL PrintM "Could not open temp file."
+                        #CALL DoCR
+                        #CALL CloseFile 0
+                    #ENDIF
+                #ENDIF
+            #ELSE
+                #CALL PrintM "Could not open file: " _FileName "."
+                #CALL DoCR
+            #ENDIF
+
+            #CALL DoCR
+
+            #SUB _DirIndex 1
+            #ASGN _DirIndex _Result
+        #WEND
+
+        Now it is time to create a new list...
+        #CALL DecToHex _CurTime 8
+        #STR C _Result ".DRL"
+        #ASGN _FileName _Result
+
+        #CALL OpenFile 0 _FileName
+        #IF _Result
+            #CALL PrintM "Checking for newly dead rooms..."
+            #CALL DoCR
+
+            #CALL WriteStr 0 "0" 2
+
+            #ASGN _AddedToNew FALSE
+
+            #CALL GetMaxRooms
+            #ASGN _RoomIndex _Result
+            #WHILE _RoomIndex
+                #SUB _RoomIndex 1
+                #ASGN _RoomIndex _Result
+
+                #CALL UserIsRoomInPersonalHall _RoomIndex
+                #IFNOT _Result
+                    #CALL IsRoomInuse _RoomIndex
+                    #IF _Result
+                        #ASGN _StillGood TRUE
+
+                        #IFNOT _SeePermanent
+                            #CALL IsRoomPerm _RoomIndex
+                            #EQ _Result FALSE
+                            #ASGN _StillGood _Result
+                        #ENDIF
+
+                        #IF _StillGood
+                            #IFNOT _SeeLocal
+                                #CALL IsRoomShared _RoomIndex
+                                #ASGN _StillGood _Result
+                            #ENDIF
+
+                            #IF _StillGood
+                                #IFNOT _SeeNetwork
+                                    #CALL IsRoomShared _RoomIndex
+                                    #EQ _Result FALSE
+                                    #ASGN _StillGood _Result
+                                #ENDIF
+
+                                #IF _StillGood
+                                    #CALL GetRoomTotal _RoomIndex
+                                    #IFNOT _Result
+                                        #CALL GetRoomName _RoomIndex
+                                        #ASGN _RoomName _Result
+
+                                        #CALL PrintM _Result
+                                        #CALL DoCR
+
+                                        #CALL WriteStr 0 _RoomName 2
+
+                                        #ASGN _AddedToNew TRUE
+                                    #ENDIF
+                                #ENDIF
+                            #ENDIF
+                        #ENDIF
+                    #ENDIF
+                #ENDIF
+            #WEND
+
+            #CALL CloseFile 0
+
+            #IFNOT _AddedToNew
+                #CALL PrintM "None found."
+                #CALL DoCR
+                #CALL DeleteFile _FileName
+            #ENDIF
+        #ELSE
+            #CALL PrintM "Could not create new list " _FileName "."
+            #CALL DoCR
+        #ENDIF
+
+    #CALL UserDump
+
+        #RET TRUE
+    #ELSE
+        #RET FALSE
+    #ENDIF
+#ENDFUNC
+
+#FUNC _ReadConfigFile Boolean
+
+    #ASGN _AddHallTime 60
+    #ASGN _AddHallName "Dead Rooms"
+    #ASGN _RemoveHall TRUE
+    #ASGN _KillTime 120
+    #ASGN _SeePermanent FALSE
+    #ASGN _SeeNetwork TRUE
+    #ASGN _SeeLocal TRUE
+
+    #CALL FileExists "DRCHECK.CFG"
+
+    #IF _Result
+        #CALL OpenFile 0 "DRCHECK.CFG"
+        #IF _Result
+
+            #DO
+                #LVAR String255 _FromFile
+                #LVAR String30 _Keyword
+                #LVAR String30 _Param
+
+                #LVAR Boolean _Valid
+                #ASGN _Valid FALSE
+
+                #CALL ReadStr 0
+                #ASGN _FromFile _Result
+
+                #CALL GetParam _FromFile 1
+                #ASGN _Keyword _Result
+
+                #EQ _Keyword "#ADDHALL"
+                #IF _Result
+                    #ASGN _Valid TRUE
+
+                    #CALL GetParam _FromFile 2
+                    #ASGN _AddHallTime _Result
+
+                    #CALL GetParam _FromFile 3
+                    #ASGN _AddHallName _Result
+
+                    #CALL GetParam _FromFile 4
+                    #ASGN _RemoveHall _Result
+                #ENDIF
+
+                #EQ _Keyword "#KILL"
+                #IF _Result
+                    #ASGN _Valid TRUE
+
+                    #CALL GetParam _FromFile 2
+                    #ASGN _KillTime _Result
+                #ENDIF
+
+                #EQ _Keyword "#SEEPERMANENT"
+                #IF _Result
+                    #ASGN _Valid TRUE
+
+                    #CALL GetParam _FromFile 2
+                    #ASGN _SeePermanent _Result
+                #ENDIF
+
+                #EQ _Keyword "#SEENETWORK"
+                #IF _Result
+                    #ASGN _Valid TRUE
+
+                    #CALL GetParam _FromFile 2
+                    #ASGN _SeeNetwork _Result
+                #ENDIF
+
+                #EQ _Keyword "#SEELOCAL"
+                #IF _Result
+                    #ASGN _Valid TRUE
+
+                    #CALL GetParam _FromFile 2
+                    #ASGN _SeeLocal _Result
+                #ENDIF
+
+                #IFNOT _Valid
+                    #STR B _Keyword 0 1
+
+                    #EQ _Result "#"
+                    #IF _Result
+                        #CALL PrintM "Unknown keyword: " _Keyword "."
+                        #CALL DoCR
+                    #ENDIF
+                #ENDIF
+
+            #CALL FileEOF 0
+            #LOOPNOT _Result
+
+            #CALL CloseFile 0
+
+        #ELSE
+
+            #CALL PrintM "Could not open DRCHECK.CFG!"
+            #CALL DoCR
+
+            #RET FALSE
+
+        #ENDIF
+
+    #ELSE
+
+        #CALL PrintM "Configuration file DRCHECK.CFG does not exist; using defaults."
+        #CALL DoCR
+
+    #ENDIF
+
+    #CALL DoCR
+
+    #IF _AddHallTime
+        #CALL PrintM "Move dead rooms to hall \"" _AddHallName "\" after " _AddHallTime " days"
+        #IF _RemoveHall
+            #CALL PrintM " and remove from other halls"
+        #ENDIF
+        #CALL PrintM "."
+        #CALL DoCR
+    #ENDIF
+
+    #IF _KillTime
+        #CALL PrintM "Kill dead rooms after " _KillTime " days."
+        #CALL DoCR
+    #ENDIF
+
+    #CALL PrintM "Work with permanent rooms: " _SeePermanent "."
+    #CALL DoCR
+    #CALL PrintM "Work with networked rooms: " _SeeNetwork "."
+    #CALL DoCR
+    #CALL PrintM "Work with local rooms: " _SeeLocal "."
+    #CALL DoCR
+    #CALL DoCR
+
+    Convert days to seconds...
+    #MUL _AddHallTime 86400
+    #ASGN _AddHallTime _Result
+
+    #MUL _KillTime 86400
+    #ASGN _KillTime _Result
+
+    #RET TRUE
+#ENDFUNC

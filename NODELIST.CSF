@@ -1,0 +1,109 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ																			 บ
+บ This searches through the entire message base and extracts the region,	 บ
+บ country, address, and phone number of other nodes on the network.  This	 บ
+บ uses the phone number to check for duplicates.							 บ
+บ																			 บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#VERSION 65141
+
+#FUNC _Main Void
+
+	#CALL MsgStart
+	#IF _Result
+
+		#LVAR Long _MessageIndex
+		#LVAR Long _Oldest
+		#LVAR Long _NumMessages
+
+		#CALL GetNumberOfMessages
+		#ASGN _NumMessages _Result
+
+		#CALL GetMTOldest
+		#ASGN _Oldest _Result
+
+		#ASGN _MessageIndex 0
+
+		#CALL StartDupCheck
+
+		#DO
+			#CALL MsgTabIsNetworked _MessageIndex
+			#IF _Result
+
+				#LVAR Long _ID
+
+				#ADD _Oldest _MessageIndex
+				#ASGN _ID _Result
+
+				#CALL MsgLoad _ID
+				#IF _Result
+
+					#LVAR String30 _Phone
+
+					#CALL MsgGetOriginPhoneNumber
+					#ASGN _Phone _Result
+
+					#NE _Phone ""
+					#IF _Result
+
+						#CALL CheckForDup _Phone
+						#IFNOT _Result
+
+							#CALL AddDupCheck _Phone
+
+							#CALL MsgGetOriginNodeName
+							#CALL PrintM _Result ", "
+
+							#CALL MsgGetOriginRegion
+							#CALL PrintM _Result ", "
+
+							#CALL MsgGetOriginCountry
+							#CALL PrintM _Result
+
+							#LVAR String9 _OAdd
+
+							#CALL MsgGetOriginAddress
+							#ASGN _OAdd _Result
+
+							#NE _OAdd ""
+							#IF _Result
+
+								#CALL PrintM " (" _OAdd )
+
+							#ENDIF
+
+							#CALL DoCR
+
+							#CALL PrintM _Phone
+
+							#CALL DoCR
+
+						#ENDIF
+
+					#ENDIF
+
+				#ELSE
+
+					#CALL PrintM "Could not load message #" _ID "."
+					#CALL DoCR
+
+				#ENDIF
+
+			#ENDIF
+
+			#ADD _MessageIndex 1
+			#ASGN _MessageIndex _Result
+		#LT _MessageIndex _NumMessages
+		#LOOP _Result
+
+	#ELSE
+
+		#CALL PrintM "Out of memory."
+
+	#ENDIF
+
+	#CALL StopDupCheck
+
+	#RET Void
+#ENDFUNC

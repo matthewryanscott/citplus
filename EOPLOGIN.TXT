@@ -1,0 +1,16 @@
+w "the edge>"
+s "L"
+w :
+s "sld;pwd\n"
+w "the edge>"
+s "d msgpull"
+w "the edge>"
+s ".rzb"
+-------give file name to Citadel-86?
+d "zmodem" "c:\\gcit\\trans" ""
+w "the edge>"
+s ".ezf"
+-------confirm with Citadel-86?
+u "zmodem" "c:\\gcit\\trans" "msgout86.*"
+w "the edge>"
+send ".tq"

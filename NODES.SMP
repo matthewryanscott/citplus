@@ -1,0 +1,699 @@
+==============================================================================
+The NODES.CIT file is used to specify information on your net partners.  There
+are many more options for nodes than most people use.  (In fact, I would not
+be surprised to learn that no one person has used all of the options.)
+
+Because of this, most options have valid defaults.  Just specify which options
+you need to set for a specific node.
+
+Also, you can change the default settings by specifying settings for a node
+named "Default".  Also, a node named "Default" is needed for Net 6.9; it is
+possible to get network packets from a node that you have never heard of, and
+need some basic information to be able to incorporate these packets.
+
+Each node gets its own section; start a section with the "#NODE" keyword,
+then the name of the node and its region.  Then, anything entered after that
+applies to that node, until another "#NODE" keyword is found or the end of
+the file is reached.  It is fastest to put the "Default" node at the beginning
+of the file, because it is always read before each node is read.  The
+following Default entry is pretty basic, and should work for most uses:
+
+#NODE       "Default" ""
+#NETWORK    NET6_9
+#ZIP        "?pkzip %d %f"  "?pkunzip -o %d"
+#PROTOCOL   "H"
+#VERBOSE    2
+
+If you have an option that is the same for almost all boards you net with,
+it is usually easiest to set it in the "Default" entry.  If you need it to
+be different for any specific node, just change it in that node's section.
+
+The valid keywords are:
+
+    #NODE
+    #NETWORK
+    #GATEWAY
+    #BAUD
+    #PREDIAL
+    #DIALOUT
+    #PHONE
+    #IPADDRESS
+    #IPPORT
+    #CHAT
+    #DIAL_TIMEOUT
+    #REDIAL
+    #LOGIN
+    #OUTPUTPACE
+    #WAIT_TIMEOUT
+    #REQUEST
+    #AUTOROOM
+    #AUTOGROUP
+    #AUTOHALL
+    #FETCH
+    #FETCH_TIMEOUT
+    #ZIP
+    #PROTOCOL
+    #VERBOSE
+    #MOREINFO69
+    #NETFAIL
+    #GROUP
+    #MAPUNKGROUP
+    #ROOM
+
+These are all explained below.
+
+==============================================================================
+
+    #NODE {name} {region}
+
+This declares the start of a section for a node.  Give the node's name as
+either its full name or its full address, or just its alias if it is in the
+same region as your node.
+
+The optional "region" parameter is the old-style (30 character) region, and is
+not used for much.
+
+==============================================================================
+
+    #NETWORK {type}
+
+This sets the network protocol to use for the network.  This has to be the
+same on both nodes.  The available network protocols are:
+
+    DRAGCIT1_0    DRAGCIT1_1    DRAGCIT1_5    DRAGCIT1_6
+    NET6_9        NET6_9a       NET6969       CIT86
+    HENGE
+
+However, HENGE is not currently implemented.  The default is DRAGCIT1_0.
+
+Any of the above protocols except NET6969 can be used over a normal
+modem-to-modem landline dialup connection.  Only NET6_9a and NET6969 can be
+used over a TCP/IP connection.
+
+==============================================================================
+
+    #GATEWAY {1 or 0}
+
+If this is non-zero, then Citadel will write extra information out to the
+network packet that may be helpful for software that acts as a gateway to
+other networks.
+
+Currently, the only thing written out differently is the time: In addition to
+the standard Citadel method of writing the time, it writes the time in a
+format that is easier for programs written in a language other than C to read.
+
+If you are running a gateway to another network, then the documentation for
+the gateway software will tell you if this setting is needed.
+
+==============================================================================
+
+    #BAUD {300, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200}
+
+This sets the speed at which Citadel will initialize the modem when dialing
+the other node.  This does not need to be the speed of the other node's
+modem: Citadel will recognize the speed that the modem reports in the CONNECT
+string.
+
+This defaults to the value of #INIT_BAUD as set in CONFIG.CIT.
+
+==============================================================================
+
+    #PREDIAL {command}
+
+This sets a command to send to the modem after #DIAL_INIT from CONFIG.CIT and
+before starting to dial the other board by sending #DIAL_PREF from CONFIG.CIT
+followed by #DIALOUT or #PHONE from this file.
+
+The default for #PREDIAL is to have none.
+
+==============================================================================
+
+    #DIALOUT {dial string}
+    #PHONE {dial string}
+
+This tells Citadel how to dial the phone to connect to the other node.  This
+string is appended to the #DIAL_PREF string in CONFIG.CIT ("ATDT" by default)
+to create a command to send to the modem.
+
+The name "#PHONE" is a little bit misleading: this can be used for more than
+just the phone number.  For example, some high speed modems need some special
+set-up to connect reliably with a low-speed modem.  A common solution to this
+problem is to set #DIAL_PREF in CONFIG.CIT to just "AT" and then setting this
+string to first be the modem initialization codes, then "DT" and the phone
+number.
+
+For example, the following line might be used:
+
+         #PHONE "\\n0 dt 555-1212"
+
+(Note the double-backslash: like any quoted string in a .CIT file, Citadel
+trets the "\" character specially, and you need two to signify one to
+Citadel.)
+
+This is why the command has been renamed "#DIALOUT".  While "#PHONE" still
+works for now, try to avoid using it in the future, because it may be removed
+at some time.
+
+==============================================================================
+
+    #IPADDRESS {address}
+
+This is valid in the Windows version only. It tells Citadel to network with
+the other node by establishing a TCP/IP connection with the IP address
+{address}. The connection is established on the port specified by #IPPORT.
+
+When networking with a TCP/IP connection, the following NODES.CIT keywords
+are interpreted differently:
+
+    #NETWORK        There are currently only two acceptable network
+                    protocols for TCP/IP netting.  The first is NET6_9a
+                    which can also be used over non-TCP/IP direct modem
+                    connections.  The second is a "real-time" netting
+                    protocol, NET6969, which can only be used over a
+                    TCP/IP connection.  See below for what keywords are
+                    ignored/treated differently for these respective
+                    protocols.
+
+    #DIAL_TIMEOUT   Instead of the number of seconds to wait for a CONNECT
+                    from the modem, this specified the number of seconds to
+                    wait for the remote system to acknowledge the TCP/IP
+                    connection.
+    
+    #PROTOCOL       When using the NET6_9a protocol for TCP/IP networking,
+                    set this to a batch uni-directional file transfer
+                    protocol. Z-Modem seems to work well. While using
+                    NET6969, this keyword is ignored, as a completely
+                    different protocol is used.
+
+    #CHAT           This is only active while using the NET6969 protocol,
+                    and is ignored using any other protocol.  See the
+                    section later in this file on the #CHAT keyword for
+                    information.
+
+    #REDIAL         Intead of the number of times Citadel tries to redial,
+                    this is the number of times Citadel tries to establish a
+                    TCP/IP connection.
+
+    #LOGIN          Instead of a full login script, when using NET6969, just
+                    specify the initials and password together as one
+                    parameter, separated by a semicolon. This is sent to the
+                    remote node to identify and verify the network connection.
+                    A normal login script is used when NET6_9a is the TCP/IP
+                    networking protocol. See the section on the #LOGIN
+                    keyword for more information.
+
+And the following keywords are ignored, as indicated:
+
+    #CHAT           Ignored with NET6_9a; chats and related information is
+                    not passed with anything other than NET6969.
+
+    #WAIT_TIMEOUT   Ignored with NET6969; the #LOGIN command does not specify
+                    a login script, so the "W" and "R" commands do not exist.
+                    For NET6_9a, this works as it would any other time.  See
+                    the sections on the #LOGIN and #WAIT_TIMEOUT keywords
+                    later in this file for information.
+
+    #REQUEST        Ignored with NET6969; these options are specific to
+    #FETCH          other network protocols, including NET6_9a. See their
+    #FETCH_TIMEOUT  sections later in this file.
+    #ZIP
+    #PROTOCOL
+    #MOREINFO69
+    
+    #OUTPUTPACE     Ignored; there is no reason to pace output in a TCP/IP
+                    connection.
+
+    #ROOM           Ignored; this option is specific to other network
+                    protocols that are not used with TCP/IP based networking.
+
+    #PREDIAL        Ignored; Citadel does not communicate directly with the
+    #BAUD           modem (if indeed a modem is used at all) when using TCP/IP
+    #DIALOUT        based networking.
+    #PHONE
+
+
+==============================================================================
+
+    #IPPORT {port}
+
+This is valid in the Windows version only. It tells Citadel to network with
+the other node by establishing a TCP/IP connection on port {port}. The IP
+address to connect to is specified by #IPADDRESS. See #IPADDRESS for more
+information about TCP/IP based networking.
+
+If this keyword is not specified, but #IPADDRESS is, Citadel uses the default
+networking port, 6969.
+
+==============================================================================
+
+    #CHAT {TOALL|GROUP|ROOM|USER|ALL|!TOALL|!GROUP|!ROOM|!USER|!ALL}
+
+This is valid in the Windows version only, while using the NET6969 networking
+protocol.  It will be ignored if any other protocol is used. It tells Citadel
+what types of chat messages, if any, should be passed across the network.
+The available options are:
+
+    TOALL
+        Pass chats to All across the network.
+
+    GROUP
+        Pass chats to a specific group across the network.
+
+    ROOM
+        Pass chats to a specific room across the network.
+
+    USER
+        Pass chats to a specific user across the network.
+
+    ALL
+        Will enable all of the above options, while !ALL disables them.
+
+Currently, only the "TOALL" parameter does anything.  Specifying "ALL"
+will simply enable "TOALL" with two less keystrokes.
+
+==============================================================================
+
+    #DIAL_TIMEOUT {seconds}
+
+This sets the number of seconds that Citadel will wait for a CONNECT signal
+from the modem after sending the #DIALOUT string or #PHONE string before it
+aborts the network attempt.  If it gets another result code from the modem
+(such as BUSY or NO CARRIER) before this time, it will abort the dialing
+early.
+
+This defaults to 60 seconds.
+
+==============================================================================
+
+    #REDIAL {times}
+
+This sets how many times to try dialing the node every time Citadel tries to
+network.
+
+The default for #REDIAL is 0, which operates the same as 1.
+
+==============================================================================
+
+    #LOGIN {script}
+
+This is used to tell Citadel how to log onto the other board for networking.
+
+The #LOGIN keyword has been simplified for use with NET6969. There are no
+commands, as NET6969 connections are initiated on an independent port (see
+#IPPORT above). All that is required is the initials and password of your
+node's account on the remote system, separated by a semicolon.
+
+For example:
+
+        #LOGIN initials;password
+
+No quotation marks of any kind are necessary, and Citadel won't be able to
+log in if they are present. Same goes for \r and \n control characters.
+
+If you are using any networking protocol other than NET6969, then the
+usage of the #LOGIN keyword is a bit different. Instead of just the initials
+and password, you need to specify an actual login script. To start, you
+usually wait for "initials:" from the other board, then send your board's
+initials and password.  Do this with the string:
+
+        #LOGIN w "initials:" s "in;pw\r"
+        
+Take notice of the "\r" at the end of the initials and password: this is
+interpreted by Citadel as a return.  If you do not include the "\r", then
+Citadel will never send the return to the other board, and you will not
+successfully log in.
+
+Also know that after Citadel has reached the end of the #LOGIN script, it will
+claim that login was successful.  However, it does not know if it was really
+able to log in, it just knows that it got to the end of its instructions.  If
+you have something wrong (such as the wrong initials or password), your BBS
+will think that it was able to log in, but the other BBS will not.  This is a
+common cause of networking error.  Have the sysop of the other system watch
+the login process, to verify that your BBS was indeed able to log in.
+
+The available #LOGIN script commands are:
+
+     D "protocol key" "path" "file"
+          Download the file "file" into the path "path" with the file transfer
+          protocol with "protocol key" as the menu key.  Use an empty string
+          ("") if downloading with a batch protocol.
+
+     P "seconds"
+          Pause for "seconds" number of seconds.
+
+     R "wait" "send" "times"
+          This is a complex "send while waiting" command.  This is used to
+          get the attention of some systems, which require you to hit the
+          enter key often to recognize that they got a call.  You would use
+          this similarly to this:
+
+               R "Connected" "\r" "10"
+
+          This will cause Citadel to wait for "Connected" (use whatever the
+          called system sends when it recognizes the connection) for the
+          amount of time specified by #WAIT_TIMEOUT.  If Citadel sees the
+          string, then it considers itself successful.  If it does not see the
+          string, then it sends "\r" (remember that Citadel interprets this as
+          a carriage return) to the modem, and waits again.  It repeats this
+          process 10 times before giving up and considering the login to be a
+          failure.
+
+     S "text"
+          This tells Citadel to send the text specified by "text" out to the
+          other system.
+
+     U "protocol key" "path" "file"
+          Upload the file "file" from the path "path" with the file transfer
+          protocol with "protocol key" as the menu key.  If the protocol is
+          batch, "file" may contain wildcards and multiple filenames separated
+          by spaces.
+
+     W "text"
+          This tells Citadel to wait for the text specified by "text" to come
+          in from the other system.  If it is not seen in the time specified
+          by #WAIT_TIMEOUT, then Citadel considers the login process to be a
+          failure.
+
+     ! "command"
+          This tells Citadel to shell out to DOS and run the application
+          specified by "command".
+
+          The following flags can be put at the start of the command line to
+          tell Citadel how to run the application:
+
+          !    This tells Citadel to "Super-shell," or swap as much of itself
+               as possible out of memory, thus giving the application the most
+               memory possible in which to run.  Citadel leaves less than 1K
+               of itself in memory, swapping the rest of itself to XMS, EMS,
+               or disk.  Swapping to XMS or EMS is nearly instantaneous, but
+               swapping to disk takes a few seconds. This is only active in
+               the Windows version of Citadel, and has no effect in the DOS
+               versions.
+
+          @    This tells Citadel to not clear the screen before running the
+               application, and to not restore the screen before returning.
+               This is used to save memory if you are not super-shelling and
+               the application saves and restores the screen for you: An 80x25
+               text screen takes nearly 4K to save in memory.  When using the
+               super-shell, this does not make any difference, because the
+               memory used to save the screen is also swapped out when
+               shelling.  This is only active in the DOS versions of Citadel,
+               and has no effect in the Windows version.
+
+          $    This tells Citadel to load COMMAND.COM (or, actually, the
+               program pointed to by the COMSPEC environment variable) and
+               tell it to process the command.  This is used to run DOS batch
+               files or to redirect program output to a file.
+
+          ?    This tells Citadel not to write out the OUTPUT.APL file when
+               shelling.  Writing OUTPUT.APL takes some time and some disk
+               space, but not much.  Usually, it does not matter if the file is
+               written out when it is not needed.  But, if you are very tight
+               on disk space or running on a slow machine, this makes a
+               difference.
+
+          *    This tells Citadel that the application is a script file, not
+               a program.  This overrides all other flags.  That is, if this
+               flag is present then all others are ignored.  This is because
+               the other flags do not apply to script files.  Also, when
+               running a script file the command line arguments are not passed
+               to it, since script files have no command line parameters.
+
+          &   This tells Citadel not to wait for the external program to
+              finish before returning to Citadel; the external program is run
+              in the background instead.  This is only active in the Windows
+              version of Citadel, and has no effect in the DOS versions.
+
+     @ "filename"
+          This tells Citadel to read in the file specified by filename and
+          process it for the #LOGIN script.  Citadel interprets everything in
+          this file as being a part of the script.  This file can even call
+          another file.  When Citadel is done processing the file, it returns
+          and continues executing the rest of the script.  This can be useful
+          for writing long scripts to log in over a network system, or run
+          a remote node's sub-board to network with it.
+
+==============================================================================
+
+    #OUTPUTPACE {hundredths of a second}
+
+This sets the time to wait between each character sent while logging in with
+the #LOGIN command.  This is helpful when logging in over some packet-switched
+networks.
+
+The default for #OUTPUTPACE is 0.
+
+==============================================================================
+
+    #WAIT_TIMEOUT {seconds}
+
+This sets the number of seconds that Citadel will wait for an incoming string
+with either the "W" or "R" #LOGIN commands before declaring failure.
+
+The default value is 60 seconds.
+
+==============================================================================
+
+    #REQUEST {frequency}
+
+This sets how often to send room request files to Net 6.9 network partners.
+Set {frequency} to how often you wish to send your room request: Citadel will
+send the file after that many fetches.  Use 0 to never send a room request
+file.  Generally, this should be left at 1.
+
+The default for #REQUEST is 1.
+
+==============================================================================
+
+    #AUTOROOM {1 or 0}
+
+This activates auto-room in Net 6.9.  Auto-room creates networked rooms on
+your system that exist on nodes you network with.  Set this to 1 to turn on
+auto-room, or 0 to turn it off.
+
+The default for #AUTOROOM is 0.
+
+==============================================================================
+
+    #AUTOGROUP {name}
+
+This sets the group for rooms created by auto-room.
+
+The default for #AUTOGROUP is "", which makes it not active.  (Meaning that
+rooms are not made group-only.)
+
+==============================================================================
+
+    #AUTOHALL {name}
+
+This sets the hall for rooms created by auto-room to be placed into.  Rooms
+are always also placed in Maintenance.
+
+The default for #AUTOHALL is "", which makes it not active.  (Meaning that
+rooms are only placed into Maintenance.)
+
+==============================================================================
+
+    #FETCH {-1 to 2}
+
+This sets how to fetch when on-line using Net 6.9.  The valid values are:
+
+    -1  Never do any fetching while on-line.
+
+    0   Only do a fetch when on-line and there is no outgoing network
+        packet for the other node in #TRANSPATH.
+
+    1   Fetch any waiting mail and FILE69 file transfer files (but not
+        normal messages) even if there is an outgoing network packet for
+        the other node in #TRANSPATH.
+
+    2   Do a full fetch even when there are outgoing network packets for
+        the other node in #TRANSPATH.
+
+==============================================================================
+
+    #FETCH_TIMEOUT {minutes}
+
+This sets the number of minutes that Citadel will wait for the other node to
+complete fetching messages.
+
+The default value is 35 minutes.
+
+==============================================================================
+
+    #ZIP {create} {extract}
+
+This sets how to create and extract network packets.  This is not used for the
+DRAGCIT1_0, DRAGCIT1_1, or HENGE network types.  For DRAGCIT1_5, DRAGCIT1_6,
+NET6_9, and NET6_9A, these are command lines to pass to an archiver such as
+PKZIP (thus the name #ZIP).
+
+For the {create} archiver command line, the variable %d gives the name of the
+archive file to create, and %f gives the names of the files to archive.  (This
+will include multiple files separated by spaces and wildcards; make sure the
+archiver you choose supports these.)  In the {extract} command line, the
+variable %d gives the name of the archive file to extract files from.  Citadel
+always wants to extract all files from the archive, so there is no %f variable
+for extraction.
+
+Both you and your network partner must agree on how to create and extract
+network packets with an archiver: you must use the correct command to extract
+archives that he creates for you, and he must use the correct command to
+extract archives that you create for him.  Though there is no requirement for
+it, the standard method used on the Citadel network is using PKZIP 2.04g.
+
+This is used in the CIT86 network protocol as the names of the files to create
+and read.  For reading, wildcards are accepted.
+
+For use as archive command lines, there are no defaults.  For use as CIT86
+network packets, the default {create} packet name is "MSGOUT86.xxx" (where
+"xxx" rotates from "000" to "999" sequentially), and the default {extract}
+packet name is "MSGIN86.*".
+
+==============================================================================
+
+    #PROTOCOL {menu key}
+
+This specifies the file transfer protocol that Citadel should use for
+networking.  For all network types, this must be a batch protocol.  For Net
+6.9, there is the additional requirement that it be a bi-directional file
+transfer protocol.  (Use Net 6.9a if you want to use a single-directional file
+transfer protocol).
+
+The specified protocol must be defined in EXTERNAL.CIT so Citadel knows how to
+use it.
+
+==============================================================================
+
+    #VERBOSE {0|1|2|FILE69IN|FILE69INFULL|NOACCESS|ROOMCREATED|ROOMNOTCREATED|
+              NETIDNOTFOUND|NONETIDONSYSTEM|ALL|!FILE69IN|!FILE69INFULL|
+              !NOACCESS|!ROOMCREATED|!ROOMNOTCREATED|!NETIDNOTFOUND|
+              !NONETIDONSYSTEM|!ALL}
+
+This sets which error and status messages are saved to the Aide) room when
+networking with the specified node.  The available options are:
+
+    FILE69IN
+        Alerts you when an incoming file transfer is received.
+        
+    FILE69INFULL
+        Alerts you when an incoming file transfer is received, and saves the
+        output of the command used to extract the file from the packet.
+
+    NOACCESS
+        Alerts you when a node requests a room to which it does not have
+        access.
+
+    ROOMCREATED
+        Alerts you when a room is created.
+
+    ROOMNOTCREATED
+        Alerts you when a room is not created, though Citadel tried.
+
+    NETIDNOTFOUND
+        Alerts you when a Net ID is detected on the network that Citadel has
+        seen before, but that you don't carry the room to.  (Most likely
+        because you have deleted the room.)
+
+    NONETIDONSYSTEM
+        Alerts you when a Net ID is specified in a Citadel-86 style network
+        that does not exist on the system.
+
+In addition, the following shortcuts are available:
+
+    0   Sets the default #VERBOSE.
+
+    1   Sets the default #VERBOSE and turns on FILE69INFULL and NOACCESS.
+
+    2   Sets the default #VERBOSE and turns on FILE69INFULL, NOACCESS,
+        ROOMCREATED, ROOMNOTCREATED, NETIDNOTFOUND, and NONETIDONSYSTEM.
+
+    ALL Turns on all #VERBOSE settings.  Currently, this is the same as 2,
+        but this may change in the future: 2 will never turn on more than
+        it currently does, but ALL will always turn on all options available.
+
+After using any of the shortcuts, you may then turn off any options by
+specifying the option preceded by an exclamation mark (!).  For example, if
+you wanted to know about everything except NOACCESS, you could specify the
+following:
+
+        #VERBOSE ALL !NOACCESS
+
+The default for #VERBOSE is FILE69IN.
+
+==============================================================================
+
+    #MOREINFO69 {0 or 1}
+
+This is not used yet.
+
+The default for #MOREINFO69 is 1.  Or, at least it will be when it starts
+being used.
+
+==============================================================================
+
+    #NETFAIL {-1 to 1}
+
+This sets how Citadel traps network events that fail.  The available settings
+are:
+
+    -1  Never trap failure.
+    0   Trap failure as specified by #TRAP NETWORK in CONFIG.CIT.
+    1   Always trap failure, even if network trapping is not enabled in
+        CONFIG.CIT.
+
+The default for #NETFAIL is 0.
+
+==============================================================================
+
+    #GROUP {here} [there]
+
+If you want to map groups between two nodes, tell Citadel which groups to
+map to each other here.  This is only used when incorporating messages: the
+group status of a room is not preserved or passed over the network.
+
+For example, if you network with a board that has a "Programming" group and
+you want to map messages in that board's "Programming" group into your
+board's "Programmers" group, set up the mapping here.
+
+You need to explicitly set up a #GROUP mapping to share groups, even if the
+name is the same on both boards.  However, if the name is the same, you do
+not need to provide the "[there]" group: Citadel will use the "{here}" group's
+name for both if only one name is present.
+
+If a message comes in that belongs to a group that is not mapped, it is put
+into the group specified by #MAPUNKGROUP, described below.
+
+==============================================================================
+
+    #MAPUNKGROUP {name}
+
+This sets the group in which to place group-only messages that come in over
+the network that are not explicitly mapped by a #GROUP keyword.
+
+The default for #MAPUNKGROUP is "Reserved_2" (or whatever you have renamed
+this group to, if you have renamed it).
+
+==============================================================================
+
+    #ROOM {here} [there]
+
+When networking two boards using a network protocol of 1.6 or earlier, you
+need to tell Citadel which rooms to share with the other BBS, and the names
+of the rooms both on the local system and the remote system.  Citadel then
+uses this to map the messages between the two systems.
+
+This is the biggest flaw of the earlier network protocols, as it is easy to
+make a mistake here that takes quite some time to track down: be careful
+as you set up your room mapping.
+
+If the room is named the same thing on both the local and remote system, then
+you can include only one name and Citadel will use it for both.
+
+#ROOM lines must be the last lines of a node's entry in NODES.CIT: after
+Citadel encounters the first #ROOM line, it only reads #ROOM lines.
+
+For Net 6.9, #ROOM lines are not used, as the mapping is done automatically
+based on the Network IDs of the rooms.
+
+==============================================================================

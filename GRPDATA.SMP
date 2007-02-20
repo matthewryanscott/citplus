@@ -1,0 +1,142 @@
+==============================================================================
+
+The GRPDATA.CIT file contains information that Citadel uses for accounting.
+If you don't have accounting enabled, this file is never read.
+
+All of the keywords default to the worst possible values (from the user's
+point of view) so all should be set in each entry.
+
+==============================================================================
+
+    #GROUP {groupname}
+
+The #GROUP keyword starts the definition of a group's accounting entry, which
+lasts until the next #GROUP keyword or until the end of the file.  The rest of
+the keywords give specifics about the named group's accounting.
+
+==============================================================================
+
+    #PRIORITY {0 to 32767}
+
+When Citadel is determining the accounting for a user, it first assigns
+default values for accounting and sets the current priority level to 0. The
+defaults are the worst possible values, from the user's point of view.
+
+It then checks each group on the system. If the user is in a group and the
+group is defined in GRPDATA.CIT, Citadel checks the priority of the group. If
+it is higher than the current priority level, it resets all accounting
+information to the default values, then reads that group's information.
+Otherwise, it chooses either the value already set for the user or the value
+set for the group, whichever is better.
+
+This means that, of all the groups a user belongs to, Citadel will only look
+at the groups with the highest setting of #PRIORITY, and give the user the
+best deal based on the settings for those groups.
+
+This lets the values of certain groups override the values of others. For
+example, if you have a group for twits or users who you want to limit to less
+time than the other users while still having access to the same groups they
+have, you could set this group with priority over all the other access groups
+and the user would be limited to what that group would allow, even though he
+is in groups with more access.
+
+==============================================================================
+
+    #DAYS [SUN MON TUE WED THU FRI SAT or ANY]
+
+These set which days members of this group can log in.  If a user tries to log
+in during a day that he cannot, Citadel will print NOLOGIN.BLB to the modem
+then disconnect.
+
+==============================================================================
+
+    #HOURS [0 to 23 or ANY]
+
+These set which hours members of this group can log in. If a user tries to log
+in during a hour that he cannot, Citadel will print NOLOGIN.BLB to the modem
+then disconnect.
+
+==============================================================================
+
+    #SPECIAL [0 to 23 or ANY]
+
+These set which hours are free for members of this group. No time at all is
+charged during these hours.
+
+==============================================================================
+
+    #DAY_INC {0 to any reasonable value}
+
+This sets how many minutes per 24 hour period to add for this group. Unlike
+most BBS software, which is broken, Citadel's accounting is continuous: it is
+not based on silly midnight-to-midnight days. So, if a user uses up all of his
+time at 11:30PM, he will not get it all back at midnight. If he calls back at
+midnight, Citadel will see that 30 minutes have passed, calculates that it has
+been one forty-eighth of a day, and gives the user one-forty-eighth of the
+time specified by #DAY_INC. Similarly, if the user waits 36 hours to call back
+(a day and a half), Citadel will give the user one and a half times #DAY_INC
+minutes.
+
+==============================================================================
+
+    #MAX_BAL {0 to any reasonable value}
+
+This is the maximum time that users for this group can have in their account.
+
+==============================================================================
+
+    #UL_MULT {-32768 to 32767}
+    #DL_MULT {-32768 to 32767}
+
+These set special rates to charge for file uploads and downloads. This lets
+you, for example, charge only half the time spent uploading, or even to give
+time for uploads, as a "thank-you" for uploading.
+
+Here you must remember that during a transfer, time stands still in terms of
+accounting: no time is charged during the transfer. #UL_MULT and #DL_MULT are
+used to charge (or credit) the account balance after the transfer is complete,
+using the following formula:
+
+    ACC_BAL = ACC_BAL + (TRNS_TIME * MULT / 100)
+
+Therefore, setting a positive value gives the user time, and setting a
+negative value takes it away.
+
+Examples of values and results are:
+    Value   Result
+    -200    Charge twice the time that the transfer took.
+    -100    Charge for how long the transfer took.  (Same as no transfer.)
+    -50     Charge for half the time that the transfer took.
+    0       Don't charge or credit any time for the transfer.  (Ignore it.)
+    50      Credit half the time the transfer took.
+
+==============================================================================
+
+This is a sample entry.
+
+#GROUP          "Null"
+#DAYS           ANY
+#HOURS          ANY
+#SPECIAL        0 1 2 3 4 5 6 7
+#DAY_INC        60
+#MAX_BAL        120
+#PRIORITY       1
+#UL_MULT        0
+#DL_MULT        -100
+
+This entry will allow members of group "Null" to call on any day at any time.
+From midnight until 7:59am, they have unlimited call time. An extra 60 minutes
+will be added to their accounts every 24 hours, up to a maximum of 120
+minutes.
+
+Uploads are free, and downloads are charged for the time spent during the
+transfer. That is, if a user uploaded a file taking five minutes, the account
+balance at the end of the transfer will be the same as it was at the
+beginning. If, however, the user downloaded a file taking five minutes,
+Citadel will take five minutes out of the account after the transfer was
+complete.
+
+If a user attempts a download that takes more time than there is in the
+account, Citadel will allow it, but they will be charged time for it. This
+will result in negative time, so the user will have to wait for the time in
+his account to become positive before he can log in again.

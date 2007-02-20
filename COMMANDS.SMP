@@ -1,0 +1,296 @@
+==============================================================================
+The COMMANDS.CIT file is used to override internal Citadel commands with
+Citadel script files. You can use this to, for example, customize the output
+of commands, or to limit the use of certain commands to certain users.
+(The script can do whatever validation you desire, then execute the normal
+internal command if appropriate.)
+
+Simply give the command name, followed by the name of the script you wish
+to replace the internal command with. The script name is limited to 30
+characters. The context sensitive string (which can be retrieved with the
+script function GetContextSensitiveString) will contain three numbers
+separated by spaces. Usually, all three of these numbers will be 0, but if a
+command has an alternate form, one or more of these numbers could be non-zero,
+as specified below.
+
+The following commands can be overridden with scripts:
+
+    #AIDEATTRIBUTES
+        This is the .Aide Attributes (.AA) command.
+
+    #AIDEEDITROOM
+        This is the .Aide Edit room (.AE or A) command.
+
+    #AIDEFILEINFOSET
+        This is the .Aide Fileinfo set (.AF) command.
+
+    #AIDEGROUP
+        This is the .Aide Group (.AG) command.
+
+    #AIDEHALL
+        This is the .Aide Hall (.AH) command.
+
+    #AIDEINSERT
+        This is the .Aide Insert message (.AI) command.
+
+    #AIDEJUMPTOAIDEANDMAINTENANCE
+        This is the .Aide Jump to Aide) room and Maintenance hall (.AJ)
+        command.
+
+    #AIDEKILLROOM
+        This is the .Aide Kill room (.AK) command.
+
+    #AIDELISTGROUP
+        This is the .Aide List group (.AL) and .Sysop Group List (.SGL)
+        command. (Both commands execute the same function.)
+
+    #AIDEMOVEFILE
+        This is the .Aide Move file (.AM) command.
+
+    #AIDENAMEMESSAGES
+        This is the .Aide Name messages (.AN) command.
+
+    #AIDEQUEUECLEAR
+        This is the .Aide Queue Clear (.AQC) command.
+
+    #AIDEQUEUEINSERT
+        This is the .Aide Queue Insert (.AQI) command.
+
+    #AIDEQUEUEAUTOMARK
+        This is the .Aide Queue Auto-mark/kill/censor (.AQA) command.
+
+    #AIDEQUEUEKILL
+        This is the .Aide Queue Kill (.AQK) command.
+
+    #AIDEQUEUELIST
+        This is the .Aide Queue List (.AQL) command.
+
+    #AIDEQUEUEMOVE
+        This is the .Aide Queue Move (.AQM) command.
+
+    #AIDEQUEUEROOMMARK
+        This is the .Aide Queue Room mark (.AQR) command.
+
+    #AIDEQUEUESORT
+        This is the .Aide Queue Sort (.AQS) command.
+
+    #AIDERENAMEFILE
+        This is the .Aide Rename file (.AR) command.
+
+    #AIDESETFILEINFO
+        This is the .Aide Set file info (.AS) command.
+
+    #AIDEUNLINK
+        This is the .Aide Unlink (.AU) command.
+
+    #AIDEWINDOW
+        This is the .Aide Window (.AW) command.
+
+    #AIDEMOVEROOM
+        This is both the .Aide Move room (.A+ or .A-) command. The first
+        number in the context sensitive string is -1 if the room is being
+        moved backwards (.A-), or 1 if the room is being moved forward (.A+).
+
+    #AIDECOPYMESSAGE
+        This is the .Aide Copy message (.A<) command.
+
+    #ENTERAPPLICATION
+        This is the .Enter Application (.EA) command.
+
+    #ENTERBORDER
+        This is the .Enter Border (.EB) command.
+
+    #ENTERCONFIGURATION
+        This is the .Enter Configuration (.EC) command.
+
+    #ENTERDOOR
+        This is the .Enter Door (.ED) command.
+
+    #ENTERHALL
+        This is the .Enter Hall (.EH) command.
+
+    #ENTERNAME
+        This is the .Enter Name (.EN) command.
+
+    #ENTERPASSWORD
+        This is the .Enter Password (.EP) command.
+
+    #ENTERROOM
+        This is the .Enter Room (.ER) command. The first number in the
+        context sensitive string is 1 if the user chose the Group-only
+        modifier (.EGR) to the command, or 0 if not.
+
+    #ENTERTITLESURNAME
+        This is the .Enter Surname and Title (.ES) command.
+
+    #ENTERTEXTFILE
+        This is the .Enter Textfile (.ET) command. The first number in the
+        context sensitive string is 1 if the user chose the Group-only
+        modifier (.EGT) to the command, or 0 if not. (Using the Group-only
+        modifier tells Citadel to set the MS-DOS Hidden attribute on the
+        file after accepting the upload. This made more sense when the
+        Group-only modifier was named Limited-access, but the functionality
+        is still there.)
+
+    #ENTERWITHPROCOL
+        This is the .Enter With protocol (.EW) command. The first number in
+        the context sensitive string is 1 if the user chose the Group-only
+        modifier (.EGT) to the command, or 0 if not. (Using the Group-only
+        modifier tells Citadel to set the MS-DOS Hidden attribute on the
+        file after accepting the upload. This made more sense when the
+        Group-only modifier was named Limited-access, but the functionality
+        is still there.)
+
+    #EXCLUDEROOM
+        This is the Exclude room (X or .EX) command.
+
+    #EXPERTTOGGLE
+        This is the .Expert Toggle (.X) command.
+
+    #FINGERDELETE
+        This is the .Finger Delete (.FD) command.
+
+    #FINGEREDIT
+        This is the .Finger Edit (.FE) command.
+
+    #FINGERLIST
+        This is the .Finger List (.FL) command.
+
+    #FINGERUSER
+        This is the .Finger User (.FU) command.
+
+    #GOTONEXTHALL
+        This is the Next Hall (> or ]) command.
+
+    #GOTONEXTROOM
+        This is the Next Room (+ or =) command.
+
+    #GOTOPREVIOUSHALL
+        This is the Previous Hall (< or [) command.
+
+    #GOTOPREVIOUSROOM
+        This is the Previous Room (BS or -) command.
+
+    #INVITEUSERLIST
+        This is the .Invite User list (.IU) command.
+
+    #INVITEROOMLIST
+        This is the .Invite Room list (.IR) command.
+
+    #INVITEUSER
+        This is the .Invite User (.IU) command.
+
+    #INTRO
+        This is the Introduction (I) command.
+
+    #KNOWNHALLS
+        This is the .Known Halls (.KH) command.
+
+    #KNOWNROOMINFO
+        This is the .Known Room info (.KI) command.
+
+    #KNOWNROOMS
+        This is the .Known Rooms (.KR) command. The first number of the
+        context sensitive string is a collection of flags in a 32-bit value.
+        The meaning of each bit is as follows:
+
+            Bit 0: Set if the user chose the Application (.KAR) flag.
+            Bit 1: Set if the user chose the Anonymous (.KYR) flag.
+            Bit 2: Set if the user chose the Permanent (.KPR) flag.
+            Bit 3: Set if the user chose the Directory (.KDR) flag.
+            Bit 4: Set if the user chose the Group (.KGR) flag.
+            Bit 5: Set if the user chose the Local (.KLR) flag.
+            Bit 6: Set if the user chose the New (.KNR) flag.
+            Bit 7: Set if the user chose the Old (.KOR) flag.
+            Bit 8: Set if the user chose the Mail (.KMR) flag.
+            Bit 9: Set if the user chose the Shared (.KSR) flag.
+            Bit 10: Set if the user chose the This hall only (.KTR) flag.
+            Bit 11: Set if the user chose the Window (.KWR) flag.
+            Bit 12: Set if the user chose the Excluded (.KXR) flag.
+            Bit 13: Set if the user chose the Number of messages (.K#R) flag.
+            Bit 14: Set if the user chose the Empty (.K0R) flag.
+            Bit 15: Set if the user chose the BIO Room (.KBR) flag.
+            Bit 16: Set if the user chose the Hidden room (.KHR) flag.
+            Bit 17: Set if the user chose the Keyword search (.KKR) flag.
+            Bits 18 - 31: Reserved; always set to 0.
+
+    #QUEUEADD
+        This is the .Queue Add (.QA) command.
+
+    #QUEUECLEAR
+        This is the .Queue Clear (.QC) command.
+
+    #QUEUEDOWNLOAD
+        This is the .Queue Download (.QD) command.
+
+    #QUEUELIST
+        This is the .Queue List (.QL) command.
+
+    #QUEUEREMOVE
+        This is the .Queue Remove (.QR) command.
+
+    #READARCHIVE
+        This is the .Read Archive (.RZ) command. The first number of the
+        context sensitive string is 0 if the user chose .Read New Archive
+        (.RNZ), 1 if the user chose .Read Archive (.RA), or 2 if the user
+        chose .Read Old Archive (.ROA).
+
+    #READCONFIGURATION
+        This is the .Read Configuration (.RC) command.
+
+    #READDIRECTORY
+        This is the .Read Directory (.RD) command. The first number of the
+        context sensitive string is 0 if the user chose .Read New Directory
+        (.RND), 1 if the user chose .Read Directory (.RD), or 2 if the user
+        chose .Read Old Directory (.ROD).
+
+    #READHALLS
+        This is the .Read Halls (.RH) command.
+
+    #READINFOFILE
+        This is the .Read Infofile (.RI) command. The first number of the
+        context sensitive string is 0 if the user chose .Read New Infofile
+        (.RNI), 1 if the user chose .Read Infofile (.RI), or 2 if the user
+        chose .Read Old Infofile (.ROI).
+
+    #READSTATUS
+        This is the .Read Status (.RS) command.
+
+    #READTEXTFILE
+        This is the .Read Textfile (.RT) command. The first number of the
+        context sensitive string is 0 if the user chose .Read New Textfile
+        (.RNT), 1 if the user chose .Read Textfile (.RT), or 2 if the user
+        chose .Read Old Textfile (.ROT). The second number of the context
+        sensitive string is normally 1 if the user chose the Verbose
+        modifier; otherwise it is 0.
+
+    #READUSERLOG
+        This is both the .Read Userlog (.RU) and the display-last-few-users-
+        at-login commands. The first number of the context sensitive string
+        is normally 0; it is 1 if the userlog should be displayed from oldest
+        to newest, instead of the normal newest to oldest. The second number
+        of the context sensitive string is 0 if the user chose .Read New
+        Userlog (.RNU), 1 if the user chose .Read Userlog (.RU), or 2 if the
+        user chose .Read Old Userlog (.ROU). The third number of the context
+        sensitive string is the number of users to display, or 0 to display
+        all users.
+
+    #READWITHPROTOCOL
+        This is the .Read With protocol (.RW) command.
+
+    #TERMINATEQUITALSO
+        This is the Terminate (T) or .Terminate Quit also (.TQ) command. The
+        first number of the context sensitive string is 1 if the user chose
+        the Terminate (T) command, and 0 if the user chose the .Terminate
+        Quit also (.TQ) command.
+
+    #TERMINATESTAY
+        This is the .Terminate Stay (.TS) command.
+
+    #VERBOSETOGGLE
+        This is the Verbose toggle (V) command.
+
+    #Y
+        This is either the Y (Y) or .Y (.Y) command. The first number of the
+        context sensitive string is 0 if the user chose the Y command, or 1
+        if the user chose the .Y command.

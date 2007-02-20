@@ -1,0 +1,36 @@
+#FUNC _Main VOID
+    #CALL MsgStart
+    #IF _Result
+        #LVAR Long _MsgNum
+
+        #CALL GetString "message number to read" "" 30
+        #ASGN _MsgNum _Result
+
+        #IF _MsgNum
+            #CALL MsgLoad _MsgNum
+            #IF _Result
+                #CALL GetString "file to write to" "" 80
+                #CALL MsgSaveTextToFile _Result
+                #CALL DoCR
+
+                #IF _Result
+                    #CALL PrintM "Saved."
+                #ELSE
+                    #CALL PrintM "Error saving text."
+                #ENDIF
+
+                #CALL DoCR
+            #ELSE
+                #CALL DoCR
+                #CALL PrintM "Could not load message."
+                #CALL DoCR
+            #ENDIF
+        #ENDIF        
+    #ELSE
+        #CALL DoCR
+        #CALL PrintM "Not enough memory to load a message."
+        #CALL DoCR
+    #ENDIF
+
+    #RET Void
+#ENDFUNC

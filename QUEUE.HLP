@@ -1,0 +1,40 @@
+  2Helpfile: MXhf14X0
+ 
+ File queuing capabilities are accessed through the .Q... command menu.  The
+Sysop has control over what file transfer protocols can be used with file
+queuing, if any at all.  This command will not be active if the Sysop has
+disabled file queuing.
+ 
+                    3g--- Adding files to your queue ---0
+ 
+ Use the .Queue Add (3.QA0) command to add files into your download queue. In
+order to add a file, you must know the exact name and be in the room that the
+file resides in.  You may use wildcards in the filename field, if you wish. To
+see a list of the files in a given room, use the .Read Directory (3.RD0) or
+.Read Infofile (3.RI0) command.
+ 
+                  3g--- Removing files from your queue ---0
+ 
+ Use the .Queue Remove file (3.QR0) command to remove files from your queue.
+Note that you may 3bNOT0 use wildcards when specifying files to be removed.
+You may only remove files individually.  You may identify files by either their
+full name, or file number.
+ 
+                              3g Other Commands 0
+ 
+    "3b.QL0"  - This command will list all the files that are currently queued
+             for download.  It also tells you what room the file is in, as
+             well as size and other bits of information.  Each file has its own
+             identifying number.
+ 
+    "3b.QC0"  - The .Queue Clear command will remove ALL files from the
+             download queue.  Use with discretion!
+            
+    "3b.QD?0" - This command will list what download protocols are available
+             for use with your file queue.
+ 
+    "3b.QDx0" - Allows you to download files in your queue using protocol 3gx0.
+ 
+                         2-- Related Help Topic --0
+ 
+ 3cMXhf6X0

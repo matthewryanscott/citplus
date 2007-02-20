@@ -1,0 +1,958 @@
+  Changes To DragCit 3.12A/609 By Anticlimactic Teleservices Ltd.
+
+ *** Phase one ***
+
+ 1.  Converted DragCit to Microsoft C 6.00A
+ 2.  Replaced Serial routines with SER.ASM
+ 3.  Replaced SWAP with Spawno
+ 4.  Replaced Xmodem.c with reliable WC.C from gremcit/pre Acit
+ 5.  X>clude room needs no confirmation
+ 6.  '?' door function added to Apsystem()
+ 7.  Put .rd .rt .ri etc. back in.
+ 8.  Read Verbose Textfile added
+ 9.  Old f10 help menu put back in
+ 10. Password not displayed in .read configuration
+ 11. Back to n total, n messages, n new
+ 12. Added message # range to .RS
+ 13. Infofiles can handle 30 character user names
+ 14. #alldone removed from config.cit
+ 15. #oldcount implemented
+ 16. No longer makes logged-in user a Sysop on F6-X (sysop exit)
+ 17. Added '&' enter config.cit from sysop menu.
+ 18. Added command line switch -E, same as F6-&
+ 19. Implemented #DIRPATH
+ 20. Implemented #ANONAUTHOR
+ 21. Implemented #TWITREGION
+ 22. Implemented #TWITCOUNTRY
+ 23. Implemented #DIAL_RING
+ 24. Implemented #UP_HOURS
+ 25. Implemented #UP_DAYS
+ 26. 'C'ontinue from edit menu prints out message.
+ 27. Anonymous E-mail is allowed.
+ 28. added .R! (LZH file) for lack of a better key.
+ 29. Configurable display of titles & surnames
+ 30. Configurable display of subjects
+ 31. Configurable display of signatures
+ 32. Configurable display of IBM Graphics Character
+ 33. User configurable Color Attributes
+ 34. Ega 43 line support.
+ 35. #NETMAIL in config.cit. put net mail in proper room if it exists.
+ 36. #SUBHUBS re-Implemented
+ 37. #SYSOP, messages to sysop will go to #SYSOP
+ 38. Acit Cron-list, Acit Read Userlog, Acit .RB, Acit holidays, Acit #ROOM
+ 39. network dialout pays attention to modem response codes.
+ 40. Colors allowed in room names, titles & surnames etc..
+                #TWIT_FEATURES COLORS  enables entry of color stuff on your board.
+ 41. Full support of colors in everything. Colors passed through on net.
+ 42. Auto baud rate on net dial out.
+         IMPORTANT CHANGE: all #dial_ring users now use #dumbmodem 3
+                           all other hayes compat users use #dumbmodem 0
+         #baud Nuked from nodes.cit     (auto-baud detect)
+         #redial Nuked from nodes.cit   (not used)
+ 43. Config checks paths to see if they exist.
+ 44. Auto Resizing message and log files, up and down.
+         via #MESSAGEK & #MAXLOGTAB
+ 45. Message tables reduced to 15 bytes per message.
+ 46. Added Acit Cron Force Event and Set next event.
+         Net mail now includes source room names.  Net mail lands in proper rooms.
+ 47. Command line logins -U and -P added. -U <username> and -P <initials;pw>
+ 48. .AQueue menu added, multiple message marking functions.
+ 49. FrogCit pointer edit menu userlog edit 'Z' added.
+
+ *** Phase two ***
+
+ 50. #baud put back in to nodes.cit.  Important!!! Run CNVRT50.EXE (conversion).
+         faster msg and log resizing.
+ 51. Forwarding to node implemented (see info below).
+         May cause non Grem-Cits to act screwy.
+         -V (debug mode command line switch added).   32K #NMESSAGES Limit.
+         Message tables reduced to 13 bytes per message.
+ 52. acit-style highlighted "incorporating" post-network display.
+         trap networking better. old-style help.
+         FredCit Cron.Tab stuff added. Create empty mail file for net 1_1.
+ 53. Trap Cron events.  In trapfile say if login is on console.
+         clock on status line. old-style front end.
+         re-implemented #enterok, #readok, #forcelogin.
+         net1_69 implemented (see info below).  show net IDs in .KV.
+         if aide ask if shared when making room.  show nmessages in read status.
+ 54. Dialout Mode Improved.
+         1_69: #AUTOROOM and #VERBOSE: Auto-Create Room, more comprehensive
+         net warnings.  #ALIAS in config cit (not used yet).
+         Auto-Application rooms (autorun application upon entry).
+ 55. Compile under Borland-C 3.0.  ^C not displayed when hit on console.
+         Format messages for external editor. Ctrl-A? in message editor.
+         Tell why net dialout failed, trap it. No verify on .EOM.
+         Must use Ctdl -C for re-config. '<' file input from edit menu.
+         #NODEPHONE (xxx) xxx-xxxx please.
+         Rotating Signatures, unlimited #.
+         #SCREENSAVER (set to number of minutes or zero to disable)
+         Fixed Slave/Door mode. -L and -S parameters are replaced by -A.
+         #MAX_WARN removed from config.cit.  <V>erbose key while outputting.
+         .RRI and .RRD.
+ 56. Acit Fuel Bar when Reconfigging message base.
+         User Config Twirly Cursor.
+         #Sysop sees all group only msgs.
+         Added #MESSAGE_NYM and #BORDER to config.cit.
+ 57. Ansi Colors in dial-out mode.
+         User Config Auto-Verbose.
+         .V (auto verbose toggle).
+         User Config pause after msg.
+ 58/59. User Config datestamp.
+         User config loginstats.
+         #loginstats removed from config.cit.
+         #sysop immune from all groups.
+         Alt-Z (sleeping user) key added.
+         Xms/Ems/Virt message table support.
+         MavenCit Hall stats in .rs.
+         Force reconfig when updating versions.
+         Unknown message header thingy passing and storage.
+         Poop!
+         1024 room limit (Big version only).
+         .AH <partialname> works right.
+         Excluded rooms listed under 'excluded' and never in 'no unseen' in .KR.
+         User config CLS before msgs.
+         Print Hello.blb on local if debug on.
+         User config hall descriptions.
+         User config room info lines.
+         Full high speed serial support.
+         Dumbmodem 5 steps port rate down for 3/12/24 connects so buffering doesn't screw users up.
+         Real message pointers (no 16 visit garbage).
+         You can k>ill m>ark when doing read by message #.
+         .U<return> .D<return> use default protocol.
+         erase log, msg, room, cron tab files when -C is specified.
+         lock baud rate when netting out when #dumbmodem 4, 5 or 6.
+         Dumbmodem 6 steps port rate down on incoming calls also issues
+                #downshift after dropping DTR; make your modem go to command
+                mode (and not hang up) when DTR is lost.
+         Re-did 'Z' pointer edit menu.
+         Configurable by user net prefix. When changing your net prefix:
+                <Return> uses what you had before.
+                <space><return> uses config.cit net.prefix.
+                <space><space><return> blanks it out.
+         Added turbocit style autoansi detect.. #AUTOANSI 0, 1 or 2 in config.cit.
+         #FORWARD 1 will forward sysop messages to #SYSOP
+         #CONNECTWAIT will wait #seconds upon carrier detect. This is to
+                make auto-ansi function when connecting with high speed modems.
+         redid .AH and .AW.
+         Alt-S invokes screen_saver if screensaver is activated in config.cit.
+ 60. Trap Anonymous message.
+         MavenCit .R! <headerscan> and .R# <msgnumber>
+         Alt_H from dialout.
+         Shrunk Cit.
+         Accounting based on seconds.
+         #CREDIT_NYM "SINGULAR" "PLURAL".
+         D/L Time displayed hh:mm:ss.
+         .SE <config file entry> menu. New file sysenter.mnu.
+         rotating chat.blb.
+         APL_DLMULT      44  \
+         APL_ULMULT      45   \  Added to output.apl.
+         APL_INITIALS    46   /
+         APL_PASSWORD    47  /
+         .KP>ermanent and .KY> Anonymous.
+         .A< Copy message to old buffer.
+         'L' from edit menu.
+         Shift-F10 Blanks status line.
+         Floppy version.
+         Ctrl-A 5 formatting off, Ctrl-A 6 formatting on.
+         Ctrl-A N 'Username', Ctrl-A T 'Date & time'.
+         'C'ontinuous output.
+         Re-Did .AK.
+ 61. Faster Screen Scrolling.
+         .SCZ(zapping toggles zappedness of event)
+         .EN<ame>.
+         Optional #MOREPROMPT "<More>".
+         Baud rates shown in .RS.
+         Net_69!
+         Timestamp not shown on anonymous messages.
+         Twit_features MCI enables CtrlA-N CtrlA-T.
+         .R All
+         optional #POOP! keyword
+                0 (poop! & quack! enabled)
+                1 (only if expert)
+                2 (disabled)
+         optional #READALL
+                0 - Everyone
+                1 - Aides & Sysops
+                2 - Sysops
+                3 - Nobody
+         connect rate shown on status line if connected
+         optional 2nd arg to #printer keyword if 1 asks for filename upon alt-p.
+         .KT
+         Command line -J Use extended, -Z use expanded memory for overlays.
+ 62.
+bb      1  scrollback buffer
+        2  message compression
+        3  bunny filter deals with ^A codes
+        4  ^An - first name
+        5  ^At - non-verbose time
+        6  #MODUNSETUP config.cit thing
+        7  #holiday in external.cit - see for documentation
+        8  "less" changed to "fewer" in config.c error messages
+        9  ser.asm checks for initRS on all other calls - won't go crash
+        10 ser.asm works at over 19200 baud
+        11 #downshift defaults to ATO
+        12 #hangup keyword for #dumbmodem 6 - defaults to ATH
+        13 #offhookstr keyword for offhook() - defaults to ATM0H1
+        14 #sleepprompt - defaults to "sleeping? call again. :-)"
+        15 lots of internal pointer checking stuff - more robust
+        16 save 16K of heap if large version and message table fits in heap
+        17 make talleyBuffer 2K smaller (larger version - 2 bytes per room)
+        18 free disk space prompt when .U...
+        19 #minbaud
+        20 #helppath2
+        21 cron table, exernal protocols, external editors: all linked lists.
+                - no set limits on any of these any more
+        22 .SC... says no events if none
+        23 does not crash if line too long in external.cit
+        24 does not require a cron.cit file
+        25 * at message entry prompts for title/surname even if not sysop
+        26 * only asks for title/surname if they are turned on
+        27 .ec thing: verbose continue
+        28 #verbosecontinue lets sysop set default for it
+        29 #mci_time, #mci_date, #mci_name, #mci_firstname: what to show if MCI if off
+        30 .RD, .RI, .RZ: all prompt for file name
+ep      31 much niftier .ec menu
+        32 way cool .rc list
+mp      33 User Configurable signatures.
+        34 Censoring. see censor stuff.
+        35 Mass E-mail. .ELE.
+        36 #KILL keyword gone.
+        37 Always Move Self Killed messages to old buffer.
+        38 .SU has proper default for user name
+        39 .AL asks for group on second line
+        40 .EC toggle for borders
+bb      41 ^AP MCI command/#MCI_POOP keyword
+        42 .V... command (verbose toggle on V)
+        43 300 Baud output simulation (.SU)
+        44 .AQ not sick code - probably can queue more messages now
+        45 if see e-mail with .R!, not marked as [received]
+        46 debug mode does not turn off #UP_HOURS/#UP_DAYS
+        47 .AQV...L/I/K/M - print message header, not just number
+        48 .ER? lists rooms as .G? does
+        49 .ER? and .G? prompt for room name again after listing
+        50 does not require an external.cit file
+        51 .RLU permitted on locked group
+        52 .SU - change/lock user signatures
+        53 .ET - give no file name, no longer asks for comments
+        54 poopcount++ even if poop disabled
+        55 doesn't allocate space for accounting if accounting is off
+        56 When an aide message is for a group only thing, it is group only
+        57 when logging in, turn off message filter
+        58 read msgs by date (.R&, for lack of a better key)
+        59 #FLOORS changed to #SUBHUBS 4 - no more #FLOORS keyword
+        60 #SLEEPCOUNT (defaults to 0) - countdown timer on timeout
+                - this is not cosmetically perfect yet, and may never be
+        61 #COUNTBEEP (defaults to 0) - beep on SLEEPCOUNT or download hangup
+        62 #REPLACE for pure obnoxiousness
+        63 .SGN: ask if add everybody to group. If no, does a .SGG for you
+        64 .AR puts file description message in dir room as well as Aide)
+        65 GRP_ADD and GRP_DEL read in INPUT.APL - no aide message; make the
+                application trap these if you need it.
+        66 APL_SYSOPNAME (103) - #SYSOP from CONFIG.CIT
+        67 APL_SOFTWARE (85) - name of software
+        68 .SCD/F/N/R/Z - all do a .SCL on ? and re-prompt for event #
+        69 Output unsigned, not signed, chars to OUTPUT.APL - 132column, etc.
+        70 ^A when not acceptable prints nothing instead of space
+        71 .RND/.ROD/.RNI/.ROI - prompts for a date, reads all before/after it
+        72 .RNZ/.ROZ/.RNT/.ROT - same as .RND/.ROD; only works on ambig filenames
+        73 If can't change to room directory, don't .RD
+        74 If can't change to directory any time when logged in, print error msg
+        75 even niftier .EC: handles border and censor stuff well
+ep/bb   76 way killer awesome .RS, .RVS
+mp      77 removed extra occurance of "V>anagon" in V? menu.
+        78 #RESTORE_MODE (defaults to 1). Restore video mode after application.
+        79 #TWIRLY.  Configurable twirly cursor string.  Optional second
+                   arguement controls speed default 10.  bigger is slower.
+        80 .ER: put first message in room ("Room %s created by %s")
+bb      81 spell "W>olfsburg" correctly in .V? menu
+        82 free up to 16K of huffman when shelling
+        83 free #NMESSAGES bytes at runtime with regular/floppy versions
+ 62.1
+mp      1  nodes.cit #GATEWAY, write out timedate as ascii in 'd' field.
+        2  edit cmd: < now appends to message buffer.
+bb      3  fixed .AK bug trapping compressed message if #msgcompress 1
+ 63.
+bb      1  .SCL: bold <+-
+        2  .SCL: if !expert, explains <+-
+        3  scroll back buffer correct when #restore_mode 0
+        4  update screen in background if F4 or screen_save
+        5  script files...
+                .SReset info file changed to .SInfo file reset
+                .SRun script_file
+                new cron event #DO COMMAND "script_file"
+        6  new FILEINFO.DAT format - one file in #HOMEPATH
+        7  #maxrooms, halls, groups in config.cit - autoresizing
+        8  msg table building uses config.cit's #TWIRLY (wow)
+        9  better overlay stuff - more memory free
+        10 Alt-U: ignore UP_HOURS/DAYS - always answer. (÷ on stat line)
+                EN/DS on stat line changed to E/D
+        11 .RVS with debug on - heapwalk
+        12 .RVS poopuser
+        13 room table in auxiliary memory in big version - 16376 limit
+        14 new rooms shown on net 6.9 fetching
+        15 msg base re-worked. (ick)
+                saves ATTR, then room#. can handle all rooms, more robust
+        16 external message file
+        17 most all config.cit keywords are optional
+        18 no individual menus - all in ctdl.mnu
+        19 no #EXPIRE in NODES.CIT - one #EXPIRE in CONFIG.CIT
+        20 #MAXJUMPBACK (default 25) in CONFIG.CIT
+        21 if no accounting, apl_credits set to #MAXBALANCE for all users
+        22 bypass Lobby> lets you back with G: just doesn't reset pointers
+        23 if screen saver set not to blank for duration of call, it won't
+                blank when logged in on console
+        24 logextension stuff : #killuser, text, node, region
+        25 .EC6O - notify on exclusion on/off
+        26 .S1 - put all rooms in maintenance
+        27 #FUELBAR in config.cit (wow)
+        28 byuser up/download privileges
+        29 nodes.cit - #FETCH for net 6.9
+                -1 - never fetch when on line
+                0 - like /062... fetch only if no packets when online
+                1 - always fetch mail and file69.xxx when on line
+                2 - do a full fetch always when on line
+        30 6.9 sends other_alias69*.*, not other_alias69this_alias.*
+                - this allows passing packets through other boards,
+                or something. i dunno.
+        31 .SJ - journal all messages from specified # in room to text file
+        32 30 character net ids
+        33 auto room archiving - .AER (sysop && onConsole)
+                - saves all messages put in room to text file that keeps
+                growing
+        34 note in netid.cit which node the room came from
+        35 tabs work with Alt-P
+        36 don't allocate most accounting stuff when accounting is not on
+        37 don't trap "Cost was" when !accounting
+        38 faster direct screen output - .ASM
+        39 #POOP! -1 in CONFIG.CIT
+        40 Fourth #SCREENSAVER option: 1 prints a clock on the screen,
+                moving and changing color every three seconds, when blanked
+        41 F4 shows a status screen, not the boring logo
+        42 fifth #SCREENSAVER option: 1 keeps cursor on when blanked
+        43 .SU: C toggles NOCHAT for that user
+        44 .SU: 7 toggles auto-trapping to #PRINTER for that user
+        45 #MAXBALANCE removed from CONFIG.CIT - it wasn't used
+        46 Many little tweaks to accounting to make it more useful, and match
+                the documentation.
+        47 border color is set on EGA and VGA as well as CGA now
+        48 #AUTO_EDITOR in EXTERNAL.CIT
+        49 #NETFAIL in nodes.cit
+        50 #LOGIN "@" command in nodes.cit
+        51 Alt-F: Force event (like Alt-E), but do it even if not timed out
+        52 if CONSOLE.APL upon return from application, dump to console
+        53 trap "failed" and "succeeded" on nets called in, not just out
+        54 115200 baud support
+        55 Alt-R: repeat current event, if timedout or not. like Alt-F, but
+                does not update the next event pointer until it succeeds.
+        56 .S% - full path download. Restricted by #DIRECTORY in EXTERNAL.CIT
+        57 #TRAP APPLIC implemented
+        58 .EC> (cfg room prompt) implemented
+        59 dialout macros
+        60 create paths when reading config.cit if user wants
+        61 #REDIAL in NODES.CIT - Citadel will try to redial this number
+                of times before giving up when netting out
+        62 don't crashout if no route.cit
+        63 bulletin menu if desired
+        64 #ZENCOUNTRY
+        65 CITPROMPT
+        66 prompts for all missing config.cit keywords - save to file
+        67 real name support:
+                .ec7 sets
+                #login realname prompts at login
+                .rc displays
+                saved in messages - never shown
+        68 #diskfree in config.cit
+        69 buffered msg.dat - #filebufsize in config.cit
+        70 #NOCHAT/#NOBELLS in CONFIG.CIT
+        71 #AIDECHATHRS
+ep      72 no bells on chat if no bells
+bb      73 #sysopok in config.cit - 1 minute 45 second puyallup feature
+mp      74 Edit Cmd: D>elete Message Buffer
+        75 #softverb in config.cit (a zen master thing)
+        76 .EE? Does a .RU
+        77 .RNU .ROU If not logged in uses last console login.
+        78 Corrected problem with .V menu.
+        79 #CHATMAIL    0 Disables,
+                        1 Everytime you chat leave mail
+                        2 Upon termination if you have chatted
+                        3 Always ask you if you terminate
+                        4 (1 and 3) simultaneously
+        80 Door and External editor keys override internal commands.
+rg      81 R>everse functional during display of .RU .RD .RI .RZ .RC .RS
+mp      82 trap keyword HACK. Traps unknown initials & pw.
+        83 Fredcit Ads #ADCHANCE & #ADTIME. See docs below.
+        84 Acit Stuff
+                A. Ctrl-Z saves empty messages...NOT!
+                B. .SHR defaults to current room name
+                C. .SHK list rooms in hall and has override feature
+                D. .AS .AF make message in room telling what was changed
+                E. Goto and Bypass start from current room.
+                F. Fakefullcase allows 'I' with punctuation around it.
+                G. '\b' after carriage return at start of message works right
+                H. oChar doesn't output NULL.
+                I. .ep requires user verification before password change
+                J. .ep and new user login allows full 30 char initials;pw on one line.
+                K. Subjects can now be a full 80 characters.
+                L. Won't prompt to release moderated/problem user msgs in aide or dump
+        85 #CHATWHY asks user for reason to chat. Reason becomes subject of msg.
+        86 #CHATFLASH Flashes border when chat is being requested.
+                The larger the value the slower the flash rate.
+        87 .AJ Jump to Aide Room and Maintenance Hall
+eh      88 #RANDOMAPP external.cit keyword.
+mp      89 #WYSIWYG richard's nifty little screen change.
+ 64.
+mp      1  Net 69 E-mail
+eh      2  If you drop carrier on message entry you can continue next call.
+mp      3  .SGL = .AL
+        4  Second arg to #WYSIWYG
+                #WYSIWYG ? 0 - Same as before
+                #WYSIWYG ? 1 - Only when logged in on console do user's colors show up.
+                #WYSIWYG ? 2 - User's colors are always shown on console.
+        5  Third arg to #WYSIWYG
+                #WYSIWYG ? ? 0 - Same as before
+                #WYSIWYG ? ? 1 - Force console termcap to be always on.
+        6  after .et confirm if you want to save file.
+        7  .am prompts for msg to be generated in the room you move a file to.
+rg      8  Second arg to #DIALRING, minimum # seconds between ring answers.
+                Good for answering machines.
+mp      9  .SP>urge userlog
+eh      10 Auto upload
+bb      11 fix cursor position bug with scrollback when BIOS screen writes
+        12 rcht/RCht on status line blinks
+        13 external com, kbd, vid drivers. (vid not done)
+                - created external com driver for fossil support
+        14 bug when shelling out to external editor extra spaces are added to
+                the output file
+        15 Alt-F4 as synonym for Alt-X; Alt-H as synonum for F10
+        16 ^F6
+mp      17 #LOGIN 'R'epeat command. See description below.
+        18 bio rooms
+eh      19 multiple nodenames
+        20 path stuff (address support, even)
+        21 autoroom default hall
+bb      22 .SHN better interface
+        23 .SHR better interface
+        24 .SH+/-, .A+/- skip over empties in tables
+        25 .A+/- skips over rooms not in hall, reports position relative to
+                existing rooms in current hall
+        26 !expert .BLBs moved around to give information earlier
+        27 partial username recognition
+        28 .SHE to replace .SHR
+        29 .SGK/privgrp bug fix
+        30 #showsysop
+        31 .SGE to replace .SGR
+        32 .SCP
+        33 external sound drivers/sound support in script files
+                - created esd for sound blaster's sbsim driver
+        34 events
+        35 speech synthesiser support in ESD files
+                - added SBTALKER support to SB.ESD. Don't use it.
+        36 file queues (.Q...)
+        37 default user
+rg      38 #MAXFILES can be doubled (struct uses less memory)
+        39 .sgg bugfix with unlogged in users
+        40 #dumbmodem 7
+bb      41 no ? if P when !Poop!
+        42 total new (with theAlgorithm) when logging in
+ep      43 read msgs Local - .RL (now only .RG does group/limited-access)
+bb      44 cron.tab saves next_event
+        45 ctdl.dat replaces ctdl.msg
+        46 .SO only when on console
+        47 spell checker/corrector
+        48 if 0-length data file, deletes
+        49 autoroom default group
+        50 .SUR - toggle user's ability to .ER
+        51 cron.cit now has #MONTHS and #DATES - can run on 1st day of month,
+                only in February, whatever
+        52 .R<number> - reads that many messages
+ep      53 .SS always shows poopcount (even when 0 or !verbose)
+        54 .EL now Enter Local: msg won't net out, has (Local msg_nym) in header
+        55 .H? now shows #help from ctdl.mnu, or list of actual .HLP files
+bb      56 multi-character ^A codes
+        57 windows (tm) version
+        58 Alt-Z active when on console if debug mode is on
+        59 .M skips to next room on system with mail that you can access
+        60 #ARCHIVER in external.cit
+        61 #messages in .KI
+        62 #ECCOLOR, #ECSIGNATURE, #ECTWIRLY, #ECUSERLOG
+rg/bb   63 nicer .SD, .R&, .RND, .ROD, etc... interface
+bb      64 receipt confirmation requested mail
+        65 message encryption
+        66 -J and -Z removed; added #OVREMS and #OVREXT to CONFIG.CIT
+        67 #diskfree used to limit .U when not enough room
+        68 .RG..., .RB..., .RK... all keep last used option
+        69 .RK... now checks most everything there is to check
+        70 %c in application command lines sends the connect baud
+        71 when shelled from cit, CITADEL env variable is set to progname/ver
+        72 verbose logout
+        73 go offhook if #OFFHOOK when incorporating
+        74 go back offhook if #OFFHOOK and ran application
+        75 #NUMROOMS
+        76 better message #1 when making new msg.dat
+        77 command line (if any) in .RVS
+        78 ring from modem resets cron timeout
+        79 #sleepcount fixed.
+        80 dars joke.blb
+        81 Andy
+        82 confirm save, no confirm abort, confirm no .eo after abort
+        83 update fileinfo.dat (line .SI) when starting citadel
+mp      84 .AE asks for roomname
+        85 When killing message, tell room in Aide msg
+        86 Put timeout in .RS
+        87 Command line switch '#' use alternate comm port.
+        88 Cron command 'S'et success time.
+bb      89 making directories to floppies - no more abort/retry/fail
+        90 if cannot make directory, no make #TEMPPATH room's directory
+        91 don't freak out if cannot find source id for incomming msg
+        92 #MAXBORDERS sets maximum number of borders
+        93 borders get saved to BORDERS.DAT
+        94 #BORDERFREQ; number of room prompts between borders
+        95 nodes always log out verbosely
+        96 proper hs-link support
+        97 execution of internal script functions much faster
+        98 #MAPUNKGROUP
+        99 #LEXPATH
+        100 multi-level nobells
+        101 ctdl.dat integrated into ctdl.exe
+        102 #CHECKSYSMAIL
+        103 tells if old unread mail in a room when you goto it
+        104 .KOE: rooms with old unread mail. .KE does both .KNE and .KOE
+        105 .ECZ: no menu if !expert
+        106 in debug mode, baud rate of node being called shown better
+mp      107 check for sufficient FILES in CONFIG.SYS
+bb      108 up to 128 chars for #PROTOCOL commands, not 40
+        109 #baudpause
+64.1
+mp      1  'W' option shows up properly in .ec
+        2  mailflag should be working
+        3  chatflash should now work
+        4  .IR doesn't show rooms reversed
+        5  Don't ask for replies to outgoing netmail
+mp/ep   6  Fix possible memory curruption during config
+mp      7  in gdate() hitting return defaults to current date
+        8  fixed problem in getstring if #NOPWECHO 0
+        9  #maxerror
+64.2
+mp      1  in .SHK prompt for hall, if current hall is killed, go to ROOT
+        2  Fixed reversed messages in .SCS
+        3  Fixed bug in display during buildaddress()
+rg      4  Fixed display of .RZ?
+mp      5  Removed possible extra blank line from .RC
+        6  after creating new hall go to the hall
+        7  .AF checks to make sure its a directory room
+        8  in D U .D .U .RZ removed extra space before '?' in non dir room
+        9  Cleaned up display in .enter door
+        10 in .af don't leave a mostly empty message if no new comments
+        11 file comments should now be properly saved in message in the
+           current room after uploading during a hs-link download
+        12 #offhook 2, don't go off hook when incorporating
+        13 fixed funky display when doing .ecl
+        14 in net 1_1 and net 1_69 buildaddress happens after incorporating
+        15 fixed display in .ss if user is in no groups
+        16 etc.dat is now named etc.tab
+bb      17 better auxmem debug info (ems/xms errors)
+        18 new script functions ICHAR, ICHARNE, DUMPF, DUMPFC, PAUSE,
+                WRITEAPL
+        19 fixed ansi login stuff
+        20 better checkfiles() for running from path
+        21 fixed creation of rooms on ctrl-f6 menu
+65
+bb      1 confirm option of #editor and #auto_editor in external.cit
+        2 tell if unknown keyword in external.cit
+        3 jumpback saved between calls
+        4 .Personal hall... commands
+        5 #USEPERSONAL in DEFUSER.CIT
+        6 removed hallways
+        7 hardcoded menu defaults
+        8 net 6.9 network commands
+        9 youAreHere()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        10 IBMROOM
+        11 #READLOG: -1, nobody; 0 sysops; 1 aides too; 3 everybody
+        12 .EC1: wide rooms
+        13 #memfree (bytes)
+        14 music
+        15 ...
+        16 hardcoded BLB defaults
+        17 hardcoded HLP defaults
+        18 CTDL -G
+        19 New ^F6
+        20 NOANSWER.BLB
+        21 #TWITREV
+mp      22 #SHOWMOVED
+eh/mp   23 Cit-86 Gateway .S6< .S6> and cron events
+bb      24 #ALLOWCRYPT
+        25 #BADPWPAUSE
+        26 no login as node name, #REFUSER
+        27 RLMs
+        28 .R##U
+        29 user configurable show last few callers on login; #NUMSHOWUSER
+        30 #ALTF3TIME, #ALTF3MSG
+        31 #PWDAYS
+        32 #CALLLIMIT in CONFIG.CIT and DEFUSER.CIT, .SU8 option
+        33 verify HALL.DAT, GRP.DAT, ROOMPOS.DAT, and BORDERS.DAT on read; 
+                LOG.DAT and ROOM.DAT on configure
+        34 .s in nodes.cit #LOGIN if !debug
+mp      35 kill, insert message: note in aide is group only
+        36 xmodem crc, 1k xmodem
+bb      37 #FASTLOGIN
+        38 internal zmodem
+        39 trap .SD
+        40 #OUTPUTPACE in NODES.CIT
+        41 default EXTERNAL.CIT, CRON.CIT, GRPDATA.CIT, NODES.CIT in .EXE
+        42 mail in killed rooms to Mail>, not Dump>
+        43 digits, allcaps, apostrophe s in spell checker
+        44 boolean group stuff: rooms/halls
+        45 #sysop can get to all rooms and all halls always
+        46 #nocontrap
+        47 exclude encrypted
+        48 #personalok
+        49 .rt: if no extension, default to ".*"
+        50 program stats on exit
+        51 better @ from Entry cmd:
+        52 .SGO
+        53 message to sysop when logging in new goes to Mail> not Lobby>
+        54 user-configurable comma technology
+        55 #CHATBELL
+        56 @ key sends private reply to message being read
+        57 'r' - SourceRoomName
+        58 ctdl -o's first option: compile dictionary
+        59 .su uses .ec code
+        60 .finger...
+        61 user-configurable p upauses
+        62 spell checker status display, S stops it better
+        63 mailing lists
+        64 % comment field
+        65 if .AK, go to previous room, not Lobby>
+        66 u and d #LOGIN commands
+        67 #finger net cmd
+        68 #SWAPNOTE
+        69 .S+
+        70 AllowESC, ~ stuff
+        71 #protocol in external.cit can call internal protocols
+        72 net 6.9a: #NETWORK "NET6_9a" uses uni-directional transfer
+        73 #ZENCOUNTRY to #CIT86COUNTRY, added #CIT86DOMAIN
+mp      74 user-configurable more prompt
+mp/bb   75 #ROOM/HALL/USER/GROUP_NYM
+bb      76 #SAVERMSG
+        77 .AK adds to NETID.CIT as appropriate
+        78 #PROTCOL no more: PROTOCOL.CIT
+rg      79 expanded door file support
+bb      80 scroll-back buffer in auxmem
+        81 MDMRESLT.CIT
+        82 scroll-back: s, g, w
+        83 script debugger
+        84 .RG uses meta-groups, boolean stuff
+        85 #CHECK_TRANSFER
+        86 .SGE?
+        87 getString(): ESC
+        88 lots more QuestIsSpecial
+        89 .S* merged into .AU
+        90 .\... in .AED appends "\..." to default path given.
+        91 #AUTOROOMs trapped, messaged
+        92 Check for corrupted Net IDs on #AUTOROOM
+        93 zapMsgFile() writes up to 63K at a time
+        94 dictionary smaller
+        95 .X...  ESC
+        96 #FASTSCRIPTS
+        97 #VERBOSE is NODES.CIT now more configurable
+        98 mail routing uses #ADDRESSes
+        99 clock on Alt-F10
+        100 .SN does twit too
+        101 ^AR and ^Ar
+rg      102 new script functions NET69FETCH, NET69INCORPORATE, NET86FETCH,
+                NET86INCORPORATE, CHANGEDIR, HANGUP, WAITFOR, OUTSTRPACED,
+                SETPORTRATE, GETSMALLCHATTEXT
+        103 not-logged-in user with sysop/aide can read sysop/aide mail
+        104 another flag on Doors: 0=.ED_; 1=_,.ED_; 2=._,.ED_; 3=1&2
+        105 #RUNAPPLIC matchstring appname (in MDMRESLT.CIT)
+        106 scroll-back: b, default for b and s
+bb      107 #WHILE/#WEND
+rg      108 ConLock disables console-only doors
+bb      109 #SCRIPTPATH
+rg      110 #CONSOLETIMEOUT
+        111 #EVENT SMALLCHAT
+bb      112 #UPLOAD, #DOWNLOAD, #RESPONSEDOWNLOAD in CTDL.MNU
+        113 If no #DOORs in CTDL.MNU, generate list based on EXTERNAL.CIT
+        114 #NEWNODEALERT
+        115 applications linked to messages
+        116 command line variables (%a, %c, etc) available in almost all
+                applications
+        117 %p in applications always port; %l port or "LOCAL"
+        118 G from Entry Command:
+        119 .R&[DIZT] - sorts by date, not alphabetically
+        120 #FETCH_TIMEOUT in NODES.CIT - defaults to 35
+rg      121 DIALOUT.BLB
+        122 ALT+3 toggles 300 baud output
+bb      123 #NEWUSERQUESTIONS replaces #LOGIN QUESTIONS - much more spiff
+        124 Alt+L, Alt+P prompt with no modem user knowledge
+        125 ^BM/^Bm
+        126 better visual feedback of most console commands
+        127 #FULLCONLOCK
+        128 6th parameter to #screensave
+        129 text replacements in editor
+        130 #FILTER
+        131 #RUN and #CHAIN script commands
+        132 #EVENTs SHUTDOWN and STARTUP
+        133 #NETCOMMAND
+        134 #IFNOT, #WHILENOT, #LOOPNOT script commands
+        135 .RK... only searches things in verbose header if reading verbose
+        136 message reading with searches updates every 5 seconds if no find
+        137 system messages Local-only
+        138 #VERBOSECONSOLE
+        139 KNOWNGRP.BLB
+        140 #AND, #OR, #XOR script commands
+        141 #VERSION script command
+        142 ? from GetOneKey
+        143 yn.blb, yna.blb, ynac.blb, ba.blb, ynk.blb, mfu.blb
+        144 prompt for add to replace list in spell checker
+        145 ^A? in GetString()
+        146 #NOSPASM in ROUTE.CIT
+        147 detects Windows, OS/2, DESQview, releases time as appropriate
+        148 #ALTXPROMPT in CONFIG.CIT
+        149 Alt+F1 clears screen
+        150 MCI.CIT
+        151 #EVENTs READNETMAIL and WRITENETMAIL
+        152 %u in applications
+        153 no more #LOGIN APPLICATION: always run if #NEWUSERAPP set. duh.
+        154 #ALTF3TIMEOUT
+        155 Modem speed 600, 21600, 24000, 26400 in MDMRESLT.CIT
+        156 ESC aborts fetching
+        157 #OUTPUTTIMEOUT
+        158 Alt+F and Alt+R do not force zapped events
+        159 Test release: no new features
+        160 * at room prompt displays system bulletin
+        161 CTDL -Sscript runs script before giving room prompt
+        162 #MESSAGE_ROOM -1 turns off feature; Auxmem limit is 32,767
+        163 Test release: no new features
+        164 STOREMESSAGE and LOADMESSAGE #EVENTs
+        165 APL_PORTRATE and APL_CONNRATE
+        166 STORENETMESSAGE and LOADNETMESSAGE #EVENTs
+        167 -F for running under Prism Front Door
+        168 #HOLIDAYWITHYEAR
+        169 .KK...
+        170 ^AXhi##X
+        171 .RBI, .RKI
+        172 ^A7, ^A8
+65y2k
+rg	173 y2k
+66
+bb      1 parameter passing and looping changed, #AVAR added to scripts:
+                recursion is now supported
+        2 #READALL removed from CONFIG.CIT
+        3 Real terminal support
+        4 ^Br/^BR
+        5 ^D in text
+        6 ^D in login
+        7 mdmreslt.cit uses u_match()
+        8 #upsdriver in hardware.cit; pwrfail.blb
+        9 #readstatussecurity: 0-open; 1-only aides; 2-only sysops; 
+                3-only console
+        10 #newuserquestions finger to ask for a finger; newqfngr.blb
+        11 #newuserlogfilename sets name; %s for slot if you want multi files
+        12 #struct/#endstruct in scripts
+        13 #switch/#case/#default/#endswitch in scripts
+        14 commands.cit
+        15 room creator stored in room.dat, shown in .ki
+        16 ^AXhf#X
+        17 & to run applications in background (Windows only)
+        18 unknown: source code lost.
+        19 #LOGIN 'R' command (see below)
+        20 CHAT_ON and CHAT_OFF CRON commands
+        21 #MDATA optional in Windows version
+        22 .AQA uses GetOneKey, AIDEQ.BLB
+        23 Default hall for the system can be changed from Main
+        24 SuperSysop, #SUPERSYSOP
+        25 groups fixed, message config progress bar fixed, log.dat and
+                fileinfo.dat made compatible between DOS and Windows versions
+        26 okay, now fileinfo.dat is cross-platform compatible. and it's a
+                a bit better when it comes to long file names
+mp      27 #BLINKRATE
+bb      28 bunny .ec option
+mp      29 telnet networking (using net 6.9a/internal zmodem)
+        30 #consolesize & other stuff
+        31 bcc 5.5
+        32 bugfixes, msgcompression back in windows, visual c
+bb      33 commit user info to disk on goto
+        34 system event notification
+        35 .C...
+        36 .EC7...
+        37 .WV shows rooms, dowhat
+        38 e-mail notification while on line
+jrs     39 gcc/MinGW
+mp      40 kill, mark, etc from message pause prompt
+jb/bb   41 default chat technology
+bb      42 net6969
+        43 #BANPORT
+        44 BANNED users
+        45 Problem Users cannot Chat All, Chat Group, or Chat Room.
+        46 binds to 0.0.0.0
+        47 logs login port to trapfile
+        48 logs port of illegal in;pw to trap file
+        49 logs thread and connection sequence in trap file
+        50 #TRAP DEBUG
+        51 .RJ...
+        52 .SUW, #KILLOWN
+mp      53 .W[AGR]
+bb      54 #CHAT in NODES.CIT, Net6969 chat
+jrs     55 new chat interface
+mp      56 #chattype - chat output strings (0=jason,1=brent)
+        57 .EC7 auto-idle seconds, see own chats, erase prompt
+nh      58 cfg.poopwow (Wow!)
+        59 CONFIG_D.HLP, CONFIG_W.HLP, better ctdl.mnu etc
+        60 QUEUE.HLP, .SZ enhanced
+mp      61 .Who by-user, .AQM/.AQS working
+nh      62 DOS version
+        63 CHAT.HLP (win32)
+nh/mp   64 better *.SMP *.BLB .RC/.SS, bugfixes
+nh      65 #TRAP PORT (displays port on *every* line of trapfile)(win32)
+nh/jd   66 .EC74 (new message somewhere..)
+bb      67 system event shows difference between .T and other logouts
+nh      68 #newmsgtext in config.cit (win32)
+nh/mp   69 no more error log (win32)/bugfixes
+nh      70 command line variable %t (temppath) in applications
+        71 #CHATLOOP in config.cit
+mp/nh   72 bugfixes/.RJS & .RVJS
+xxxxxxxxxx
+
+***************************************************************************
+
+#LOGIN 'R' command.
+
+Added a REPEAT command to #LOGIN scripts... R then 3 parameters. First
+parameter is what to wait for, second is what to send if it's not recieved
+in #WAIT_TIMEOUT, third is how many times to retry.
+For example, to wait for the string "login:", sending a carriage-return
+until you get it, and trying 5 times... then sending your initials and
+password, the following script would work:
+#LOGIN R "login:" "\r" 5 S "initials;password\r"
+
+***************************************************************************
+
+FredCit Ads stuff:          (thanks fred, you're such a genius)
+
+Added #ADCHANCE and #ADTIME settings for EXTERNAL.CIT
+
+#ADCHANCE is the chance of an ad appearing at the command
+(room) prompt.  Use whole numbers in the range of 0-100.  0
+disables random ads.
+
+#ADTIME is the number of seconds of idle time before an ad is
+shown.  Use whole numbers in the range of 0-100.  0
+disables timeout ads.
+
+I recommend either a very low ad percentage (1-5%) or a large number
+of ad files (like AD.BLB-AD20.BLB), to prevent user annoyance.
+Along the same vein, try not to have too many long ads. For
+example, you could have these lines in your external.cit:
+
+    #ADCHANCE 5
+    #ADTIME   40
+
+Making the user see an ad 5% of the time after a command, and
+automatically if they sit idle for 40 seconds.
+
+***************************************************************************
+
+censor stuff:
+
+/* External.Cit keywords */
+
+#CENSOR_AUTHOR
+  Censor all messages from an author.
+  If message is entered by this author on your system he will get
+  the blurb. Censor.blb.
+
+#CENSOR_TEXT
+  Censor any messages that contain this text anywhere in the message buffer,
+  this includes titles,surnames,path, etc..
+
+#CENSOR_NODE
+  Censor all messages from this node.
+
+There is no set limit on the number CENSOR_??? keywords in EXTERNAL.CIT.
+
+/* Config.Cit keyword */
+#CENSOR 0
+  Users cannot change their ability to view censored messages in .RC..
+
+#CENSOR 1
+  Users may toggle whether or not they can view censored messages.
+  In .EC when they toggle this they receive the blurb
+  "DISCLAIM.BLB" if it exists.  A carefully worded disclaimer blurb can
+  help keep you out of prison.
+
+'*' Toggles censor bit on a message when it is being displayed.
+.SU lets you toggle viewing of censored messages.
+All censored messages still network.
+exclusive messages are never censored.
+
+***************************************************************************
+
+          ***  Net 1_69 Info ***
+
+
+  Net 1_69 is net 1_6 with the following mods.
+
+  1. Requesting messages with net ID's.
+  -------------------------------------
+  1a.  When creating roomrec.tmp.  It retrieves rooms to be requested
+from from rooms.cit NET ID field.  It requests every room net ID of rooms
+that are shared and that the other node has group access to.
+When parsing roomreq it matches requested rooms with netID's instead of
+room names.
+
+  1b. When it gets the messages back it scans rooms.cit instead of nodes
+cit for rooms to put messages in. to match #'s for incorporation.
+
+  2. How to handle the room field of net messages and moved messages.
+  -------------------------------------------------------------------
+ 2a. When netting out in net 6_9. It compares the room field of the message
+to the room name. and if they match then write the NET.ID to the room
+field of the message. If they don't match then leaave the room field
+of the message alone.
+
+  2b. When netting in it compares the room field of the message against
+the net.id. if they don't match, message has been moved, leave the
+room field of the message unaltered.  If they match, write the room name
+into that field.
+
+
+    ***  Forwarding to Node Info ***
+
+
+         92Mar19 09:53:26 From [Wow,] The Gremlin [actually posted.]
+
+   E-mail forwarding to node trash. (first draft). As implemented in Gremcit
+.51 for anyone who cares.
+
+  label forward_node;  added to log buffer in ctdl.h. is the node name for
+e-mail to be forwarded.
+
+  (conversion program provided (a first))
+
+ Rules for Forwarded net e-mail as implemented so far.
+
+  Recipient = person in the T field.
+  Forwardee = person in the F field.
+
+
+ 1. If a message is forwarded to a node.  RECIPIENT on local system sees
+message and may respond.
+
+ 2. FORWARDEE  on net e-mail does not see message on local system.
+
+ 3. On recieving node RECIPIENT does not see message, only FORWARDEE sees it.
+
+ 4, When netting in forwarded net E-mail check for existance of FORWARDEE
+instead of RECIPIENT.
+
+
+        the mbfwdhash variable in the message table serves a very limited
+function.  Allows RECIPIENT on local system to see forwarded net e-mail. and
+allows RECIPIENT to see regular non-netted forwarded e-mail, again local use
+only.
+
+  Since mtfwdhash is a local thing only I am thinking I can use the mtomesg
+(origin id) field for it and go down to 13 bytes per message.
+------
+YOMIT.

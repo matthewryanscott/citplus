@@ -1,0 +1,23 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ this may someday become a silly net 2 system...                            บ
+บ if i get around to it                                                      บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+
+#func _main bool
+
+    #lvar int _filehandle
+    #lvar int _numrooms
+    #lvar int _thisroom
+
+    #call gettmppath
+    #call changedir _result
+
+    #call open "rooms.net" o
+    #asgn _filehandle _result
+
+    #call getmaxrooms
+    #asgn _numrooms _result
+

@@ -1,0 +1,681 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ This implements a Net ID manager for your system.  If you run it and use   บ
+บ the "Information" command, it will explain what it does.  (Or just search  บ
+บ for the text in this file if you want.)                                    บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#VERSION 65141
+
+#FUNC _Main Void
+
+    #LVAR String1 _UserChoice
+    #LVAR String30 _UserInput
+    #LVAR String80 _Comment
+    #LVAR Boolean _GoodCmd
+    #LVAR Boolean _Quit
+    #LVAR Boolean _Verbose
+
+    Default Net ID is this room's, if it has one.
+    #CALL ThisRoom
+    #CALL GetNetID _Result
+    #ASGN _UserInput _Result
+
+    #ASGN _Quit FALSE
+
+    #DO
+        #ASGN _GoodCmd FALSE
+        #ASGN _Verbose FALSE
+
+        #CALL SetOutImpervious
+
+        #CALL DoCR
+        #CALL PrintM "3A0dd Net ID to NETID.CIT"
+        #CALL DoCR
+        #CALL PrintM "3B0adroom check"
+        #CALL DoCR
+        #CALL PrintM "3C0hange comment in NETID.CIT"
+        #CALL DoCR
+        #CALL PrintM "3G0et comment from NETID.CIT"
+        #CALL DoCR
+        #CALL PrintM "3I0nformation on Net ID Manager"
+        #CALL DoCR
+        #CALL PrintM "3L0ist Net IDs"
+        #CALL DoCR
+        #CALL PrintM "3N0et request check"
+        #CALL DoCR
+        #CALL PrintM "3R0emove Net ID from NETID.CIT"
+        #CALL DoCR
+        #CALL PrintM "3V0erbose list of Net IDs"
+        #CALL DoCR
+        #CALL DoCR
+        #CALL PrintM "3Q0uit Net ID Manager"
+        #CALL DoCR
+        #CALL DoCR
+
+        #CALL PrintM "2Enter choice:0 "
+
+        #CALL ICharNE
+        #ASGN _UserChoice _Result
+        #STR U _UserChoice
+        #ASGN _UserChoice _Result
+
+        #EQ _UserChoice "A"
+        #IF _Result
+
+            #ASGN _GoodCmd TRUE
+
+            #CALL PrintM "Add Net ID"
+            #CALL DoCR
+
+            #CALL GetString "Net ID to add" _UserInput 30
+            #ASGN _UserInput _Result
+
+            #NE _UserInput ""
+            #IF _Result
+
+                #CALL IsNetIDInNetIDCit _UserInput
+
+                #IF _Result
+
+                    #CALL DoCR
+                    #CALL PrintM " -- " _UserInput " already in NETID.CIT."
+
+                #ELSE
+
+                    #CALL GetString "comment" "" 80
+                    #ASGN _Comment _Result
+
+                    #CALL DoCR
+
+                    #CALL AddNetIDToNetIDCit _UserInput _Comment
+
+                    #IF _Result
+
+                        #CALL PrintM _UserInput " added to NETID.CIT."
+
+                    #ELSE
+
+                        #CALL PrintM " -- Could not add " _UserInput " to NETID.CIT!"
+
+                    #ENDIF
+
+                #ENDIF
+
+                #CALL DoCR
+
+            #ENDIF
+
+        #ENDIF
+
+        #EQ _UserChoice "B"
+        #IF _Result
+
+            #ASGN _GoodCmd TRUE
+
+            #CALL PrintM "Bad room check"
+            #CALL DoCR
+
+            #CALL GetString "Net ID to check" _UserInput 30
+            #ASGN _UserInput _Result
+
+            #NE _UserInput ""
+            #IF _Result
+                #CALL _BadRoomCheck _UserInput
+            #ENDIF
+        #ENDIF
+
+
+        #EQ _UserChoice "C"
+        #IF _Result
+
+            #ASGN _GoodCmd TRUE
+
+            #CALL PrintM "Change comment"
+            #CALL DoCR
+
+            #CALL GetString "Net ID to change comment of" _UserInput 30
+            #ASGN _UserInput _Result
+
+            #NE _UserInput ""
+            #IF _Result
+
+                #CALL IsNetIDInNetIDCit _UserInput
+
+                #IF _Result
+
+                    #CALL GetCommentOfNetIDInNetIDCit _UserInput
+                    #ASGN _Comment _Result
+
+                    #CALL GetString "new comment" _Comment 80
+                    #ASGN _Comment _Result
+
+                    If user pressed ESC, return will be blank: don't change
+                    it then
+                    #NE _Comment ""
+                    #IF _Result
+
+                        Citadel convention: if user entered single space,
+                        blank it out
+                        #EQ _Comment " "
+                        #IF _Result
+                            #ASGN _Comment ""
+                        #ENDIF
+
+                        #CALL RemoveNetIDFromNetIDCit _UserInput
+
+                        #CALL DoCR
+
+                        #IF _Result
+
+                            #CALL AddNetIDToNetIDCit _UserInput _Comment
+
+                            #IF _Result
+
+                                #CALL PrintM "Comment of " _UserInput " changed."
+
+                            #ELSE
+
+                                #CALL PrintM "Could not change comment of " _UserInput "!  Existing entry lost!"
+
+                            #ENDIF
+
+                        #ELSE
+
+                            #CALL PrintM "Could not change comment of " _UserInput "!"
+
+                        #ENDIF
+
+                        #CALL DoCR
+
+                    #ENDIF
+
+                #ELSE
+
+                    #CALL DoCR
+                    #CALL PrintM " -- " _UserInput " is not in NETID.CIT."
+                    #CALL DoCR
+
+                #ENDIF
+
+            #ENDIF
+
+        #ENDIF
+
+        #EQ _UserChoice "G"
+        #IF _Result
+
+            #ASGN _GoodCmd TRUE
+
+            #CALL PrintM "Get comment"
+            #CALL DoCR
+
+            #CALL GetString "Net ID to get comment of" _UserInput 30
+            #ASGN _UserInput _Result
+
+            #CALL DoCR
+
+            #NE _UserInput ""
+            #IF _Result
+
+                #CALL IsNetIDInNetIDCit _UserInput
+
+                #IF _Result
+
+                    #CALL GetCommentOfNetIDInNetIDCit _UserInput
+                    #ASGN _Comment _Result
+
+                    #EQ _Comment ""
+                    #IF _Result
+
+                        #CALL PrintM " -- " _UserInput " has no comment."
+
+                    #ELSE
+
+                        #CALL PrintM "Comment of " _UserInput ": " _Comment
+
+                    #ENDIF
+
+                #ELSE
+
+                    #CALL PrintM " -- " _UserInput " is not in NETID.CIT."
+
+                #ENDIF
+
+                #CALL DoCR
+
+            #ENDIF
+
+        #ENDIF
+
+        #EQ _UserChoice "I"
+        #IF _Result
+
+            #ASGN _GoodCmd TRUE
+
+            #CALL PrintM "Information"
+            #CALL DoCR
+            #CALL DoCR
+
+            #CALL SetOutNormal
+
+            #CALL PrintM "Citadel stores Net IDs that it is exposed to in a "
+            #CALL PrintM "file named NETID.CIT which is in your #HOMEPATH.  "
+            #CALL PrintM "Citadel first searches this file before creating a "
+            #CALL PrintM "room with #AUTOROOM, to make sure that it has not "
+            #CALL PrintM "already been exposed to the Net ID.  (If it had "
+            #CALL PrintM "been exposed to it, and if the room does not exist "
+            #CALL PrintM "currently, then the room has been killed.  By "
+            #CALL PrintM "searching this file, it keeps killed rooms from "
+            #CALL PrintM "coming back through #AUTOROOM.)"
+
+            #CALL DoCR
+            #CALL DoCR
+
+            #CALL PrintM "Citadel also saves a comment with each Net ID it "
+            #CALL PrintM "stores to NETID.CIT; this is usually the node that "
+            #CALL PrintM "the Net ID came from."
+
+            #CALL DoCR
+            #CALL DoCR
+
+            #CALL PrintM "In general, you do not need to know about the "
+            #CALL PrintM "contents of NETID.CIT.  However, if you want a "
+            #CALL PrintM "room that you have killed to come back, it is best "
+            #CALL PrintM "to remove its Net ID from NETID.CIT; if you create "
+            #CALL PrintM "it manually, you run the risk of misspelling the "
+            #CALL PrintM "Net ID.  You may also want to know where a room "
+            #CALL PrintM "came from.  By checking the comment in NETID.CIT, "
+            #CALL PrintM "you can easily determine the source."
+
+            #CALL DoCR
+            #CALL DoCR
+
+            #CALL PrintM "You can also use this to list the Net IDs that you "
+            #CALL PrintM "carry and the ones that you do not carry."
+
+            #CALL DoCR
+
+        #ENDIF
+
+        #EQ _UserChoice "V"
+        #IF _Result
+            #ASGN _Verbose TRUE
+            #ASGN _UserChoice "L"
+            #CALL PrintM "Verbose List Net IDs"
+        #ENDIF
+
+        #EQ _UserChoice "L"
+        #IF _Result
+
+            #LVAR String80 _FileName
+
+            #ASGN _GoodCmd TRUE
+
+            #IFNOT _Verbose
+                #CALL PrintM "List Net IDs"
+            #ENDIF
+
+            #CALL DoCR
+            #CALL DoCR
+
+            #CALL GetHomePath
+            #ASGN _FileName _Result
+
+            #STR C _FileName "\\" "NETID.CIT"
+            #ASGN _FileName _Result
+
+            #CALL OpenFile 0 _FileName
+            #IF _Result
+
+                #CALL SetOutNormal
+
+                #LVAR String128 _Line
+                #LVAR Integer _Params
+
+                #CALL FileEOF 0
+                #WHILENOT _Result
+
+                    #CALL ReadStr 0
+                    #ASGN _Line _Result
+
+                    #CALL GetParamCount _Line
+                    #ASGN _Params _Result
+
+                    #GE _Params 2
+                    #IF _Result
+
+                        #CALL GetParam _Line 1
+
+                        #EQ _Result "#NETID"
+                        #IF _Result
+                            #LVAR String30 _NetID
+
+                            #CALL GetParam _Line 2
+                            #ASGN _NetID _Result
+
+                            #CALL PrintM "Net ID " _Result " is "
+
+                            #CALL FindRoomByNetID _NetID TRUE
+                            #EQ _Result -1
+                            #IF _Result
+                                #CALL PrintM "not "
+                            #ENDIF
+
+                            #CALL PrintM "carried.  "
+
+                            #CALL GetParam _Line 3
+                            #ASGN _Comment _Result
+
+                            #EQ _Comment ""
+                            #IF _Result
+                                #CALL PrintM "(No comment)"
+                            #ELSE
+                                #CALL PrintM " (" _Comment ")"
+                            #ENDIF
+
+                            #IF _Verbose
+                                #CALL _BadRoomCheck _NetID
+                                #CALL _NetWith _NetID
+                            #ENDIF
+
+                            #CALL DoCR
+                        #ENDIF
+                    #ENDIF
+
+                #CALL IsOutputJump
+                #IF _Result
+                    #CALL SetOutNormal
+                #ENDIF
+
+                #CALL IsOutputNext
+                #AND _Result _Verbose
+                #IF _Result
+                    #CALL SetOutNormal
+                #ENDIF
+
+                #LVAR Boolean _Temp
+                #CALL FileEOF 0
+                #ASGN _Temp _Result
+
+                #CALL IsCanOutput
+                #XOR _Result TRUE
+
+                #OR _Result _Temp
+                #WEND
+
+                #CALL CloseFile 0
+            #ELSE
+
+                #CALL PrintM " -- Could not open " _FileName "."
+
+            #ENDIF
+
+            #CALL DoCR
+
+        #ENDIF
+
+        #EQ _UserChoice "N"
+        #IF _Result
+
+            #ASGN _GoodCmd TRUE
+
+            #CALL PrintM "Net request check"
+            #CALL DoCR
+
+            #CALL GetString "Net ID to check requests of" _UserInput 30
+            #ASGN _UserInput _Result
+
+            #CALL _NetWith _UserInput
+
+        #ENDIF
+
+        #EQ _UserChoice "R"
+        #IF _Result
+
+            #ASGN _GoodCmd TRUE
+
+            #CALL PrintM "Remove Net ID"
+            #CALL DoCR
+
+            #CALL GetString "Net ID to remove" _UserInput 30
+            #ASGN _UserInput _Result
+
+            #CALL DoCR
+
+            #NE _UserInput ""
+            #IF _Result
+
+                #CALL IsNetIDInNetIDCit _UserInput
+
+                #IF _Result
+
+                    #CALL RemoveNetIDFromNetIDCit _UserInput
+
+                    #IF _Result
+
+                        #CALL PrintM _UserInput " removed."
+
+                    #ELSE
+
+                        #CALL PrintM "Could not remove " _UserInput "!"
+
+                    #ENDIF
+
+                #ELSE
+
+                    #CALL PrintM " -- " _UserInput " is not in NETID.CIT."
+
+                #ENDIF
+
+                #CALL DoCR
+
+            #ENDIF
+
+        #ENDIF
+
+    #EQ _UserChoice "Q"
+    #IF _Result
+
+        #ASGN _GoodCmd TRUE
+        #ASGN _Quit TRUE
+
+    #ENDIF
+
+    #EQ _UserChoice ""
+    #IF _Result
+
+        #ASGN _GoodCmd TRUE
+        #ASGN _Quit TRUE
+
+    #ENDIF
+
+    #IFNOT _GoodCmd
+
+        #CALL PrintM _UserChoice " ?"
+        #CALL DoCR
+
+    #ENDIF
+
+
+    #LOOPNOT _Quit
+
+    #CALL PrintM "Quit"
+    #CALL DoCR
+
+    #RET Void
+#ENDFUNC
+
+#FUNC _NetWith Void String30 _NetID
+    #LVAR Boolean _SharedAnywhere
+    #LVAR String30 _NodeName
+
+    #ASGN _SharedAnywhere FALSE
+
+    #STR E _NetID
+
+    #IF _Result
+        #LVAR String3  _Alias
+        #LVAR String255 _FileName
+
+        #CALL DoCR
+
+        _NodeIndex is used to look up a node in LOG.DAT
+        #LVAR Integer _NodeIndex
+
+        Loop through each node in the userlog.
+        #ASGN _NodeIndex 0
+        #DO
+            If it is a node...
+            #CALL GetLTNode _NodeIndex
+            #IF _Result
+                #CALL GetLTName _NodeIndex
+                #ASGN _NodeName _Result
+
+                #CALL GetLTAlias _NodeIndex
+                #ASGN _Alias _Result
+                #STR E _Alias
+                #IF _Result
+                    #CALL GetTransPath
+                    #ASGN _FileName _Result
+                    #STR C _FileName "\\roomreq." _Alias
+                    #ASGN _FileName _Result
+
+                    #CALL FileExists _FileName
+                    #IF _Result
+                        File 1 is the ROOMREQ.xxx file.
+                        #CALL OpenFile 1 _FileName
+                        #IF _Result
+                            #LVAR Boolean _Found
+                            #ASGN _Found FALSE
+
+                            #DO
+                                #CALL CheckUserOutControl FALSE
+                                #CALL IsCanOutput
+                                #IFNOT _Result
+                                    #CALL CloseFile 1
+                                    #RET Void
+                                #ENDIF
+
+                                #CALL ReadStr 1
+                                #EQ _NetID _Result
+                                #IF _Result
+                                    #CALL PrintM _NetID " is requested by " _NodeName "."
+                                    #CALL DoCR
+                                    #ASGN _Found TRUE
+                                    #ASGN _SharedAnywhere TRUE
+                                #ENDIF
+                            
+                            #CALL FileEOF 1
+
+                            #OR _Result _Found
+                            #LOOPNOT _Result
+
+                            #CALL CloseFile 1
+                        #ELSE
+                            #CALL PrintM "  Open of " _FileName " failed!"
+                            #CALL DoCR
+                        #ENDIF
+                    #ENDIF
+                #ENDIF
+            #ENDIF
+
+
+        #ADD _NodeIndex 1
+        #ASGN _NodeIndex _Result
+
+        #CALL GetMaxLogTab
+        #LT _NodeIndex _Result
+        #LOOP _Result
+
+        #IFNOT _SharedAnywhere
+            #CALL PrintM _NetID " is not requested by any node."
+            #CALL DoCR
+        #ENDIF
+    #ENDIF
+
+    #RET Void
+#ENDFUNC
+
+When this gets called, _NodeIndex will be the node's log table slot, file 0
+will be its ROOMREQ file, and file 1 will be BADROOMS.DAT. Have at it.
+
+#FUNC _BadRoomCheck Void String30 _NetIDToCheck
+
+    #LVAR String128 _Comment
+    #LVAR String255 _InputString
+
+    #LVAR String255 _FileName
+
+    #CALL GetDLPath
+    #ASGN _FileName _Result
+    #STR C _FileName "\\badrooms.dat"
+    #ASGN _FileName _Result
+
+    #CALL FileExists _FileName
+    #IF _Result
+        File 1 is the BADROOMS.DAT file.
+        #CALL OpenFile 1 _FileName
+        #IF _Result
+
+            #DO
+                #CALL CheckUserOutControl FALSE
+                #CALL IsCanOutput
+                #IFNOT _Result
+                    #CALL CloseFile 1
+                    #RET Void
+                #ENDIF
+
+                #CALL READSTR 1
+                #ASGN _InputString _Result
+
+                #STR B _InputString 0 1
+                #EQ "#" _Result
+                #IF _Result
+                    #CALL GETPARAM _InputString 2
+                    #ASGN _Comment _Result
+                #ELSE
+                    This is a room to check...
+
+                    #LVAR String30 _RoomName
+                    #CALL GetParam _InputString 1
+                    #ASGN _RoomName _Result
+
+                    #STR E _RoomName
+                    #IF _Result
+                        #EQ _RoomName _NetIDToCheck
+                        #IF _Result
+
+                            #CALL DoCR
+                            #CALL PrintM _Comment
+
+                            #LVAR String128 _MoreInfo
+
+                            #CALL GETPARAM _InputString 2
+                            #ASGN _MoreInfo _Result
+
+                            #NE _MoreInfo ""
+                            #IF _Result
+                                #CALL DoCR
+                                #CALL PrintM _MoreInfo
+                            #ENDIF
+
+                            #CALL DoCR
+                            #CALL CloseFile 1
+
+                            #RET Void
+                        #ENDIF
+                    #ENDIF
+                #ENDIF
+
+            #CALL FileEOF 1
+            #LOOPNOT _Result
+
+            #CALL CloseFile 1
+
+        #ENDIF
+    #ENDIF
+
+    #RET Void
+#ENDFUNC

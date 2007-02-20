@@ -1,0 +1,46 @@
+ #replace "poop" "poopie"
+
+ #EVENT Beep "*BEEP"
+#PROTOCOL "1K-Xmodem"    0 1024   "?dsz port %p rx -k %f"  "?dsz port %p sx -k %f" ""
+#PROTOCOL "CRC Xmodem"   0 128    "?dsz port %p rc %f"     "?dsz port %p sx %f"    ""
+#PROTOCOL "MobyTurbo-Zmodem" 1 0  "?dsz port %p rz -m %f"  "?dsz port %p sz -m %f" ""           "?dsz port %p sz -m @%f"
+#PROTOCOL "Puma"         1 0      "?@puma r %f"            "?@puma s %f"           ""
+#PROTOCOL "RLE-Zmodem"   1 0      "?dsz port %p rz -Z %f"  "?dsz port %p sz -Z %f" ""           "?dsz port %p sz -Z @%f"
+#PROTOCOL "Steve-Punter" 0 0      "?punter R P%p %f"       "?punter S P%p %f"      ""
+#PROTOCOL "Unfinished-ZModem" 1 0 "?dsz port %p rz -rr %f" "?dsz port %p sz -r %f" ""           "?dsz port %p sz -r @%f"
+#PROTOCOL "Xmodem"       0 128    "?dsz port %p rx %f"     "?dsz port %p sx %f"    ""
+#PROTOCOL "Ymodem-Batch" 1 1024   "?dsz port %p rb %f"     "?dsz port %p sb %f"    ""           "?dsz port %p sb @%f"
+#PROTOCOL "Zmodem"       1 0      "?dsz port %p rz"        "?dsz port %p dz %f"    "rz^M**B00" "?dsz port %p sz @%f"
+
+
+ #PROTOCOL "1K-Xmodem"  0 1024 "[1kxmodem]"   "[1kxmodem]"      ""
+ #PROTOCOL "CRC Xmodem" 0 128  "[crcxmodem]"  "[crcxmodem]"     ""
+ #PROTOCOL "HS/Link"    1 0    "?hslink -p%p" "?hslink -p%p %f" "HS*" "?hslink -p%p @%f"
+ #PROTOCOL "Xmodem"     0 128  "[xmodem]"     "[xmodem]"        ""
+ #PROTOCOL "Zmodem"     1 0    "[zmodem]"     "[zmodem]"        "rz^M**B00"
+ #PROTOCOL "Zmax"   1 0 "zmax -b%s -p%p -R -X" "zmax -b%s -p%p -X -F%f" "" "zmax -b%s -p%p -X -@%f"
+ #PROTOCOL "Zmodem" 1 0 "txzm com%p -h -e0 -r" "txzm com%p -h -s %f"    "" "txzm com%p -h -s @%f"
+ #PROTOCOL "Zmodem" 1 0 "szmodem port %p speed %s /nolog /dt 0 /szt /hard /RR- sz %f" 
+"szmodem port %p speed %s /nolog /dt 0 /szt /hard rs %f" "" "szmodem port %p speed %s /nolog /dt 0 /szt /hard rs @%f"
+
+ #PROTOCOL "HS Link" 1 0 "hslink -p%p" "hslink -p%p %f" "" "hslink -p%p @%f"
+
+#archiver "SQZ" "sqz l %f > %a\\readme.apl" "sqz x %f %d" "sqz"
+#archiver "mdcd" "mdcd l %f > %a\\readme.apl" "mdcd r %f %d" "md"
+ #DOOR "Chat" "*gchat" "" 0 0 0 0
+
+ #RLM "termprog"
+
+
+#refuser *shit*
+#refuser wow
+
+#editor "brief" 1 "!$b %f"
+
+#NETCOMMAND "filereq" "fileserv"
+#event writenetmail "*wnmtest"
+
+ #event loadmessage "*lmtest"
+ #event storemessage "*nojd"
+
+#door "1 Edit room" "*re" "" 0 0 0 0 3

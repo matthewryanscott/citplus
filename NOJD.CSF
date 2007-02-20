@@ -1,0 +1,143 @@
+#FUNC _Main Void
+	Always let mail through.
+	#CALL MsgGetToUser
+	#STR E _Result
+	#IF _Result
+		#RET Void
+	#ENDIF
+
+	Trap him on any BBSes that he hasn't changed his name yet
+	#CALL MsgGetAuthor
+	#EQ _Result "JayDee"
+	#IF _Result
+		#CALL _BadMessage
+		#RET Void
+	#ENDIF
+
+	Trap his editings of the source software field
+	#CALL MsgGetOriginSoftware
+	#EQ _Result "Citadel+/065ezin"
+	#IF _Result
+		#CALL _BadMessage
+		#RET Void
+	#ENDIF
+
+	#EQ _Result "Citadel+/065nize"
+	#IF _Result
+		#CALL _BadMessage
+		#RET Void
+	#ENDIF
+
+
+	Now we have to do things the hard way...
+	#LVAR String8 _OAddress
+
+	#CALL _MsgGetOriginAddress
+	#ASGN _OAddress _Result
+
+	If it didn't come with an origin address, not from a GremCit/Citadel+,
+	not from JayDee. Keep it.
+	#STR E _OAddress
+	#IFNOT _Result
+		#RET Void
+	#ENDIF
+
+	Is it from something that we know is him? (In case he starts the Loka/bmb
+	net again.)
+	#CALL _IsMatchWildcard _OAddress "lok.*"
+	#IF _Result
+		#CALL _BadMessage
+		#RET Void
+	#ENDIF
+
+	Now, check various "good" BBSes
+	#EQ _OAddress "gsg.bli"
+	#IF _Result
+		#RET Void
+	#ENDIF
+
+	#EQ _OAddress "twv.bli"
+	#IF _Result
+		#RET Void
+	#ENDIF
+
+	#EQ _OAddress "zoo.bli"
+	#IF _Result
+		#RET Void
+	#ENDIF
+
+	#EQ _OAddress "mc1.cyb"
+	#IF _Result
+		#RET Void
+	#ENDIF
+
+	#EQ _OAddress "bmb.sea"
+	#IF _Result
+		#RET Void
+	#ENDIF
+
+	#EQ _OAddress "bkm.bli"
+	#IF _Result
+		#RET Void
+	#ENDIF
+
+	#EQ _OAddress "bwn.bli"
+	#IF _Result
+		#RET Void
+	#ENDIF
+
+	#EQ _OAddress "arc.bli"
+	#IF _Result
+		#RET Void
+	#ENDIF
+
+	#EQ _OAddress "dy2.bli"
+	#IF _Result
+		#RET Void
+	#ENDIF
+
+	#EQ _OAddress "wlf.bli"
+	#IF _Result
+		#RET Void
+	#ENDIF
+
+	#EQ _OAddress "lnz.bli"
+	#IF _Result
+		#RET Void
+	#ENDIF
+
+	Now, check to see if its first network was to LNZ or TWV. If so, dump
+	#LVAR String255 _FromPath
+
+	#CALL MsgGetFromPath
+	#ASGN _FromPath _Result
+
+	#CALL _IsMatchWildcard _FromPath "???.???!lnz*"
+	#IFNOT _Result
+		#CALL _IsMatchWildcard _FromPath "???.???!twv*"
+		#IFNOT _Result
+			#RET Void
+		#ENDIF
+	#ENDIF
+
+	Message's first stop was on TWV or LNZ, and not from a clear BBS. Assume
+	it's bad bad.
+	#CALL _BadMessage
+
+	#RET Void
+#ENDFUNC
+
+
+Do what we want with the bad message... reroute it as networked mail set
+to bounce around BLI a bit. Change the time to keep it from being duplicate.
+
+#FUNC _BadMessage Void
+	#CALL GetCurrentTime
+	#CALL MsgSetCreationTime _Result
+
+	#CALL MsgSetToUser "JayDee @ twv.bli"
+
+	#CALL MsgSetFromPath "lok.bli"
+
+	#CALL MsgSetToPath "tat.sea!ghe!lnz.bli!dy2!arc!bkm!twv"
+#ENDFUNC

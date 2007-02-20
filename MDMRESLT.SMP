@@ -1,0 +1,231 @@
+==============================================================================
+
+The MDMRESLT.CIT file gives Citadel information on your modem's result codes.
+Result codes are what modems send to computers to alert the computer as to
+what the modem is doing.  What follows are common result codes sent by modems.
+If your modem sends result codes other than these, you will have to edit this
+file to let Citadel know what your modem is trying to tell it.  You may have
+as many of each result code type as you want; Citadel will accept any of the
+listed codes.
+
+The valid keywords in this file are:
+
+        #NOCARRIER {string}
+            The string your modem sends when it is not able to make a
+            connection when dialing out.
+
+        #ERROR {string}
+            The string your modem sends when it doesn't understand what the
+            computer just told it to do.
+
+        #NODIALTONE {string}
+            The string your modem sends when it cannot detect a dial tone when
+            it is told to dial out.
+
+        #BUSY {string}
+            The string your modem sends when it detects a busy signal after
+            dialing a phone number.
+
+        #NOANSWER {string}
+            The string your modem sends when there is no answer on a number
+            that it just dialed.  This is similar to #NOCARRIER.
+
+        #RING {string}
+            The string your modem sends when it detects a ring on the phone
+            line, from someone dialing your phone number.
+
+        #COMPRESSION {string}
+            The string your modem sends if it has negotiated a connection with
+            some form of data compression.
+
+        #CORRECTION {string}
+            The string your modem sends if it has negotiated a connection with
+            some form of error correction.
+
+        #CONNECT300 {string}
+        #CONNECT600 {string}
+        #CONNECT1200 {string}
+        #CONNECT2400 {string}
+        #CONNECT4800 {string}
+        #CONNECT7200 {string}
+        #CONNECT9600 {string}
+        #CONNECT12000 {string}
+        #CONNECT14400 {string}
+        #CONNECT16800 {string}
+        #CONNECT19200 {string}
+        #CONNECT21600 {string}
+        #CONNECT24000 {string}
+        #CONNECT26400 {string}
+        #CONNECT28800 {string}
+        #CONNECT38400 {string}
+        #CONNECT57600 {string}
+        #CONNECT115200 {string}
+        #CONNECT230400 {string}
+        #CONNECTX {string}
+            The strings your modem sends after making a connection at the
+            specified speed.  The #CONNECTX result code is special: if you
+            include a vertical bar in it (|), Citadel will look for a number
+            in that position, and use it to determine the speed of the
+            connection.
+
+        #CONNECT300C {string}
+        #CONNECT600C {string}
+        #CONNECT1200C {string}
+        #CONNECT2400C {string}
+        #CONNECT4800C {string}
+        #CONNECT7200C {string}
+        #CONNECT9600C {string}
+        #CONNECT12000C {string}
+        #CONNECT14400C {string}
+        #CONNECT16800C {string}
+        #CONNECT19200C {string}
+        #CONNECT21600C {string}
+        #CONNECT24000C {string}
+        #CONNECT26400C {string}
+        #CONNECT28800C {string}
+        #CONNECT38400C {string}
+        #CONNECT57600C {string}
+        #CONNECT115200C {string}
+        #CONNECT230400C {string}
+        #CONNECTXC {string}
+            The strings your modem sends after making a connection with data
+            compression at the specified speed.  The #CONNECTXC result code is
+            special: if you include a vertical bar in it (|), Citadel will
+            look for a number in that position, and use it to determine the
+            speed of the connection.
+
+            If there is data compression, Citadel assumes that there is also
+            error correction.
+
+        #CONNECT300E {string}
+        #CONNECT600E {string}
+        #CONNECT1200E {string}
+        #CONNECT2400E {string}
+        #CONNECT4800E {string}
+        #CONNECT7200E {string}
+        #CONNECT9600E {string}
+        #CONNECT12000E {string}
+        #CONNECT14400E {string}
+        #CONNECT16800E {string}
+        #CONNECT19200E {string}
+        #CONNECT21600E {string}
+        #CONNECT24000E {string}
+        #CONNECT26400E {string}
+        #CONNECT28800E {string}
+        #CONNECT38400E {string}
+        #CONNECT57600E {string}
+        #CONNECT115200E {string}
+        #CONNECT230400E {string}
+        #CONNECTXE {string}
+            The strings your modem sends after making a connection with error
+            correction (but no data compression) at the specified speed.  The
+            #CONNECTXE result code is special: if you include a vertical bar
+            in it (|), Citadel will look for a number in that position, and
+            use it to determine the speed of the connection.
+
+        #RUNAPPLIC {string} {application}
+            Tells Citadel to run an application when it receives a certain
+            string from the modem.  This can be used to have Citadel shell to
+            a fax program if it gets a FAX connection, for example.
+
+
+==============================================================================
+
+#NOCARRIER      "NO CARRIER"
+#NOCARRIER      "3"
+
+#ERROR          "ERROR"
+#ERROR          "BLACKLISTED"
+#ERROR          "DELAYED"
+#ERROR          "FAX"
+#ERROR          "4"
+
+#NODIALTONE     "NO DIAL*TONE"
+//#NODIALTONE     "NO DIALTONE"
+//#NODIALTONE     "NO DIAL TONE"
+#NODIALTONE     "6"
+
+#BUSY           "BUSY"
+#BUSY           "7"
+
+#NOANSWER       "NO ANSWER"
+#NOANSWER       "VOICE"
+#NOANSWER       "8"
+
+#RING           "RING"
+#RING           "CLIENT"
+#RING           "2"
+
+//Note: we must exclude "COMPRESSION: NONE"
+#COMPRESSION    "AUTOSTREAM: LEVEL *"
+#COMPRESSION    "COMPRESSION: ADC"
+#COMPRESSION    "COMPRESSION:*5"
+#COMPRESSION    "COMPRESSION:*V*42*bis"
+//#COMPRESSION    "COMPRESSION: CLASS 5"
+//#COMPRESSION    "COMPRESSION: V.42 bis"
+//#COMPRESSION    "COMPRESSION: V.42BIS"
+
+//Note: we must exclude "PROTOCOL: NONE"
+#CORRECTION     "PROTOCOL:*ALT*"
+#CORRECTION     "PROTOCOL:*LAP*"
+#CORRECTION     "PROTOCOL:*MNP*"
+#CORRECTION     "PROTOCOL:*V*42*bis"
+//#CORRECTION     "PROTOCOL: ALT"
+//#CORRECTION     "PROTOCOL: LAPM"
+//#CORRECTION     "PROTOCOL: LAP-M"
+//#CORRECTION     "PROTOCOL: V.42/LAPM"
+//#CORRECTION     "PROTOCOL: ALT-CELLULAR"
+
+#CONNECT300     "CONNECT"
+#CONNECT300     "1"
+
+#CONNECT1200C   "CONNECT 1200*/75*V42*"
+#CONNECT1200E   "CONNECT 1200*/75*LAP*"
+#CONNECT1200E   "CONNECT 1200*/75*MNP"
+#CONNECT1200E   "CONNECT 1200*/75*REL"
+#CONNECT1200    "CONNECT 1200*/75*"
+#CONNECT1200C   "CONNECT 75*/1200*V42*"
+#CONNECT1200E   "CONNECT 75*/1200*LAP*"
+#CONNECT1200E   "CONNECT 75*/1200*MNP"
+#CONNECT1200E   "CONNECT 75*/1200*REL"
+#CONNECT1200    "CONNECT 75*/1200*"
+#CONNECT1200    "5"
+#CONNECT1200    "15"
+
+#CONNECT2400    "10"
+#CONNECT2400    "16"
+
+#CONNECT9600    "13"
+#CONNECT9600    "17"
+
+#CONNECTXC      "CONNECT |*V42B*"
+#CONNECTXC      "CONNECT |*COMP*"
+#CONNECTXC      "CONNECT |*MNP5*"
+//#CONNECTXC      "CONNECT | REL/V42BIS"
+//#CONNECTXC      "CONNECT |/V42BIS"
+//#CONNECTXC      "CONNECT |/ARQ/LAPM/V42BIS"
+//#CONNECTXC      "CONNECT |/REL-LAPM-COMP"
+//#CONNECTXC      "CONNECT |/REL-MNP-COMP"
+//#CONNECTXC      "CONNECT |/MNP COMPRESSED"
+//#CONNECTXC      "CONNECT |/ARQ/V32/LAPM/V42BIS"
+//#CONNECTXC      "CONNECT |/ARQ/MNP/MNP5
+//#CONNECTXC      "CONNECT |/ARQ/V32/LAPM/MNP5"
+//#CONNECTXC      "CONNECT |/ARQ/MNP/V42BIS"
+//#CONNECTXC      "CONNECT |/ARQ/VFC/LAPM/V42BIS"
+
+#CONNECTXE      "CONNECT |*V42"
+#CONNECTXE      "CONNECT |*ARQ*"
+#CONNECTXE      "CONNECT |*REL*
+#CONNECTXE      "CONNECT |*MNP*"
+#CONNECTXE      "CONNECT |*LAP*M"
+//#CONNECTXE      "CONNECT |/REL-MNP"
+//#CONNECTXE      "CONNECT |/REL-LAPM"
+#CONNECTXE      "CONNECT |/V32"
+//#CONNECTXE      "CONNECT |/ARQ/V32"
+//#CONNECTXE      "CONNECT |/ARQ/V32/LAPM"
+//#CONNECTXE      "CONNECT |/ARQ/MNP"
+
+#CONNECTX       "CONNECT |"
+#CONNECTX       "CONNECT |*/NONE"
+//#CONNECTX       "CONNECT |/NONE"
+//#CONNECTX       "CONNECT |/V32/NONE"

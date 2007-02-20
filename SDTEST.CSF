@@ -1,0 +1,14 @@
+ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+บ                                                                            บ
+บ This was created as a way to test #SHUTDOWNSCRIPT.                         บ
+บ                                                                            บ
+ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+
+#FUNC _Main VOID
+
+    #CALL PrintM "We have just exited Citadel!"
+    #CALL DoCR
+
+    #RET VOID
+
+#ENDFUNC

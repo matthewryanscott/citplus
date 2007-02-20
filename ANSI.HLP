@@ -1,0 +1,98 @@
+  2Helpfile: MXhf2X0
+ 
+ Turn on ANSI by using the Terminal settings (3T0) subcommand of the
+.Enter Configuration (3.EC0) command.  There are at least two different
+ANSI modes available from the Terminal Type (3T0) choice of the Terminal
+settings subcommand.  Selecting ANSI Mono tells Citadel to display certain
+things with ANSI (such as making room prompts inverse and message headers
+bold). It also tells Citadel to pass the ^A codes (see below) 0 to 4 to you.  
+Selecting ANSI Color tells Citadel to pass the ^A codes a-h and A-H to you.
+ 
+ Turning on either also tells Citadel to pass true ANSI (ESC[...) codes to
+you. Otherwise, it strips these out, in an attempt to keep the text visible
+to you. (It works well as long as the only true ANSI codes are color changes,
+not cursor movement.)
+ 
+ The ^A codes start with a CTRL-A and then a character. (For ANSI color
+changing, use numbers 0-4 and letters A-H and a-h. Other codes are used,
+but are part of Citadel's Message Command Interpreter (MCI).)
+ 
+ These will give you different special effects for your text, as follows:
+ 
+ What it does:                              What it looks like:
+ 
+ 0 -- NORMAL                                0Normal0
+ 1 -- BLINK                                 1Blinking0
+ 2 -- REVERSE (inverse)                     2Inverted0
+ 3 -- BOLD                                  3Boldface0
+ 4 -- UNDERLINE                             4Underline0
+ 
+ You can change the actual color codes that Citadel passes to your terminal
+when it comes across these ^A codes by using the Attributes (3R0) choice
+of the Terminal settings (3T0) subcommand of the .Enter Configuration
+(3.EC0) command.
+ 
+ Citadel also supports explicit color changes using the uppercase letters 
+A-H for background and lowercase letters a-h for foreground color. The
+following table shows how the colors appear for specified foreground and
+background color codes:
+ 
+ Citadel codes for colors:
+ 
+ BLACK FOREGROUND               ^Aa      BLACK BACKGROUND       ^AA
+ RED FOREGROUND                 ^Ab      RED BACKGROUND         ^AB
+ GREEN FOREGROUND               ^Ac      GREEN BACKGROUND       ^AC
+ YELLOW FOREGROUND              ^Ad      YELLOW BACKGROUND      ^AD
+ BLUE FOREGROUND                ^Ae      BLUE BACKGROUND        ^AE
+ MAGENTA FOREGROUND             ^Af      MAGENTA BACKGROUND     ^AF
+ CYAN FOREGROUND                ^Ag      CYAN BACKGROUND        ^AG
+ WHITE FOREGROUND               ^Ah      WHITE BACKGROUND       ^AH
+ RANDOM FOREGROUND              ^Ar      RANDOM BACKGROUND      ^AR
+ 
+            4Normal Colors         3Bold Colors0
+ 
+    Forground  abcdefgh            abcdefgh
+ Background A Aa abbccddeeffgghh 0        A 3Aa abbccddeeffgghh 0
+            B Ba abbccddeeffgghh 0        B 3Ba abbccddeeffgghh 0
+            C Ca abbccddeeffgghh 0        C 3Ca abbccddeeffgghh 0
+            D Da abbccddeeffgghh 0        D 3Da abbccddeeffgghh 0
+            E Ea abbccddeeffgghh 0        E 3Ea abbccddeeffgghh 0
+            F Fa abbccddeeffgghh 0        F 3Fa abbccddeeffgghh 0
+            G Ga abbccddeeffgghh 0        G 3Ga abbccddeeffgghh 0
+            H Ha abbccddeeffgghh 0        H 3Ha abbccddeeffgghh 0
+ 
+ Note that you can use Bold (3^A30) before a foreground color setting to
+make the character brighter, and Blink (3^A10) before a background color
+setting to make the character blink.
+ 
+ Here's another chart for your convenience:
+  
+ 3cNOTICE:0  ษออออออออออออออออออออออออออออออออออออหอออออออออออออออออออออออออออออป
+          บ  3gEFFECT            APPEARANCE      0บ3g   BACKGROUND     APPEARANCE 0บ0
+ 3fUppercase0บf------------------------------------0บf-----------------------------0บ
+ g   and   0บ  Normal          0"ctrlA 0"0         บ  A -- BLACK     A "ctrlA A" 0 บ
+ 3bLowercase0บ  Blinking        1"ctrlA 1"0         บ  B -- RED       Ba "ctrlA B" 0 บ
+ g are NOT 0บ  Reverse         2"ctrlA 2"0         บ  C -- GREEN     Ca "ctrlA C" 0 บ
+ gthe same 0บ  Bold            3"ctrlA 3"0         บ  D -- ORANGE    Da "ctrlA D" 0 บ
+ gthey have0บ  Underline       4"ctrlA 4"0         บ  E -- BLUE      Ea "ctrlA E" 0 บ
+ gdifferent0บ  Reverse/Blink   21"ctrlA 2 ctrlA 1"0 บ  F -- PURPLE    Fa "ctrlA F" 0 บ
+ geffects! 0บ  Bold/Blink      31"ctrlA 3 ctrlA 1"0 บ  G -- CYAN      Ga "ctrlA G" 0 บ
+          บ  Underline/Blink 41"ctrlA 4 ctrlA 1"0 บ  H -- WHITE     Ha "ctrlA H" 0 บ
+          ศออหอออออออออออออออออออออออออออออออออสอออออออออออออออออออออออออหอออผ
+             บ 3gNORMAL COLOR LETTER        HI-LITE COLOR LETTER           0บ
+             บf-----------------------------------------------------------0บ
+             บHa Black   -- "ctrlA a"       HI-Black  -- 3Ha "ctrlA 3 ctrlA a"0บ
+             บ bRed     -- "ctrlA b"       HI-Red    -- 3b "ctrlA 3 ctflA b"0บ
+             บ cGreen   -- "ctrlA c"       HI-Green  -- 3c "ctrlA 3 ctrlA c"0บ
+             บ dOrange  -- "ctrlA d"       HI-Yellow -- 3d "ctrlA 3 ctrlA d"0บ
+             บ eBlue    -- "ctrlA e"       HI-Blue   -- 3e "ctrlA 3 ctrlA e"0บ
+             บ fPurple  -- "ctrlA f"       HI-Purple -- 3f "ctrlA 3 ctrlA f"0บ
+             บ gCyan    -- "ctrlA g"       HI-Cyan   -- 3g "ctrlA 3 ctrlA g"0บ
+             บ hWhite   -- "ctrlA h"       HI-White  -- 3h "ctrlA 3 ctrlA h"0บ
+             บ rRandom  -- "ctrlA r"       HI-RANDOM -- 3r "ctrlA 3 ctrlA r"0บ
+             ศอออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+ 
+ 
+                         2-- Related Help Topic --0
+ 
+ 3cMXhf3X0

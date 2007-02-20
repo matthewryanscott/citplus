@@ -1,0 +1,71 @@
+  2Helpfile: MXhf20X0
+ 
+ Citadel offers a simple chat system for multi-user BBSes.  There are a number
+of chat commands that Citadel supports.  Some you may find more useful than
+others.
+ 
+                         2 --- Sending chats --- 0
+ 
+   "3gC0" - This is a shortcut to certain Chat commands, so that you don't
+have to type out the whole extended command.  On multi-user systems, this
+defaults to Chat All.  On single-user systems, this defaults to Chat Console.
+ 
+  "3g.C0" - A shortcut to Chat Console
+ 
+ "3g.CA0" - (2Chat All0) Prompts for text to send as a chat to all users
+currently online the system.  If you have expert mode turned on, you will get
+an abbreviated single-line version of the prompt.
+ 
+ "3g.CU0" - (2Chat User0) Use this command to send a private chat message to
+another user online the system.  If you have expert mode turned on, you will
+need to enter the recipient's name after the "Chat User:" prompt.  If expert
+mode is off, you'll get more verbose prompting.  To get a list of what users
+are currently online, use the Who All command (3W0 or 3.WA0) at the room
+prompt.  Or, you can press "3?0" when prompted for the recipient user.
+ 
+ "3g.CR0" - (2Chat Room0) This command prompts for text to send as a chat to
+anyone in the room you're currently occupying.  If you have expert mode turned
+on, you will get an abbreviated single-line version of the prompt.
+ 
+ "3g.CG0" - (2Chat Group0) This command sends a chat 3bONLY0 to online users
+who are a member of the specified group.  You must be in said group in order
+to chat to members of it.  If you have expert mode turned on, you will need to
+enter the name of the group at the "Chat Group:" prompt.  If expert mode is
+off, you will get more verbose prompting.  Press "3?0" when prompted for the
+group name to receive a list of groups you are a member of.
+ 
+ "3g.CC0" - (2Chat Console0) Using this command will page the sysop of the
+BBS on the console. Engaging in chat with the sysop on console is "real-time"
+in that you watch each other type.  This is the only allowed form of chat on a
+single-user system.
+ 
+                         2 --- Receiving chats --- 0
+ 
+ Citadel outputs chats the same way as other system events.  How this is
+displayed to you will vary, depending on a combination of how the sysop has
+configured things, and how you have set options in your System Events user
+configuration menu (3.EC70).
+ 
+ Depending on how the sysop has things set, chats normally look like this:
+ 
+ -- 4Fred0> the quick brown fox jumps over the lazy dog
+ 
+ but sometimes can look like this:
+ 
+ -- 3From 4Fred03 to all:0 the quick brown fox jumps over the lazy dog
+ 
+ The following chat-related options are toggleable through the System Events
+submenu (3.EC70).  See the help file 3cMXhf3X0 for more information on
+setting your account configuration:
+ 
+  See chats to 3A0ll
+  See chats to 3R0oom
+  See chats to 3G0roup
+  See chats to 3U0ser (you)
+  See your own chats (310)
+ 
+                         2-- Related Help Topics --0
+ 
+ 3cMXhf16X0
+ 3cMXhf12X0
+

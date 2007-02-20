@@ -1,0 +1,34 @@
+                             2Room Prompt Format0
+ 
+    The room prompt may be tailored by each user to their individual
+tastes. This is done with the "3P0" command, in the format strings
+submenu (350) of the main config menu (3.EC0). The format consists
+of plain text, with special format codes to represent untypeable characters
+or attributes of the system.  The following are the format codes which can
+be used:
+ 
+    Code        Meaning
+    %r          Name of the current room.
+    %e          One or more characters representing the room type:
+                    )  =  Hidden room
+                    ]  =  Directory room
+                    >  =  Normal room
+                    :  =  Group room
+                    >  =  (appended to above) Window room
+    %n          Net prefix
+    %h          Name of the current hall.
+    %i          Info-line of the current room.
+    %t          The current non-verbose time/date, formatted to the user's
+                specification (help topic '4TIME0').
+    %d          The current verbose time/date, formatted to the user's
+                specification (help topic '4TIME0').
+    %%          The percent sign ('%').
+    ^[a-z]      Control-A through Control-Z. Not all control codes do
+                anything.  The only one which serves any real purpose is
+                ^A, which indicates the start of an ANSI control sequence
+                (help topic '4ANSI0').
+    ^^          The caret ('^').
+    \n          A carriage return.
+    \t          A tab.
+    \\          The backslash ('\').
+ 

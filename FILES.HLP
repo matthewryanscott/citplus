@@ -1,0 +1,64 @@
+  2Helpfile: MXhf6X0
+ 
+                             3g--- General ---0
+ 
+    Download functions are available in special rooms called directory
+    rooms.  Directory rooms have a "]" after the roomname, rather than
+    the normal ">" character.  The following commands are used to list
+    files, to download them, or to upload files:
+ 
+                          3g--- Listing files ---0
+ 
+ 3b.RD0  -- Read Directory
+ 3b.RVD0 -- Read Verbose Directory (gives file size and download times)
+ 3b.RI0  -- Read Infofile (lists file comments)
+ 3b.RVI0 -- Read Verbose Infofile (lists long file info and comments)
+ 3b.RZ0  -- Read ZIP File
+ 
+    The Read Directory commands list the available files in the current
+    room.  This commands waits for an optional filename (possibly
+    wildcarded, per UNIX filename conventions) and will restrict its
+    output to those files selected.  The default is to list all of the
+    files.  The info files are the same, but they include a comment on
+    the file if one was entered during the upload.  The read archive
+    command allows you to view the contents of a archive, such as .ZIP
+    or .LZH
+ 
+                        3g--- Downloading files ---0
+                        (Receiving files from Citadel)
+ 
+ 3b.RT0  -- Read Textfile
+ 3bD0    -- Download 
+ 
+    These commands download files.  Read Textfile will request a
+    filename, file will be printed (as is) to you.  The Download command
+    will let you choose a protocol.  Note that with batch protocols you
+    can specify multiple file names to download. You can also use UNIX
+    wild cards (see the wild cards section below).
+ 
+                         3g--- Uploading files ---0
+                          (Sending files to Citadel)
+ 
+ 3b.ET0  -- Enter Textfile
+ 3bU0    -- Upload 
+ 
+    After supplying the filename, you will be asked to supply a brief
+    comment describing the file. You have about 60 characters.  Using
+    the Group-only flag will make it a hidden file.  Batch protocols
+    will not prompt you for a file name, but will ask for comments after
+    the transfer for each of the files. (Note: You terminate a file in
+    Enter Textfile with control-Z).
+ 
+                            3g--- Wildcards ---0
+ 
+    Citadel supports wild cards for file names.  Wildcards work like this:
+ 
+    * replaces any amount of characters
+    ? replaces any one character
+    [a-z] replaces a range of characters.
+ 
+ 
+                         2-- Related Help Topics --0
+ 
+ 3cMXhf14X0
+ 3cMXhf15X0

@@ -1,0 +1,166 @@
+	# 20484 of 31502
+        Source id # is:  14277
+        Path followed:   ET BBS!..!Greenspace!Outer 
+Limits!PhotoSynthesis!Milliways!So I'm Lazy
+    92Dec16 10:57:31 PST From ET @ ET BBS, (206) 789-2658
+  
+ Being able to do a (R)everse WHILE reading messages is a "superior" feature
+and has been in CHATeau four years. It is in my Citadel now. Is it in yours 
+too? What about the (O)ver-again command being available while reading which 
+allows a user to buffer a select message from the top on the spot...or at least
+lets you see the header to see who it was that wrote the message you are 
+reading. Being able to see the userlog and see who has been on since one last
+was is a superior feature on any BBS. It is just something that is needed and 
+why the original Citadel programer chose to upgrade the file at logon I simply 
+cannot fathom. In a word, it was stupid. Just a stupid thing to do. Simple as 
+that.  Being able to take a call while the sysop is logged on is a greatly 
+superior way to do business than the way Citadel currently handles it.  
+  
+ More...When you logoff a Citadel and it asks you if you are sure, what happens
+to the "t" command? Why can't you just hit that "t" key and get off? Why have 
+the meanings of commands switch around? That is not a good user interface.  The
+CHATeau is superior here too...as the "t" command remains active.  Just as it 
+LOGICALLY should. 
+  
+ The screen strobing during chat request is a SUPERIOR feature that has been in
+my software five years. It is on one version of Citadel.  TurboCit.  Is it in 
+yours? 
+  
+ More...when chat request fails the user is asked if he or she would like to 
+leave a message to the sysop on the spot. Five years. That's how long that has 
+been proven to be of worth at my end. My current Cit provides that query at 
+least at log off. 
+  
+ NOT having to go into DOS and having a complete service utility available at a
+hot key press is vastly superior. Think about it. 
+  
+ More....at the WAITING FOR A CALL screen having the name and the time of the 
+last caller showing (besides the current time) is a nice feature to have. This 
+has been in the CHATeau years. My Cit at least shows the time. 
+  
+ More.....on the CHATeau after a textfile upload you can edit the thing. Not 
+being able to is inferior. Vastly. 
+  
+ Now the reason I am tossing these things out is not to support a "BBS isetter 
+than yours" syndrome.  CHATeau is dead...it is going no where. It is obsolete. 
+It is a waste of developmental energy for me to put any further effort into it.
+However, I would simply LOVE to see Citadel upgraded to include all the above 
+functions. Wouldn't you like to be able to check the userlog to see if a 
+certain person has called since you were last on? Wouldn't you like to be able 
+to edit uploaded textfiles?  What about the ability to send select messages to 
+the printer...or the whole room? CHATeau has long been able to do that.  I 
+suffer with my Cit because it can't....so far as I know.  With regard the above
+features named, face it, Citadel is completely inferior....but it doesn't have 
+to be. 
+ 
+ When sysops realize that these functions are possible to have and that they 
+are needed then programers just might stick them in. Maybe. 
+  
+ The (R)everse while viewing command was in CHATeau years ago...and like it the
+other described features can be too.  Then Citadel wouldn't be so inferior. 
+  
+ As for the BBS Development room, I am aware of it and used to host it. But 
+when Mayday 1 dropped it ET BBS no longer received it. Simple. 
+  
+ I sincerely hope Citadel can be upgraded to providing ALL the above functions.
+THEY ARE BADLY NEEDED. Everyone. Oh, the name of the "Last Caller" at the 
+"WAITING" screen isn't actually needed, but is nice to have.  So are a number 
+of other items I haven't gotten around to listing yet. 
+  
+ Oh, wait, let me include one more....The CHATeau provides a "footer" for each 
+message showing who wrote the message which is visible only at the console (or 
+to remote hall Managers when messages are in the Management room). It is nice
+to not have to continually wonder who the hell it was whote the message you (as
+the syso) just read without having to do it again...constantly. More the 
+feature allows users to edit their name on the message header. This is great 
+for roll playing games. Fun! You can enter a message as your character. 
+Speaking of roll playing games (which seem to be popular on Citadels) the 
+CHATeau can be easily set to roll the dice and insert the result at the end of 
+the message. 
+  
+  
+                        The number thrown is: 
+                         
+  
+                          --==*>  7  <*==-- 
+  
+
+        # 20485 of 31502
+        Source id # is:  14334
+        Path followed:   ET BBS!..!Greenspace!Outer 
+Limits!PhotoSynthesis!Milliways!So I'm Lazy
+    92Dec16 18:29:13 PST From ET @ ET BBS, (206) 789-2658
+  
+ Arthur Morgan, will you please explain why you "will have to cut [my] system 
+out of [your] mail paths now, since TurboCit strips paths out of messages, thus
+making ,essies coming through TurboCits useless for the other router programs 
+out there." 
+  
+ I don't follow  your point.  Haven't you been running an autorouter all along,
+and aren't you still? And isn't your mail coming through TurboCits.  Greenspace
+is a TurboCit and is one of the key links to back east.  Can you explain in 
+more detail just what your threat to cut me (and other TurboCits) out of the 
+net is based upon? 
+  
+
+	# 20486 of 31502
+        Source id # is:  10345
+        Path followed:   Milliways!So I'm Lazy
+        Source software: Gremlin's Citadel /062.1á
+    92Dec17 07:59:50 PST From Twoflower {Gank-Boy} {am i anal or am i not?} @ 
+Milliways, U.S.A. {U.S.A.}, (206)286-0658
+  
+ et; 
+  
+  you can easily figure out who has called since your last call.
+  
+ hit .rvu (read verbose userlog) 
+  
+ read the call number in front of your account (it will be first, but not yet 
+updated.) 
+  
+ let the userlog scroll until the call numbers are less than yours.
+  
+ you've just seen every user who has called since you were last on. 
+  
+ not quite as idiot proof as having it all spelled out for you when you log on 
+(you actually have to do a touch of thinking!) but, seeing as how some of
+
+        Source id # is:  14544
+        Path followed:   ET BBS!..!Greenspace!Outer 
+Limits!PhotoSynthesis!Milliways!the grand illusion!So I'm Lazy
+    92Dec20 03:27:27 PST From ET @ ET BBS
+  
+ Quite frankly, having to evauluate user numbers with the Verbose command to
+mentally calculate who all called since one last was on may be fun for a true 
+hacker  but is not for a regular user...is an entirely primative process, as is
+having to revert to DOS in place of utilities. Imagine having to do that with a
+word processor...or any other program, for that matter. Who could respect
+anything so primative?  And that is exactly what the process iss...primitive. 
+  
+ And as my programing to suit my purposes....I think that goes without 
+saying....well of course! Sheesh...why else would I implement a given feature? 
+  
+ As for utilizing the scrollback buffer in place of the (O)ver again 
+command...sometimes one would like to be able to just save a clean file with 
+just the select message...and not have to do buffer editing to cut it out. 
+  
+ As  for using screen print to send messages to the printer...nah! The CHATeau 
+has that function too...and it ain't the same as being able to select a whole 
+message intact and have it printed...or the whole room. 
+  
+ I was not saying "my BBS is better than yours" I was saying that Citadel is 
+deficient without certain features I have known and loved for years. That's it.
+The key word is "features." 
+  
+ And as far as the name change on the header is concerned...I have NEVER had a 
+problem with that....because....every message has the writer's name at the 
+footer which is visible to the sysop...so forgeries are impossible to be gotten
+away with. And if someone ever tried it...I'd slap the  twit-bit on 'em fast.  
+The mail works differemt...has a different header structure...can't be edited. 
+  
+ And as for the "t" command....when the prompt asks me if I am sure I want to 
+Terminate....The "t" key should answer the question...instead of becoming 
+unavailable for use. A command set should be more reliable. 
+  
+ The things I said still go.

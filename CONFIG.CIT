@@ -1,0 +1,28 @@
+#blinkpause 0
+#telnet 5
+#MODSETUP       "AT &F w1 s95=47 &d1 H"
+#MESSAGEK      1024
+#NMESSAGES     30000
+#MAXLOGTAB     168
+#MAXROOMS      200
+#MAXHALLS       16
+#MAXGROUPS      24
+#HOMEPATH	c:\dev\cit66\test
+#MDATA   3
+#initbaud	36400
+#OLDCOUNT       200
+#NODENAME "so i'm lazy"
+#NODEREGION     "redmond"
+#NODECOUNTRY    "US/WA/KING"
+#NODEPHONE     "none"
+#TRANSPATH	c:\dev\cit66\test\MAIL
+#FORCELOGIN     1 
+#NOPWECHO       48
+#ENTER_Name     "your chosen pseudonym"
+#TRAP           ALL
+
+#TRAP_FILE	c:\dev\cit66\test\trap.fbi
+#UNLOGTIMEOUT   100
+#TIMEOUT        100
+#address "sil.sea"
+#SYSOP "Mr. Bottles"
