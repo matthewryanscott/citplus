@@ -1225,7 +1225,6 @@ struct OutputControl
     Bool        UseMCI;         // Is MCI Active?
     Bool        MCI_goto;       // if we are in middle of one
     label       MCI_label;      // where we are gotoing
-    Bool        Psycho;         // Psycho chicken?
     Bool        Printing;       // printing now?
     Bool        WasPrinting;    // printing before logged in?
     FILE        *PrintFile;     // printer.out

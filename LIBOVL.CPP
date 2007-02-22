@@ -3,6 +3,7 @@
 //
 // Table create/load/save stuff.
 
+#include <stdio.h>
 #include "ctdl.h"
 #pragma hdrstop
 

@@ -494,9 +494,6 @@ Bool TERMWINDOWMEMBER net_callout(const char *nodenm)
     label Buffer;
     if (CurrentUser->Load(ThisLog))
         {
-        // How silly can you get???
-        OC.Psycho = CurrentUser->IsPsycho();
-
         setlbvisit();
         StatusLine.Update(WC_TWp);
 

@@ -7,7 +7,7 @@
 #ifndef WINCIT
 
 #define ALT_A			30					// Accounting toggle
-#define ALT_B			48					// Psycho toggle
+#define ALT_B			48					// Psycho toggle -- removed
 #define ALT_C			46					// Chat mode
 #define ALT_D			32					// Debug mode
 #define ALT_E			18					// Event timeout
@@ -134,7 +134,7 @@
 #define	WC_SHIFT	0x030000
 
 #define ALT_A			(WC_ALT | 'A')		// Accounting toggle
-#define ALT_B			(WC_ALT | 'B')		// Psycho toggle
+#define ALT_B			(WC_ALT | 'B')		// Psycho toggle -- removed
 #define ALT_C			(WC_ALT | 'C')		// Chat mode
 #define ALT_D			(WC_ALT | 'D')		// Debug mode
 #define ALT_E			(WC_ALT | 'E')		// Event timeout

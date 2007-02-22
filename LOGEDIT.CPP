@@ -67,8 +67,6 @@ void TERMWINDOWMEMBER userEdit(void)
 						mPrintfCR(getmsg(686));
 						}
 
-                    OC.Psycho = CurrentUser->IsPsycho();
-
     	            label Buffer;
                     if (!TermCap->Load(CurrentUser->GetTermType(Buffer, sizeof(Buffer))))
                         {

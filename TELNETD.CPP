@@ -309,30 +309,32 @@ void _USERENTRY TelnetR(void *A)
 
     while (TP->RThreadRunning)
         {
-        WaitForSingleObject(TP->RMutex, INFINITE);
-
-        if (!TP->InRBuf)
+        if (WaitForSingleObject(TP->RMutex, 1000) != WAIT_TIMEOUT)
             {
-            int RRet = recv(TP->TS, (char *) TP->RBuf, sizeof(TP->RBuf), 0);
 
-            if (RRet > 0)
+            if (!TP->InRBuf)
                 {
-                if (TP->InputWaiting)
+                int RRet = recv(TP->TS, (char *) TP->RBuf, sizeof(TP->RBuf), 0);
+
+                if (RRet > 0)
                     {
-                    SetEvent(TP->InputWaiting);
-                    }
+                    if (TP->InputWaiting)
+                        {
+                        SetEvent(TP->InputWaiting);
+                        }
 
-                TP->InRBuf = RRet;
-                TP->RBufIdx = 0;
-                }
-            else if (!RRet)
-                {
-                TP->Closed = TRUE;
-                }
-            else
-                {
-                errorDisp("[telnet] recv(): %d, %d", RRet, WSAGetLastError());
-                TP->Closed = TRUE;
+                    TP->InRBuf = RRet;
+                    TP->RBufIdx = 0;
+                    }
+                else if (!RRet)
+                    {
+                    TP->Closed = TRUE;
+                    }
+                else
+                    {
+                    errorDisp("[telnet] recv(): %d, %d", RRet, WSAGetLastError());
+                    TP->Closed = TRUE;
+                    }
                 }
             }
 
@@ -750,7 +752,6 @@ void _USERENTRY ListenForTelnetConnection(void *)
 TelnetPortC::~TelnetPortC(void)
     {
     Closed = TRUE;
-
 
     // Ask things to exit and give them half a second
     WSACancelBlockingCall();

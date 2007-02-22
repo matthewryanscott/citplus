@@ -985,7 +985,7 @@ void StatusLineC::Update(WC_TW)
 
 				(cfg.noBells) ? (cfg.noBells == 1 ? '\r' : ' ') : '',
 
-				(tw()OC.Psycho)				? 'ù' : ' ',
+				(tw()CurrentUser->IsPsycho()) ? 'ù' : ' ',
 				(debug)						? 'Ë' : ' ',
 				(ConsoleLock.IsLocked(TRUE))? '' : ' ',
 				(cfg.ignore_uptime)			? '˜' : ' ',

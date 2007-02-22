@@ -322,7 +322,6 @@ void TERMWINDOWMEMBER doLogin(Bool moreYet)
         delete MS.AbortedMessage;
         MS.AbortedMessage = NULL;
 
-        OC.Psycho = CurrentUser->IsPsycho();
         setlbvisit();
 
         if (CurrentUser->IsPrintFile())

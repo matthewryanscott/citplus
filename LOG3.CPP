@@ -3739,8 +3739,6 @@ void TERMWINDOWMEMBER EnterConfiguration(Bool newUser)
     CurrentUser->ResumeSyncSend();
 #endif
 
-    OC.Psycho = CurrentUser->IsPsycho();
-
     label Buffer;
     if (!TermCap->Load(CurrentUser->GetTermType(Buffer, sizeof(Buffer))))
         {

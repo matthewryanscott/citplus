@@ -62,7 +62,6 @@ void TERMWINDOWMEMBER terminate(Bool discon)
         last_console_login_callno = cfg.callno;
         }
 
-    OC.Psycho = FALSE;
     chatReq = FALSE;
     const Bool doStore = HaveConnectionToUser();
 

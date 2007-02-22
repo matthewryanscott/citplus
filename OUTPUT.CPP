@@ -295,7 +295,7 @@ void TERMWINDOWMEMBER oChar(register char c)
 		}
 
 	// You don't want to know
-	if (OC.Psycho && cfg.Psycho)
+	if (CurrentUser->IsPsycho() && cfg.Psycho)
 		{
 		if (UpDoWn)
 			{
@@ -594,7 +594,7 @@ void TERMWINDOWMEMBER putWord(const uchar *st)
 
 		CopyStringToBuffer(buf, (const char *) st);
 
-		if (OC.Psycho)
+		if (CurrentUser->IsPsycho())
 			{
 			if (cfg.Backout)
 				{

@@ -214,7 +214,7 @@ void TERMWINDOWMEMBER fkey(uint inkey)
         if (CitadelIsConfiguring)
             {
             // Only let certain keystrokes through if configuring
-            if (key != CTL_F6 && key != F7 && key != F8 && key != ALT_B && key != ALT_D && key != ALT_L && key != ALT_M &&
+            if (key != CTL_F6 && key != F7 && key != F8 && key != ALT_D && key != ALT_L && key != ALT_M &&
                     key != ALT_S && key != ALT_U)
                 {
                 WaitUntilDoneConfiguring();
@@ -485,12 +485,6 @@ void TERMWINDOWMEMBER fkey(uint inkey)
                     CitWindowsNote(NULL, getmsg(MSG_CONSOLE, 20), CurrentUser->IsAccounting() ? getmsg(317) : getmsg(316));
                     }
 
-                break;
-                }
-
-            case ALT_B:
-                {
-                OC.Psycho = !OC.Psycho;
                 break;
                 }
 
