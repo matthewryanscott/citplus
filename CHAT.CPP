@@ -482,50 +482,43 @@ void TERMWINDOWMEMBER ChatAll(void)
 {
 	char Text[MAXCHATTEXT+1];
 
-	if (CurrentUser->IsProblem())
-		{
-        mPrintfCR(getmsg(3));
-		}
-	else
-		{
-		label prompt;
-		*prompt = 0;
+    label prompt;
+    *prompt = 0;
 
-		if (!CurrentUser->IsExpert())
-			{
-			strcpy(prompt, getmenumsg(MENU_CHAT, 9));
-			doCR();
-			getNormStr(prompt, Text, MAXCHATTEXT);
-			}
-		else
-			{
-			getString(ns, Text, MAXCHATTEXT, FALSE, ns);
-			}
+    if (!CurrentUser->IsExpert())
+        {
+        strcpy(prompt, getmenumsg(MENU_CHAT, 9));
+        doCR();
+        getNormStr(prompt, Text, MAXCHATTEXT);
+        }
+    else
+        {
+        getString(ns, Text, MAXCHATTEXT, FALSE, ns);
+        }
 
-		if (*Text)
-			{
-			label Name;
-			char Event[MAXCHATTEXT+176];
-			if (!cfg.chattype)
-				{
-				sprintf(Event, "4%s0> %s", CurrentUser->GetName(Name, sizeof(Name)), Text);
-				}
-			else
-				{            
-				sprintf(Event, getmenumsg(MENU_CHAT, 10), CurrentUser->GetName(Name, sizeof(Name)),
-					getmenumsg(MENU_CHAT, 13), Text);
-				}
-			TermWindowCollection.SystemEvent(SE_CHATALL, 0, NULL, FALSE, Event);
+    if (*Text)
+        {
+        label Name;
+        char Event[MAXCHATTEXT+176];
+        if (!cfg.chattype)
+            {
+            sprintf(Event, "4%s0> %s", CurrentUser->GetName(Name, sizeof(Name)), Text);
+            }
+        else
+            {            
+            sprintf(Event, getmenumsg(MENU_CHAT, 10), CurrentUser->GetName(Name, sizeof(Name)),
+                getmenumsg(MENU_CHAT, 13), Text);
+            }
+        TermWindowCollection.SystemEvent(SE_CHATALL, 0, NULL, FALSE, Event);
 
-			sprintf(Event, getmenumsg(MENU_CHAT, 20), CurrentUser->GetName(Name, sizeof(Name)), cfg.nodeTitle,
-				getmenumsg(MENU_CHAT, 13), Text);
-			Net6969.ChatAll(Event);
-			if (!CurrentUser->IsSeeOwnChats())
-				{
-				mPrintfCR(pcts, getmenumsg(MENU_CHAT, 16));            
-				}
-			}
-		}
+        sprintf(Event, getmenumsg(MENU_CHAT, 20), CurrentUser->GetName(Name, sizeof(Name)), cfg.nodeTitle,
+            getmenumsg(MENU_CHAT, 13), Text);
+        Net6969.ChatAll(Event);
+        if (!CurrentUser->IsSeeOwnChats())
+            {
+            mPrintfCR(pcts, getmenumsg(MENU_CHAT, 16));            
+            }
+        }
 }
 
 void TERMWINDOWMEMBER ChatUser(void)
@@ -638,110 +631,96 @@ void TERMWINDOWMEMBER ChatGroup(void)
 {
 	label GroupName;
 
-	if (CurrentUser->IsProblem())
-		{
-        mPrintfCR(getmsg(3));
-		}
-	else
-		{
-		label prompt;
-		*prompt = 0;
+    label prompt;
+    *prompt = 0;
 
-		if (!CurrentUser->IsExpert())
-			{
-			strcpy(prompt, cfg.Lgroup_nym);
-			doCR();
-			}
+    if (!CurrentUser->IsExpert())
+        {
+        strcpy(prompt, cfg.Lgroup_nym);
+        doCR();
+        }
 
-		AskGroupName(GroupName, LastChatGroup, prompt, LABELSIZE, TRUE);
+    AskGroupName(GroupName, LastChatGroup, prompt, LABELSIZE, TRUE);
 
-        if (*GroupName)
-			{
-			g_slot GroupSlot = FindGroupByPartialName(GroupName, FALSE);
+    if (*GroupName)
+        {
+        g_slot GroupSlot = FindGroupByPartialName(GroupName, FALSE);
 
-            if (GroupSlot == CERROR || !(CurrentUser->IsInGroup(GroupSlot)))
-				{
-				mPrintfCR(getmsg(584), cfg.Lgroup_nym);
-				}
-			else
-				{
-				GroupData[GroupSlot].GetName(GroupName, sizeof(GroupName));
+        if (GroupSlot == CERROR || !(CurrentUser->IsInGroup(GroupSlot)))
+            {
+            mPrintfCR(getmsg(584), cfg.Lgroup_nym);
+            }
+        else
+            {
+            GroupData[GroupSlot].GetName(GroupName, sizeof(GroupName));
 
-				char Prompt[100], Text[MAXCHATTEXT+1];
-				sprintf(Prompt, getmenumsg(MENU_CHAT, 12), cfg.Lgroup_nym, GroupName);
+            char Prompt[100], Text[MAXCHATTEXT+1];
+            sprintf(Prompt, getmenumsg(MENU_CHAT, 12), cfg.Lgroup_nym, GroupName);
 
-				getNormStr(Prompt, Text, MAXCHATTEXT);
+            getNormStr(Prompt, Text, MAXCHATTEXT);
 
-				if (*Text)
-					{
-					label Name;
-					char Event[MAXCHATTEXT+176];
-        			if (!cfg.chattype)
-						{
-						sprintf(Event, "4%s3 to 4%s0:3 %s", CurrentUser->GetName(Name, sizeof(Name)), GroupName, Text);
-						}
-					else
-						{             
-						sprintf(Event, getmenumsg(MENU_CHAT, 10), CurrentUser->GetName(Name, sizeof(Name)), GroupName, Text);
-						}
-					TermWindowCollection.SystemEvent(SE_CHATGROUP, GroupSlot, NULL, FALSE, Event);
+            if (*Text)
+                {
+                label Name;
+                char Event[MAXCHATTEXT+176];
+                if (!cfg.chattype)
+                    {
+                    sprintf(Event, "4%s3 to 4%s0:3 %s", CurrentUser->GetName(Name, sizeof(Name)), GroupName, Text);
+                    }
+                else
+                    {             
+                    sprintf(Event, getmenumsg(MENU_CHAT, 10), CurrentUser->GetName(Name, sizeof(Name)), GroupName, Text);
+                    }
+                TermWindowCollection.SystemEvent(SE_CHATGROUP, GroupSlot, NULL, FALSE, Event);
 
-        			if (!CurrentUser->IsSeeOwnChats())
-						{                 
-						mPrintfCR(pcts, getmenumsg(MENU_CHAT, 16));
-						}
-					}
-				}
-			}
-		}
+                if (!CurrentUser->IsSeeOwnChats())
+                    {                 
+                    mPrintfCR(pcts, getmenumsg(MENU_CHAT, 16));
+                    }
+                }
+            }
+        }
 }
 
 void TERMWINDOWMEMBER ChatRoom(void)
 {
 	char Text[MAXCHATTEXT+1];
 
-	if (CurrentUser->IsProblem())
-		{
-        mPrintfCR(getmsg(3));
-		}
-	else
-		{
 
-		char prompt[LABELSIZE+LABELSIZE+LABELSIZE+3];
-		*prompt = 0;
+    char prompt[LABELSIZE+LABELSIZE+LABELSIZE+3];
+    *prompt = 0;
 
-		if (!CurrentUser->IsExpert())
-			{
-			sprintf(prompt, getmenumsg(MENU_CHAT, 18), cfg.Lusers_nym, cfg.Lroom_nym );
-			doCR();
-			}
+    if (!CurrentUser->IsExpert())
+        {
+        sprintf(prompt, getmenumsg(MENU_CHAT, 18), cfg.Lusers_nym, cfg.Lroom_nym );
+        doCR();
+        }
 
-		getNormStr(prompt, Text, MAXCHATTEXT);
+    getNormStr(prompt, Text, MAXCHATTEXT);
 
-		if (*Text)
-			{
-			label Name;
-			label Room;
-			char Event[MAXCHATTEXT+176];
+    if (*Text)
+        {
+        label Name;
+        label Room;
+        char Event[MAXCHATTEXT+176];
 
-   			if (!cfg.chattype)
-				{
-				sprintf(Event, "4%s3 to 4%s0>>3 %s", CurrentUser->GetName(Name, sizeof(Name)), CurrentRoom->GetName(Room, sizeof(Room)), Text);
-				}
-			else
-				{            
-				char temp[LABELSIZE+LABELSIZE+LABELSIZE+3];
-				sprintf(temp, getmenumsg(MENU_CHAT, 19), cfg.Lusers_nym, cfg.Lroom_nym );
-				sprintf(Event, getmenumsg(MENU_CHAT, 10), CurrentUser->GetName(Name, sizeof(Name)),	temp, Text);
-				}
-			TermWindowCollection.SystemEvent(SE_CHATROOM, thisRoom, NULL, FALSE, Event);
+        if (!cfg.chattype)
+            {
+            sprintf(Event, "4%s3 to 4%s0>>3 %s", CurrentUser->GetName(Name, sizeof(Name)), CurrentRoom->GetName(Room, sizeof(Room)), Text);
+            }
+        else
+            {            
+            char temp[LABELSIZE+LABELSIZE+LABELSIZE+3];
+            sprintf(temp, getmenumsg(MENU_CHAT, 19), cfg.Lusers_nym, cfg.Lroom_nym );
+            sprintf(Event, getmenumsg(MENU_CHAT, 10), CurrentUser->GetName(Name, sizeof(Name)),	temp, Text);
+            }
+        TermWindowCollection.SystemEvent(SE_CHATROOM, thisRoom, NULL, FALSE, Event);
 
-			if (!CurrentUser->IsSeeOwnChats())
-				{
-				mPrintfCR(pcts, getmenumsg(MENU_CHAT, 16));         
-				}   
-			}
-		}
+        if (!CurrentUser->IsSeeOwnChats())
+            {
+            mPrintfCR(pcts, getmenumsg(MENU_CHAT, 16));         
+            }   
+        }
 }
 #endif
 
