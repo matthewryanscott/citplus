@@ -1766,7 +1766,7 @@ public:
 
 	Bool ShowSELogOnOff(void) const
 		{
-		return (!HSE_LOGONOFF);
+		return (PROBLEM && !HSE_LOGONOFF);
 		}
 
 	void SetSELogOnOff(Bool New)
@@ -1802,7 +1802,7 @@ public:
 
 	Bool ShowSEChatAll(void) const
 		{
-		return (!HSE_CHATALL);
+		return (PROBLEM && !HSE_CHATALL);
 		}
 
 	void SetSEChatAll(Bool New)
@@ -1814,7 +1814,7 @@ public:
 
 	Bool ShowSEChatRoom(void) const
 		{
-		return (!HSE_CHATROOM);
+		return (PROBLEM && !HSE_CHATROOM);
 		}
 
 	void SetSEChatRoom(Bool New)
@@ -1826,7 +1826,7 @@ public:
 
 	Bool ShowSEChatGroup(void) const
 		{
-		return (!HSE_CHATGRP);
+		return (PROBLEM && !HSE_CHATGRP);
 		}
 
 	void SetSEChatGroup(Bool New)
@@ -1850,7 +1850,7 @@ public:
 
 	Bool ShowSERoomInOut(void) const
 		{
-		return (SSE_RMINOUT);
+		return (!PROBLEM && SSE_RMINOUT);
 		}
 
 	void SetSERoomInOut(Bool New)
