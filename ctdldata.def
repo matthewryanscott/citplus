@@ -7523,7 +7523,7 @@ endent
 ; 24 - Net6969 stuff
 entry
     ; 1 - the commands
-    subentry strcmpk
+    subentry strcmpx
 	string "NETID"
 	string "MESSAGE"
 	string "CHATALL"

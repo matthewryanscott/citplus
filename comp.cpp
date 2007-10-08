@@ -1,10 +1,17 @@
 #include "comp.h"
 
 #include <limits.h>
+
+#ifdef PORTABLE
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#else
 #ifdef VISUALC
 #include <memory.h>
 #else
 #include <mem.h>
+#endif
 #endif
 
 #ifdef VISUALC
@@ -604,6 +611,7 @@ void CompressionEngine::CompressByte(unsigned char ToCompress)
 
     if (!CurrentWriteNode)
         {
+printf("couldn't find '%d'\n",ToCompress);
         Error = CEE_BADDATA;
         }
 

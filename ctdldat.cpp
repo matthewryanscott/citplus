@@ -1,17 +1,26 @@
-
-#ifdef MINGW
+#ifdef __GNUC__
 #define cdecl
 #endif
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#ifndef PORTABLE
 #include <direct.h>
+#endif
 #include <time.h>
+#ifndef PORTABLE
 #include <dos.h>
 #include <conio.h>
+#endif
 #include <string.h>
 #include <stdarg.h>
+#ifdef PORTABLE
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <fcntl.h>
+#else
 #ifndef WINCIT
 #include <bios.h>
 #endif
@@ -22,7 +31,13 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <limits.h>
-#include <sys\stat.h>
+#include <sys/stat.h>
+#endif
+
+#ifdef PORTABLE
+#define strcmpi(a,b) strcasecmp(a,b)
+#define strncmpi(a,b,c) strncasecmp(a,b,c)
+#endif
 
 #ifndef VISUALC
 unsigned cdecl int _stklen = 1024*12;       // set up 12K of stack
@@ -508,13 +523,14 @@ int cdecl main(int argc, char *argv[])
                 {
                 lnum++;
 
-                if (!strchr(line, '\n'))
+                if (strchr(line, '\r')) *strchr(line, '\r') = 0;
+                else if (strchr(line, '\n')) *strchr(line, '\n') = 0;
+		else
                     {
                     printf("%d: Line too long\n", lnum);
                     return (4);
                     }
 
-                *strchr(line, '\n') = 0;
                 strcpy(line2, line);
 
                 count = parse_it(words, line);
@@ -945,10 +961,9 @@ int cdecl main(int argc, char *argv[])
                 bad = TRUE;
                 while (fgets(line, 90, in) != NULL)
                     {
-                    if (strchr(line, '\n'))
-                        {
-                        *strchr(line, '\n') = 0;
-                        }
+
+                    if (strchr(line, '\r')) *strchr(line, '\r') = 0;
+                    else if (strchr(line, '\n')) *strchr(line, '\n') = 0;
 
                     count = parse_it(words, line);
 
@@ -984,7 +999,7 @@ int cdecl main(int argc, char *argv[])
                         case SUB_FORMATTEDX: ToWrite = SUB_RAWDATAX; break;
                         }
 
-#ifdef WINCIT
+#if defined(WINCIT) || defined(PORTABLE)
                     fwrite(&ToWrite, sizeof(short), 1, out);
 #else
                     fwrite(&ToWrite, sizeof(ToWrite), 1, out);
@@ -996,10 +1011,8 @@ int cdecl main(int argc, char *argv[])
                     bad = TRUE;
                     while (fgets(line, 90, in) != NULL)
                         {
-                        if (strchr(line, '\n'))
-                            {
-                            *strchr(line, '\n') = 0;
-                            }
+                        if (strchr(line, '\r')) *strchr(line, '\r') = 0;
+                        else if (strchr(line, '\n')) *strchr(line, '\n') = 0;
 
                         count = parse_it(words, line);
 
@@ -1030,10 +1043,8 @@ int cdecl main(int argc, char *argv[])
                             bad = TRUE;
                             while (fgets(line, 90, in) != NULL)
                                 {
-                                if (strchr(line, '\n'))
-                                    {
-                                    *strchr(line, '\n') = 0;
-                                    }
+				if (strchr(line, '\r')) *strchr(line, '\r')=0;
+				else if (strchr(line, '\n')) *strchr(line, '\n')=0;
 
                                 count = parse_it(words, line);
 
@@ -1062,19 +1073,14 @@ int cdecl main(int argc, char *argv[])
 
                                     if ((sf = fopen(words[1], "rt")) != NULL)
                                         {
-                                        char ll[256];
+                                        char ll[256], *p;
 
                                         while (fgets(ll, 256, sf) != NULL)
                                             {
-                                            if (strlen(ll) && ll[strlen(ll) - 1] == '\n')
-                                                {
-                                                ll[strlen(ll) - 1] = 0;
-                                                }
-
-                                            if (strlen(ll) && ll[strlen(ll) - 1] == 4)
-                                                {
-                                                ll[strlen(ll) - 1] = 0;
-                                                }
+					    p = ll+strlen(ll);
+					    p--;
+					    while (p>=ll && strchr("\r\n\4",*p))
+						    *p-- = 0;
 
                                             if (!strcmp(ll, "{}"))
                                                 {
@@ -1127,10 +1133,8 @@ int cdecl main(int argc, char *argv[])
                             bad = TRUE;
                             while (fgets(line, 90, in) != NULL)
                                 {
-                                if (strchr(line, '\n'))
-                                    {
-                                    *strchr(line, '\n') = 0;
-                                    }
+				if (strchr(line, '\r')) *strchr(line, '\r')=0;
+				else if (strchr(line, '\n')) *strchr(line, '\n')=0;
 
                                 count = parse_it(words, line);
 
@@ -1164,20 +1168,14 @@ int cdecl main(int argc, char *argv[])
 
                                     if ((sf = fopen(words[1], "rt")) != NULL)
                                         {
-                                        char ll[256];
+                                        char ll[256], *p;
 
                                         while (fgets(ll, 256, sf) != NULL)
                                             {
-                                            if (strlen(ll) && ll[strlen(ll) - 1] == '\n')
-                                                {
-                                                ll[strlen(ll) - 1] = 0;
-                                                }
-
-                                            if (strlen(ll) && ll[strlen(ll) - 1] == 4)
-                                                {
-                                                ll[strlen(ll) - 1] = 0;
-                                                }
-
+					    p = ll+strlen(ll);
+					    p--;
+					    while (p>=ll && strchr("\r\n\4",*p))
+						    *p-- = 0;
                                             if (!strcmp(ll, "{}"))
                                                 {
                                                 ll[0] = 0;
@@ -1231,10 +1229,8 @@ int cdecl main(int argc, char *argv[])
                             bad = TRUE;
                             while (fgets(line, 90, in) != NULL)
                                 {
-                                if (strchr(line, '\n'))
-                                    {
-                                    *strchr(line, '\n') = 0;
-                                    }
+				if (strchr(line, '\r')) *strchr(line, '\r')=0;
+				else if (strchr(line, '\n')) *strchr(line, '\n')=0;
 
                                 count = parse_it(words, line);
 
@@ -1272,19 +1268,14 @@ int cdecl main(int argc, char *argv[])
 
                                     if ((sf = fopen(words[1], "rt")) != NULL)
                                         {
-                                        char ll[256];
+                                        char ll[256], *p;
 
                                         while (fgets(ll, 256, sf) != NULL)
                                             {
-                                            if (strlen(ll) && ll[strlen(ll) - 1] == '\n')
-                                                {
-                                                ll[strlen(ll) - 1] = 0;
-                                                }
-
-                                            if (strlen(ll) && ll[strlen(ll) - 1] == 4)
-                                                {
-                                                ll[strlen(ll) - 1] = 0;
-                                                }
+					    p = ll+strlen(ll);
+					    p--;
+					    while (p>=ll && strchr("\r\n\4",*p))
+						    *p-- = 0;
 
                                             if (!strcmp(ll, "{}"))
                                                 {
@@ -1350,10 +1341,8 @@ int cdecl main(int argc, char *argv[])
                             bad = TRUE;
                             while (fgets(line, 90, in) != NULL)
                                 {
-                                if (strchr(line, '\n'))
-                                    {
-                                    *strchr(line, '\n') = 0;
-                                    }
+				if (strchr(line, '\r')) *strchr(line, '\r')=0;
+				else if (strchr(line, '\n')) *strchr(line, '\n')=0;
 
                                 count = parse_it(words, line);
 
@@ -1499,10 +1488,8 @@ int cdecl main(int argc, char *argv[])
                             bad = TRUE;
                             while (fgets(line, 90, in) != NULL)
                                 {
-                                if (strchr(line, '\n'))
-                                    {
-                                    *strchr(line, '\n') = 0;
-                                    }
+				if (strchr(line, '\r')) *strchr(line, '\r')=0;
+				else if (strchr(line, '\n')) *strchr(line, '\n')=0;
 
                                 count = parse_it(words, line);
 
@@ -1640,7 +1627,7 @@ int cdecl main(int argc, char *argv[])
                                                 }
                                             else if (curFormat->Type == FT_INT)
                                                 {
-#ifdef WINCIT
+#if defined(WINCIT) || defined(PORTABLE)
                                                 const short i = (short) c;
 #else
                                                 const int i = (int) c;

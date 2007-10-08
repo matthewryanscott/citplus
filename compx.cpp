@@ -1,9 +1,14 @@
+#ifdef PORTABLE
+#include <stdio.h>
+#include <string.h>
+#else
 #ifdef VISUALC
 #include <stdio.h>
 #include <string.h>
 #include <memory.h>
 #else
 #include <mem.h>
+#endif
 #endif
 #include "compx.h"
 
