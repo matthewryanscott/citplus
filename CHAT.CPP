@@ -614,6 +614,8 @@ void TERMWINDOWMEMBER ChatUser(void)
 		OC.Echo = BOTH;
 		OC.setio();
 
+        /* jrs
+        this is annoying, disabling
 		if (no_escape)
 			{
 			mPrintf("Switching to .Chat All");
@@ -624,6 +626,7 @@ void TERMWINDOWMEMBER ChatUser(void)
 				}
 			ChatAll();
 			}
+        */
 		}
 }
 
