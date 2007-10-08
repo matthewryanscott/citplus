@@ -7,6 +7,7 @@
 #pragma hdrstop
 
 #include "termwndw.h"
+#include "log.h"
 
 // --------------------------------------------------------------------------
 // Contents
@@ -347,8 +348,15 @@ Bool TERMWINDOWMEMBER CheckIdleUserTimeout(Bool InOutput)
 			)
 		:
 			(
-			cfg.timeout
-			)
+            CurrentUser->IsProblem() ?
+                (
+        	    cfg.unlogtimeout
+	       		)
+            :
+                (
+        	    cfg.timeout
+	       		)
+            )
 		)
 	:
 		(
